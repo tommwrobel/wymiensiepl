@@ -8,7 +8,7 @@ import StatisticsSection from "../../components/StatisticsSection/StatisticsSect
 const HomePage = (): JSX.Element => {
     return (
         <>
-            <ApplicationBar title="same title" />
+            <ApplicationBar />
             <HeroSection />
             <InstructionSection />
             <StatisticsSection />

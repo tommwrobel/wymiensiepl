@@ -1,3 +1,19 @@
-.navigationBarContainer {
-    font-weight: bold;
+.mainContainer {
+    border-bottom: solid 1px grey;
+    text-align: center;
+}
+
+.contentContainer {
+    width: 100%;
+    margin: auto;
+}
+
+.logo {
+    height: 32px
+}
+
+.links {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
 }

@@ -1,0 +1,11 @@
+.sideMenuContent {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 8px;
+    min-width: 240px;
+}
+
+.sideMenuContent button {
+    width: 100%;
+}
