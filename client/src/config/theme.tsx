@@ -1,4 +1,5 @@
 import { createTheme, Shadows } from "@mui/material/styles";
+import { grey } from "@mui/material/colors";
 
 export const theme = createTheme({
     shadows: Array(25).fill("none") as Shadows,
@@ -20,7 +21,7 @@ export const theme = createTheme({
             styleOverrides: {
                 root: {
                     backgroundColor: "#FFFFFF",
-                    borderBottom: "solid 1px #4C4C4C",
+                    borderBottom: "solid 1px" + grey[300],
                 },
             },
         },
@@ -29,6 +30,28 @@ export const theme = createTheme({
                 root: {
                     fontSize: "14px",
                     textTransform: "none",
+                },
+                text: {
+                    "&:hover": {
+                        textDecoration: "underline",
+                    },
+                },
+            },
+        },
+        MuiTypography: {
+            styleOverrides: {
+                root: {
+                    color: grey[700],
+                },
+                h1: {
+                    fontSize: "32pt",
+                    lineHeight: "36pt",
+                    fontWeight: "600",
+                },
+                subtitle1: {
+                    fontSize: "16px",
+                    lineHeight: "22px",
+                    color: grey[600],
                 },
             },
         },

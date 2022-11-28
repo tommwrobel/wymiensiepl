@@ -19,7 +19,7 @@ const ApplicationBar = (): JSX.Element => {
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
 
     return (
-        <AppBar className={classes.mainContainer}>
+        <AppBar className={classes.mainContainer} position="static">
             <Container maxWidth="lg">
                 <Toolbar className={classes.contentContainer}>
                     <Link href="/home">
