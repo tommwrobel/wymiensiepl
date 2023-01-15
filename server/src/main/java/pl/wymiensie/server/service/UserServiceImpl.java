@@ -2,6 +2,7 @@ package pl.wymiensie.server.service;
 
 import org.springframework.stereotype.Service;
 import pl.wymiensie.server.entity.User;
+import pl.wymiensie.server.repository.BookRepository;
 import pl.wymiensie.server.repository.UserRepository;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BookRepository bookRepository) {
         this.userRepository = userRepository;
     }
     @Override
@@ -42,7 +43,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(UUID id) {
-        userRepository.deleteById(id);
-    }
+    public void deleteUser(UUID id) { userRepository.deleteById(id); }
+
+    @Override
+    public int getNumberOfUsers() { return userRepository.findAll().size(); }
 }

@@ -18,4 +18,6 @@ public interface UserService {
     User updateUser(User user);
 
     void deleteUser(UUID id);
+
+    int getNumberOfUsers();
 }

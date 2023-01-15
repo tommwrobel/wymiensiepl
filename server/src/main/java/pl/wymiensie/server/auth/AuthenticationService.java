@@ -10,8 +10,6 @@ import pl.wymiensie.server.entity.Role;
 import pl.wymiensie.server.entity.User;
 import pl.wymiensie.server.repository.UserRepository;
 
-import java.net.http.HttpResponse;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -42,8 +40,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow();
+        User user = userRepository.findByEmail(request.getEmail()).get();
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

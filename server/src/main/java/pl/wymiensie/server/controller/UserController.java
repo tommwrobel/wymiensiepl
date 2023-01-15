@@ -1,10 +1,13 @@
 package pl.wymiensie.server.controller;
 
-import jakarta.annotation.security.PermitAll;
 import org.springframework.web.bind.annotation.*;
+import pl.wymiensie.server.entity.Book;
 import pl.wymiensie.server.entity.User;
+import pl.wymiensie.server.exception.ResourceNotFoundException;
+import pl.wymiensie.server.service.BookService;
 import pl.wymiensie.server.service.UserService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,17 +17,12 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final BookService bookService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, BookService bookService) {
         this.userService = userService;
+        this.bookService = bookService;
     }
-
-    @GetMapping("/test")
-    public String getTest() { return "Test"; };
-
-    @PermitAll
-    @GetMapping("/test2")
-    public String getTest2() { return "Test2"; };
 
     @GetMapping
     public List<User> findAllUsers() {
@@ -32,8 +30,17 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getUser(@PathVariable("id") UUID id) {
-        return userService.findById(id);
+    public User getUser(@PathVariable("id") UUID id) {
+        Optional<User> user = userService.findById(id);
+        if (user.isEmpty())
+            throw new ResourceNotFoundException("User not found.");
+        return user.get();
+    }
+
+    @GetMapping("/{id}/books")
+    public Collection<Book> getUserBooks(@PathVariable("id") UUID id) {
+        Collection<Book> books = bookService.findByUserId(id);
+        return books;
     }
 
     @PostMapping
