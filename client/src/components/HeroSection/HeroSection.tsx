@@ -1,62 +1,58 @@
-import {
-    Box,
-    Button,
-    Container,
-    Link,
-    Typography,
-    useMediaQuery,
-} from "@mui/material";
-import Grid2 from '@mui/material/Unstable_Grid2';
+import { Box, Button, Link, Typography, useMediaQuery } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
+import { translationPl } from "../../common/constants";
 import { theme } from "../../config/theme";
+import commonClasses from "../../common/App.module.css";
 import classes from "./HeroSection.module.css";
+import PageSection from "../PageSection/PageSection";
 
 const HeroSection = (): JSX.Element => {
     const isImageVisible = useMediaQuery(theme.breakpoints.up("md"));
 
     return (
-        <Container maxWidth="lg">
-            <Grid2 container alignContent="center">
-                <Grid2
-                    container
-                    gap={3}
-                    direction="column"
-                    justifyContent="center"
-                    md={6}
-                    xs={12}
-                    sx={{ padding: "60px" }}
-                >
-                    <Typography variant="h1">
-                        Lorem ipsum consectetur
+        <PageSection>
+            <Grid2 container alignContent="center" spacing={12}>
+                <Grid2 className={classes.heroTextContent} md={6} xs={12}>
+                    <Typography
+                        variant="h1"
+                        textAlign={isImageVisible ? "left" : "center"}
+                    >
+                        {translationPl.heroTitle}
                     </Typography>
-                    <Typography variant="subtitle1">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua.
+                    <Typography
+                        variant="subtitle1"
+                        textAlign={isImageVisible ? "left" : "center"}
+                    >
+                        {translationPl.heroSubtitle}
                     </Typography>
-                    <Grid2 container gap={1}>
+                    <Grid2
+                        container
+                        gap={1}
+                        justifyContent={
+                            isImageVisible ? "flex-start" : "center"
+                        }
+                    >
                         <Link underline="none" href="/login">
-                            <Button variant="outlined">Logowanie</Button>
+                            <Button variant="outlined">
+                                {translationPl.login}
+                            </Button>
                         </Link>
                         <Link underline="none" href="/register">
-                            <Button variant="contained">Rejestracja</Button>
+                            <Button variant="contained">
+                                {translationPl.register}
+                            </Button>
                         </Link>
                     </Grid2>
                 </Grid2>
                 {isImageVisible && (
-                    <Grid2
-                        gap={2}
-                        direction="column"
-                        md={6}
-                        xs={12}
-                        sx={{ padding: "60px" }}
-                    >
-                        <Box className={classes.heroImage}>
+                    <Grid2 md={6} xs={12} className="item">
+                        <Box className={commonClasses.gridImgContainer}>
                             <img src="hero-img.png" alt="" />
                         </Box>
                     </Grid2>
                 )}
             </Grid2>
-        </Container>
+        </PageSection>
     );
 };
 

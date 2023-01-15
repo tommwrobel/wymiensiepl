@@ -1,0 +1,14 @@
+.instructionItemContainer {
+    flex-shrink: 0;
+}
+
+.instructionItemBox {
+    border: dashed 1px #E16C39;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}

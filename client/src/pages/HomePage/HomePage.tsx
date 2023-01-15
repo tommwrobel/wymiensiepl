@@ -3,7 +3,7 @@ import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import ApplicationBar from "../../components/ApplicationBar/ApplicationBar";
 import Footer from "../../components/Footer/Footer";
 import HeroSection from "../../components/HeroSection/HeroSection";
-import InstructionSection from "../../components/InstructionSection/InstructionSection";
+import InstructionsSection from "../../components/InstructionSection/InstructionsSection";
 import LoginModal from "../../components/LoginModal/LoginModal";
 import StatisticsSection from "../../components/StatisticsSection/StatisticsSection";
 
@@ -23,8 +23,8 @@ const HomePage = (): JSX.Element => {
         <>
             <ApplicationBar openLoginModal={handleOpenLoginModal} />
             <HeroSection />
-            <InstructionSection />
-            <StatisticsSection />
+            <InstructionsSection />
+            <StatisticsSection userCount={123} bookCount={334} />
             <AboutUsSection />
             <Footer />
 

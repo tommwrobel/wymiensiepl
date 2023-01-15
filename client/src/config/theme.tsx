@@ -15,6 +15,11 @@ export const theme = createTheme({
             light: "#FF8957",
             dark: "#DA6330",
         },
+        secondary: {
+            main: "#338de8",
+            light: "#2083e6",
+            dark: "#4497ea",
+        }
     },
     components: {
         MuiAppBar: {
@@ -41,12 +46,17 @@ export const theme = createTheme({
         MuiTypography: {
             styleOverrides: {
                 root: {
-                    color: grey[700],
+                    color: grey[800],
                 },
                 h1: {
                     fontSize: "32pt",
                     lineHeight: "36pt",
-                    fontWeight: "600",
+                    fontWeight: "400",
+                },
+                h2: {
+                    fontSize: "24pt",
+                    lineHeight: "30pt",
+                    fontWeight: "400",
                 },
                 subtitle1: {
                     fontSize: "16px",
