@@ -55,5 +55,25 @@ export const theme = createTheme({
                 },
             },
         },
+        MuiDialogTitle: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#E16C39",
+                    color: "#FFFFFF",
+                    textAlign: "center",
+                }
+            }
+        },
+        MuiDialogContent: {
+            styleOverrides: {
+                root: {
+                    padding: 48,
+                    minWidth: 360,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 24,
+                }
+            }
+        },
     },
 });

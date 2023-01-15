@@ -3,11 +3,13 @@ import { Button, Link } from "@mui/material";
 interface ApplicationLinksProps {
     isLoggedUser?: boolean;
     numberOfUnreadMessages?: number;
+    openLoginModal: () => void;
 }
 
 const ApplicationLinks = ({
     isLoggedUser,
     numberOfUnreadMessages,
+    openLoginModal,
 }: ApplicationLinksProps): JSX.Element => {
     return (
         <>
@@ -28,12 +30,9 @@ const ApplicationLinks = ({
 
             {!isLoggedUser && (
                 <>
-                    <Link underline="none" href="/login">
-                        <Button variant="outlined">Logowanie</Button>
-                    </Link>
-                    <Link underline="none" href="/register">
+                    
+                        <Button onClick={openLoginModal} variant="outlined">Logowanie</Button>
                         <Button variant="contained">Rejestracja</Button>
-                    </Link>
                 </>
             )}
             {isLoggedUser && (

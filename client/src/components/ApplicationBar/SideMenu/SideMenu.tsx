@@ -5,9 +5,10 @@ import classes from "./SideMenu.module.css";
 interface SideMenuProps {
     open: boolean;
     onClose: () => void;
+    openLoginModal: () => void;
 }
 
-const SideMenu = ({open, onClose}: SideMenuProps): JSX.Element => {
+const SideMenu = ({open, onClose, openLoginModal}: SideMenuProps): JSX.Element => {
     return (
         <Drawer
             open={open}
@@ -16,7 +17,7 @@ const SideMenu = ({open, onClose}: SideMenuProps): JSX.Element => {
             onClick={onClose}
         >
             <Box className={classes.sideMenuContent}>
-                <ApplicationLinks />
+                <ApplicationLinks openLoginModal={openLoginModal}/>
             </Box>
         </Drawer>
     );
