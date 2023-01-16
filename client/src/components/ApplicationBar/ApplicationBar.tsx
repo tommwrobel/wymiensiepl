@@ -16,9 +16,10 @@ import SideMenu from "./SideMenu/SideMenu";
 
 interface ApplicationBarProps {
     openLoginModal: () => void;
+    openRegistrationModal: () => void;
 }
 
-const ApplicationBar = ({ openLoginModal }: ApplicationBarProps): JSX.Element => {
+const ApplicationBar = ({ openLoginModal, openRegistrationModal }: ApplicationBarProps): JSX.Element => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
 
@@ -38,6 +39,7 @@ const ApplicationBar = ({ openLoginModal }: ApplicationBarProps): JSX.Element =>
                         open={isSideMenuOpen && isSmallScreen}
                         onClose={() => setIsSideMenuOpen(false)}
                         openLoginModal={openLoginModal}
+                        openRegistrationModal={openRegistrationModal}
                     />
 
                     <Box className={classes.links}>
@@ -46,6 +48,7 @@ const ApplicationBar = ({ openLoginModal }: ApplicationBarProps): JSX.Element =>
                                 isLoggedUser={false}
                                 numberOfUnreadMessages={0}
                                 openLoginModal={openLoginModal}
+                                openRegistrationModal={openRegistrationModal}
                             />
                         )}
                         {isSmallScreen && (

@@ -2,19 +2,19 @@ import { Link, Typography } from "@mui/material";
 import FormModal from "../FormModal/FormModal";
 import { InputField } from "../InputField/InputField";
 
-interface LoginModalProps {
+interface RegisterModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onRegister: () => void;
+    onLogin: () => void;
 }
 
-const LoginModal = ({
+const RegisterModal = ({
     isOpen,
     onClose,
-    onRegister,
-}: LoginModalProps): JSX.Element => {
-    const handleRegister = () => {
-        onRegister();
+    onLogin,
+}: RegisterModalProps): JSX.Element => {
+    const handleLogin = () => {
+        onLogin();
         onClose();
     };
 
@@ -22,11 +22,16 @@ const LoginModal = ({
         <FormModal
             isOpen={isOpen}
             onSubmit={() => console.log("not implemented")}
-            submitActionLabel="Zaloguj się"
+            submitActionLabel="Zarejestruj się"
             onClose={onClose}
-            title={"Zaloguj się"}
+            title={"Zarejestruj się"}
             formFields={
                 <>
+                    <InputField
+                        label="Nazwa użytkownika:"
+                        type="text"
+                        name="name"
+                    />
                     <InputField
                         label="Adres e-mail:"
                         type="email"
@@ -37,16 +42,22 @@ const LoginModal = ({
                         type="password"
                         name="password"
                     />
+
+                    <InputField
+                        label="Powtórz hasło:"
+                        type="password"
+                        name="password_repeat"
+                    />
                 </>
             }
             footer={
                 <Typography textAlign="center" variant="body2">
-                    Nie masz jeszcze konta?{" "}
-                    <Link onClick={handleRegister}>Zarejestruj się</Link>!
+                    Masz ju konto?{" "}
+                    <Link onClick={handleLogin}>Zaloguj się</Link>!
                 </Typography>
             }
         />
     );
 };
 
-export default LoginModal;
+export default RegisterModal;

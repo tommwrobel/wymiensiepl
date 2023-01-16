@@ -4,12 +4,14 @@ interface ApplicationLinksProps {
     isLoggedUser?: boolean;
     numberOfUnreadMessages?: number;
     openLoginModal: () => void;
+    openRegistrationModal: () => void;
 }
 
 const ApplicationLinks = ({
     isLoggedUser,
     numberOfUnreadMessages,
     openLoginModal,
+    openRegistrationModal,
 }: ApplicationLinksProps): JSX.Element => {
     return (
         <>
@@ -32,7 +34,7 @@ const ApplicationLinks = ({
                 <>
                     
                         <Button onClick={openLoginModal} variant="outlined">Logowanie</Button>
-                        <Button variant="contained">Rejestracja</Button>
+                        <Button onClick={openRegistrationModal} variant="contained">Rejestracja</Button>
                 </>
             )}
             {isLoggedUser && (

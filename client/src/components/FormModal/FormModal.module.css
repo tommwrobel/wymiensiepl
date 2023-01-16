@@ -12,9 +12,5 @@
 }
 
 .dialogContent {
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  padding: 48px;
+  textAlign: center;
 }

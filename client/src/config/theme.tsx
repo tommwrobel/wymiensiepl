@@ -85,5 +85,20 @@ export const theme = createTheme({
                 }
             }
         },
+        MuiFormLabel: {
+            styleOverrides: {
+                root: {
+                    fontSize: "0.9rem",
+                    paddingLeft: 12
+                }
+            }
+        },
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    cursor: "pointer",
+                }
+            }
+        },
     },
 });

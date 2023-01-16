@@ -9,6 +9,8 @@ export const InputField = (props: BaseTextFieldProps): JSX.Element => {
                 size="small"
                 variant="outlined"
                 type={props.type}
+                error={props.error}
+                helperText={props.helperText}
                 autoFocus={props.autoFocus}
                 fullWidth
             />
