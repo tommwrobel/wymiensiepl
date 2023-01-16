@@ -13,6 +13,8 @@ import { useState } from "react";
 import { theme } from "../../config/theme";
 import ApplicationLinks from "./ApplicationLinks/ApplicationLinks";
 import SideMenu from "./SideMenu/SideMenu";
+import useAppSelector from "../../hooks/useAppSelector";
+import { selectAuth } from "../../features/authSlice";
 
 interface ApplicationBarProps {
     openLoginModal: () => void;
@@ -22,6 +24,11 @@ interface ApplicationBarProps {
 const ApplicationBar = ({ openLoginModal, openRegistrationModal }: ApplicationBarProps): JSX.Element => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
+
+    const user = useAppSelector(selectAuth);
+    const isLoggedUser = () => {
+        return Boolean(user.name && user.role && user.token);
+    }
 
     return (
         <AppBar className={classes.mainContainer} position="static">
@@ -45,7 +52,7 @@ const ApplicationBar = ({ openLoginModal, openRegistrationModal }: ApplicationBa
                     <Box className={classes.links}>
                         {!isSmallScreen && (
                             <ApplicationLinks
-                                isLoggedUser={false}
+                                isLoggedUser={isLoggedUser()}
                                 numberOfUnreadMessages={0}
                                 openLoginModal={openLoginModal}
                                 openRegistrationModal={openRegistrationModal}

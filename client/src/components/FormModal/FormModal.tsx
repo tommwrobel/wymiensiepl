@@ -1,15 +1,18 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Alert, Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { ReactNode } from "react";
+import { string } from "yup";
 import classes from "./FormModal.module.css";
 
 interface FormModalProps {
     isOpen: boolean;
     onSubmit: () => void;
-    submitActionLabel: string;
-    submitActionLoading?: boolean;
+    submitLabel: string;
+    submitLoading?: boolean;
     onClose: () => void;
     title: string;
+    errorMessage?: string;
+    successMessage?: string;
     formFields: ReactNode;
     footer?: ReactNode;
 }
@@ -19,10 +22,12 @@ const FormModal = ({
     onSubmit,
     onClose,
     title,
+    errorMessage,
+    successMessage,
     formFields,
     footer,
-    submitActionLabel,
-    submitActionLoading = false,
+    submitLabel,
+    submitLoading = false,
 }: FormModalProps): JSX.Element => {
     return (
         <Dialog
@@ -32,6 +37,8 @@ const FormModal = ({
         >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
+                {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+                {successMessage && <Alert severity="success">{successMessage}</Alert>}
                 <Box className={classes.formFields}>{formFields}</Box>
                 <Box className={classes.formActions}>
                     <Button variant="outlined" onClick={onClose}>
@@ -40,9 +47,9 @@ const FormModal = ({
                     <LoadingButton
                         variant="contained"
                         onClick={onSubmit}
-                        loading={submitActionLoading}
+                        loading={submitLoading}
                     >
-                        {submitActionLabel}
+                        {submitLabel}
                     </LoadingButton>
                 </Box>
                 {footer}

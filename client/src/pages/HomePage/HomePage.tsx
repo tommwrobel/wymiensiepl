@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import ApplicationBar from "../../components/ApplicationBar/ApplicationBar";
 import Footer from "../../components/Footer/Footer";
@@ -7,10 +7,20 @@ import InstructionsSection from "../../components/InstructionSection/Instruction
 import LoginModal from "../../components/LoginModal/LoginModal";
 import RegisterModal from "../../components/RegisterModal/RegisterModal";
 import StatisticsSection from "../../components/StatisticsSection/StatisticsSection";
+import { setUser } from "../../features/authSlice";
+import useAppDispatch from "../../hooks/useAppDispatch";
 
 const HomePage = (): JSX.Element => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
+
+    const dispatch = useAppDispatch();
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+    useEffect(() => {
+        dispatch(setUser(user));
+    }, [dispatch, user]);
 
     const handleOpenLoginModal = () => {
         setIsLoginModalOpen(true);

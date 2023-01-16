@@ -9,6 +9,12 @@ export const theme = createTheme({
     typography: {
         fontFamily: "Poppins",
     },
+    transitions: {
+        duration: {
+            enteringScreen: 0,
+            leavingScreen: 0,
+        },
+    },
     palette: {
         primary: {
             main: "#E16C39",
@@ -19,7 +25,7 @@ export const theme = createTheme({
             main: "#338de8",
             light: "#2083e6",
             dark: "#4497ea",
-        }
+        },
     },
     components: {
         MuiAppBar: {
@@ -71,8 +77,8 @@ export const theme = createTheme({
                     backgroundColor: "#E16C39",
                     color: "#FFFFFF",
                     textAlign: "center",
-                }
-            }
+                },
+            },
         },
         MuiDialogContent: {
             styleOverrides: {
@@ -82,23 +88,23 @@ export const theme = createTheme({
                     display: "flex",
                     flexDirection: "column",
                     gap: 24,
-                }
-            }
+                },
+            },
         },
         MuiFormLabel: {
             styleOverrides: {
                 root: {
                     fontSize: "0.9rem",
-                    paddingLeft: 12
-                }
-            }
+                    paddingLeft: 12,
+                },
+            },
         },
         MuiLink: {
             styleOverrides: {
                 root: {
                     cursor: "pointer",
-                }
-            }
+                },
+            },
         },
     },
 });

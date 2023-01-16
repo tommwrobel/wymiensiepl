@@ -1,17 +1,15 @@
-import { BaseTextFieldProps, Box, InputLabel, TextField } from "@mui/material";
+import { Box, InputLabel, TextField, TextFieldProps } from "@mui/material";
 import classes from "./InputField.module.css";
 
-export const InputField = (props: BaseTextFieldProps): JSX.Element => {
+export const InputField = (props: TextFieldProps): JSX.Element => {
     return (
-        <Box className={classes.InputField}>
+        <Box className={classes.inputContainer}>
             <InputLabel>{props.label}</InputLabel>
             <TextField
+                {...props}
                 size="small"
                 variant="outlined"
-                type={props.type}
-                error={props.error}
-                helperText={props.helperText}
-                autoFocus={props.autoFocus}
+                label={undefined}
                 fullWidth
             />
         </Box>
