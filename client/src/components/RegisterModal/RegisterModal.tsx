@@ -1,5 +1,5 @@
 import { Link, Typography } from "@mui/material";
-import { useRegisterMutation } from "../../api/auth/authApi";
+import { useRegisterMutation } from "../../api/authApi";
 import FormModal from "../FormModal/FormModal";
 import { InputField } from "../InputField/InputField";
 import { useFormik } from "formik";
@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import { useCallback, useEffect, useState } from "react";
 import { setUser } from "../../features/authSlice";
 import useAppDispatch from "../../hooks/useAppDispatch";
+import { useTranslation } from "react-i18next";
+import { statisticsApi } from "../../api/statisticsApi";
 
 interface RegisterModalProps {
     isOpen: boolean;
@@ -19,13 +21,10 @@ const RegisterModal = ({
     onClose,
     onLogin,
 }: RegisterModalProps): JSX.Element => {
-    const handleLogin = () => {
-        onLogin();
-        onClose();
-    };
-
     const [registerRequest, registerRequestStatus] = useRegisterMutation();
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
+    const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
     const formik = useFormik({
         initialValues: {
@@ -56,13 +55,20 @@ const RegisterModal = ({
 
     const handleClose = useCallback(() => {
         formik.resetForm();
+        setErrorMessage(undefined);
         registerRequestStatus.reset();
         onClose();
     }, [formik, registerRequestStatus, onClose]);
 
+    const handleLogin = () => {
+        onLogin();
+        handleClose();
+    };
+
     useEffect(() => {
         if (registerRequestStatus.isSuccess && registerRequestStatus.data) {
             dispatch(setUser(registerRequestStatus.data));
+            dispatch(statisticsApi.util.invalidateTags(['Statistics']));
             setTimeout(function () {
                 handleClose();
             }, 3000);
@@ -75,19 +81,32 @@ const RegisterModal = ({
         dispatch,
     ]);
 
+    useEffect(() => {
+        if (registerRequestStatus.isError && "data" in registerRequestStatus.error) {
+            const error = t(registerRequestStatus.error.data as string).toString();
+            setErrorMessage(error);
+        } else {
+            setErrorMessage(undefined);
+        }
+    }, [registerRequestStatus.isError, registerRequestStatus.error, t]);
+
     return (
         <FormModal
             isOpen={isOpen}
             onSubmit={formik.handleSubmit}
-            submitLabel="Zarejestruj się"
+            submitLabel={t("COMMON.REGISTER_ACTION")}
             onClose={handleClose}
-            title={"Zarejestruj się"}
-            errorMessage={registerRequestStatus.isError ? "Rejestracja nie powiodła się." : undefined}
-            successMessage={registerRequestStatus.isSuccess ? "Rejestracja udana! Zostałeś zalogowany." : undefined}
+            title={t("COMMON.REGISTER")}
+            errorMessage={errorMessage}
+            successMessage={
+                registerRequestStatus.isSuccess
+                    ? "Rejestracja udana! Zostałeś zalogowany."
+                    : undefined
+            }
             formFields={
                 <>
                     <InputField
-                        label="Nazwa użytkownika:"
+                        label={t("COMMON.USERNAME")}
                         type="text"
                         name="name"
                         onChange={formik.handleChange}
@@ -96,7 +115,7 @@ const RegisterModal = ({
                         helperText={formik.errors.name}
                     />
                     <InputField
-                        label="Adres e-mail:"
+                        label={t("COMMON.EMAIL")}
                         type="email"
                         name="email"
                         onChange={formik.handleChange}
@@ -105,7 +124,7 @@ const RegisterModal = ({
                         helperText={formik.errors.email}
                     />
                     <InputField
-                        label="Hasło:"
+                        label={t("COMMON.PASSWORD")}
                         type="password"
                         name="password"
                         onChange={formik.handleChange}
@@ -115,7 +134,7 @@ const RegisterModal = ({
                     />
 
                     <InputField
-                        label="Powtórz hasło:"
+                        label={t("COMMON.REPEAT_PASSWORD")}
                         type="password"
                         name="repeatedPassword"
                         onChange={formik.handleChange}
@@ -127,8 +146,11 @@ const RegisterModal = ({
             }
             footer={
                 <Typography textAlign="center" variant="body2">
-                    Masz ju konto?{" "}
-                    <Link onClick={handleLogin}>Zaloguj się</Link>!
+                    {t("COMMON.HAVE_ACCOUNT")}{" "}
+                    <Link onClick={handleLogin}>
+                        {t("COMMON.LOGIN_ACTION")}
+                    </Link>
+                    !
                 </Typography>
             }
         />

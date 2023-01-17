@@ -5,8 +5,18 @@ import { theme } from "../../config/theme";
 import commonClasses from "../../common/App.module.css";
 import classes from "./HeroSection.module.css";
 import PageSection from "../PageSection/PageSection";
+import { useTranslation } from "react-i18next";
 
-const HeroSection = (): JSX.Element => {
+interface HeroSectionProps {
+    onLogin: () => void;
+    onRegister: () => void;
+}
+
+const HeroSection = ({
+    onLogin,
+    onRegister,
+}: HeroSectionProps): JSX.Element => {
+    const { t } = useTranslation();
     const isImageVisible = useMediaQuery(theme.breakpoints.up("md"));
 
     return (
@@ -17,13 +27,13 @@ const HeroSection = (): JSX.Element => {
                         variant="h1"
                         textAlign={isImageVisible ? "left" : "center"}
                     >
-                        {translationPl.heroTitle}
+                        {t("SECTIONS.HERO.TITLE")}
                     </Typography>
                     <Typography
                         variant="subtitle1"
                         textAlign={isImageVisible ? "left" : "center"}
                     >
-                        {translationPl.heroSubtitle}
+                        {t("SECTIONS.HERO.SUBTITLE")}
                     </Typography>
                     <Grid2
                         container
@@ -32,16 +42,12 @@ const HeroSection = (): JSX.Element => {
                             isImageVisible ? "flex-start" : "center"
                         }
                     >
-                        <Link underline="none" href="/login">
-                            <Button variant="outlined">
-                                {translationPl.login}
-                            </Button>
-                        </Link>
-                        <Link underline="none" href="/register">
-                            <Button variant="contained">
-                                {translationPl.register}
-                            </Button>
-                        </Link>
+                        <Button variant="outlined" onClick={onLogin}>
+                            {t("COMMON.LOGIN_ACTION")}
+                        </Button>
+                        <Button variant="contained" onClick={onRegister}>
+                            {t("COMMON.REGISTER_ACTION")}
+                        </Button>
                     </Grid2>
                 </Grid2>
                 {isImageVisible && (

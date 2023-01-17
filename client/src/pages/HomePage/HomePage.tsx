@@ -48,9 +48,9 @@ const HomePage = (): JSX.Element => {
                 openLoginModal={handleOpenLoginModal}
                 openRegistrationModal={handleOpenRegistratonModal}
             />
-            {!isLoggedUser() && <HeroSection />}
+            {!isLoggedUser() && <HeroSection onLogin={handleOpenLoginModal} onRegister={handleOpenRegistratonModal} />}
             <InstructionsSection />
-            <StatisticsSection userCount={123} bookCount={334} />
+            <StatisticsSection />
             <AboutUsSection />
             <Footer />
 

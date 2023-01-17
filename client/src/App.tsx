@@ -1,5 +1,6 @@
 
 import "./App.css";
+import './locales/config';
 import { ThemeProvider } from "@mui/material";
 import { Provider as StoreProvider } from "react-redux";
 import { RouterProvider } from "react-router";

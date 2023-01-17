@@ -1,8 +1,10 @@
 import { Link, Typography } from "@mui/material";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { useFormik } from "formik";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
+import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-import { useLoginMutation } from "../../api/auth/authApi";
+import { useLoginMutation } from "../../api/authApi";
 import { setUser } from "../../features/authSlice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import FormModal from "../FormModal/FormModal";
@@ -20,8 +22,10 @@ const LoginModal = ({
     onRegister,
 }: LoginModalProps): JSX.Element => {
 
+    const { t } = useTranslation();
     const [loginRequest, loginRequestStatus] = useLoginMutation();
     const dispatch = useAppDispatch();
+    const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
     const formik = useFormik({
         initialValues: {
@@ -38,16 +42,17 @@ const LoginModal = ({
         }
     });
 
-    const handleRegister = () => {
-        onRegister();
-        onClose();
-    };
-
     const handleClose = useCallback(() => {
         formik.resetForm();
+        setErrorMessage(undefined);
         loginRequestStatus.reset();
         onClose();
     }, [formik, loginRequestStatus, onClose]);
+
+    const handleRegister = () => {
+        onRegister();
+        handleClose();
+    };
 
     useEffect(() => {
         if (loginRequestStatus.isSuccess && loginRequestStatus.data) {
@@ -56,20 +61,27 @@ const LoginModal = ({
         }
     }, [loginRequestStatus.isSuccess, loginRequestStatus.data, onClose, handleClose, dispatch]);
 
+    useEffect(() => {
+        if (loginRequestStatus.isError && 'data' in loginRequestStatus.error) {
+            const error = t(loginRequestStatus.error.data as string).toString();
+            setErrorMessage(error);
+        } else { setErrorMessage(undefined) }
+    }, [loginRequestStatus.isError, loginRequestStatus.error, t]);
+
     return (
         <FormModal
             isOpen={isOpen}
             onSubmit={formik.handleSubmit}
-            submitLabel="Zaloguj się"
+            submitLabel={t("COMMON.LOGIN_ACTION")}
             submitLoading={loginRequestStatus.isLoading}
             onClose={handleClose}
-            title={"Zaloguj się"}
-            errorMessage={loginRequestStatus.isError ? "Logowanie nie powiodło się." : undefined}
+            title={t("COMMON.LOGIN")}
+            errorMessage={errorMessage}
             successMessage={loginRequestStatus.isSuccess ? "Zostałeś poprawnie zalogowany!" : undefined}
             formFields={
                 <>
                     <InputField
-                        label="Adres e-mail:"
+                        label={t("COMMON.EMAIL")}
                         type="email"
                         name="email"
                         onChange={formik.handleChange}
@@ -78,7 +90,7 @@ const LoginModal = ({
                         helperText={formik.errors.email}
                     />
                     <InputField
-                        label="Hasło:"
+                        label={t("COMMON.PASSWORD")}
                         type="password"
                         name="password"
                         onChange={formik.handleChange}
@@ -90,8 +102,8 @@ const LoginModal = ({
             }
             footer={
                 <Typography textAlign="center" variant="body2">
-                    Nie masz jeszcze konta?{" "}
-                    <Link onClick={handleRegister}>Zarejestruj się</Link>!
+                    {t("COMMON.DONT_HAVE_ACCOUNT")}{" "}
+                    <Link onClick={handleRegister}>{t("COMMON.REGISTER_ACTION")}</Link>!
                 </Typography>
             }
         />

@@ -2,7 +2,7 @@ import { Link, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useCallback, useEffect } from "react";
 import * as Yup from "yup";
-import { useLoginMutation } from "../../api/auth/authApi";
+import { useLoginMutation } from "../../api/authApi";
 import { setUser } from "../../features/authSlice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import FormModal from "../FormModal/FormModal";

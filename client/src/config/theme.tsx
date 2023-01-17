@@ -85,6 +85,7 @@ export const theme = createTheme({
                 root: {
                     padding: 48,
                     minWidth: 360,
+                    width: 420,
                     display: "flex",
                     flexDirection: "column",
                     gap: 24,

@@ -1,0 +1,28 @@
+{
+  "COMMON": {
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "LOGIN_ACTION": "Login",
+    "REGISTER_ACTION": "Register",
+    "LOGOUT_ACTION": "Logout",
+    "CANCEL": "Cancel",
+    "USERNAME": "User name",
+    "PASSWORD": "Password",
+    "REPEAT_PASSWORD": "Repeat password",
+    "EMAIL": "E-mail",
+    "MESSAGES_COUNT": "Messages ({{count}})",
+    "DONT_HAVE_ACCOUNT": "Don't have accound yet?",
+    "HAVE_ACCOUNT": "Already have account?"
+  },
+  "MENU": {
+    "HOMEPAGE": "Homepage",
+    "ABOUT_US": "About us",
+    "PROFILE": "Profile"
+  },
+  "SECTIONS": {
+      "HERO": {
+          "TITLE": "Lorem ipsum consectetur",
+          "SUBTITLE": "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      }
+  }
+}

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getApiUrl } from "../utils/getApiUrl";
+import { RootState } from "../store/store";
+import { getApiUrl } from "./utils/getApiUrl";
 
 interface RegisterRequestArgs {
     name: string;
@@ -24,23 +25,26 @@ interface LoginRequestResponse {
     token: string;
 }
 
-export const authApi = createApi({
-    reducerPath: "authApi",
+export const userApi = createApi({
+    reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
         baseUrl: `${getApiUrl()}/auth`,
-        headers: {
-            "Content-type": "application/json",
+        prepareHeaders: (headers, { getState }) => {
+            const { token } = (getState() as RootState).auth;
+            if (token) {
+                headers.set("authorization", `Bearer ${token}`);
+            }
+            return headers;
         },
     }),
     endpoints: (builder) => ({
-        register: builder.mutation<
+        getUsers: builder.query<
             RegisterRequestResponse,
             RegisterRequestArgs
         >({
             query: (body) => ({
-                url: "/register",
-                method: "POST",
-                body,
+                url: "/users",
+                method: "GET",
             }),
         }),
         login: builder.mutation<LoginRequestResponse, LoginRequestArgs>({
@@ -52,5 +56,3 @@ export const authApi = createApi({
         }),
     }),
 });
-
-export const { useRegisterMutation, useLoginMutation } = authApi;

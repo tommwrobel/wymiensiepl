@@ -4,8 +4,10 @@ import { translationPl } from "../../common/constants";
 import commonClasses from "../../common/App.module.css";
 import { theme } from "../../config/theme";
 import PageSection from "../PageSection/PageSection";
+import { useTranslation } from "react-i18next";
 
 const AboutUsSection = (): JSX.Element => {
+    const { t } = useTranslation();
     const isSmallDisplay = useMediaQuery(theme.breakpoints.down("md"));
 
     return (
@@ -22,7 +24,7 @@ const AboutUsSection = (): JSX.Element => {
                         textAlign={isSmallDisplay ? "center" : "left"}
                         color="white"
                     >
-                        {translationPl.aboutUsText}
+                        {t("SECTIONS.ABOUT_US.BODY")}
                     </Typography>
                 </Grid2>
             </Grid2>

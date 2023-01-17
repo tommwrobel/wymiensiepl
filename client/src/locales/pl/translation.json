@@ -1,0 +1,55 @@
+{
+    "COMMON": {
+      "LOGIN": "Logowanie",
+      "REGISTER": "Rejestracja",
+      "LOGIN_ACTION": "Zaloguj się",
+      "REGISTER_ACTION": "Zarejestruj się",
+      "LOGOUT_ACTION": "Wyloguj się",
+      "CANCEL": "Anuluj",
+      "USERNAME": "Nazwa uytkownika",
+      "PASSWORD": "Hasło",
+      "REPEAT_PASSWORD": "Powtórz hasło",
+      "EMAIL": "Adres e-mail",
+      "DONT_HAVE_ACCOUNT": "Nie masz jeszcze konta?",
+      "HAVE_ACCOUNT": "Masz już konto?"
+    },
+    "MENU": {
+      "HOMEPAGE": "Strona główna",
+      "ABOUT_US": "O nas",
+      "PROFILE": "Profil",
+      "MESSAGES": "Wiadomości ({{count}})"
+    },
+    "SECTIONS": {
+        "HERO": {
+            "TITLE": "Lorem ipsum consectetur",
+            "SUBTITLE": "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        "INSTRUCTION": {
+          "FIRST_STEP": "Znajdź książkę",
+          "SECOND_STEP": "Zaproponuj wymianę",
+          "THIRS_STEP": "Skontaktuj się",
+          "FOURTH_STEP": "Ciesz się nową książką!"
+        },
+        "STATISTICS": {
+          "BODY_FIRST": "Mamy już",
+          "BODY_SECOND": "aktywnych użytkowników ",
+          "BODY_THIRD": "którzy dodali aż",
+          "BODY_FOURTH": "książek!",
+          "BODY_FOURTH_2": "książki!",
+          "RECOMMEND_ON_FACEBOOK": "Poleć nas na Facebooku!"
+        },
+        "ABOUT_US": {
+          "BODY": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sincididunt ut labore et dolore magna alut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        "FOOTER": {
+          "COPYRIGHTS": "{{currentYear}} Tomasz Wróbel. Wszelkie prawa zastrzeżone."
+        }
+    },
+    "API": {
+      "BOOK_WITH_ID_NOT_FOUND": "Książka o padanym id nie istnieje.",
+      "EMAIL_ALREADY_IN_USE": "Podany adress e-mail jest już zajęty.",
+      "NAME_ALREADY_IN_USE": "Podana nazwa użytkownika jest już zajęta.",
+      "USER_WITH_EMAIL_NOT_FOUND": "Użytkownik o padanym adresie e-mail nie istnieje.",
+      "BAD_CREDENTIALS": "Podane dane logowania są błędne."
+    }
+}
