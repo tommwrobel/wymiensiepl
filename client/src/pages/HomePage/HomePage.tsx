@@ -18,6 +18,10 @@ const HomePage = (): JSX.Element => {
     const dispatch = useAppDispatch();
     const user = JSON.parse(localStorage.getItem("user") || "{}");
 
+    const isLoggedUser = () => {
+        return Boolean(user.name && user.role && user.token);
+    }
+
     useEffect(() => {
         dispatch(setUser(user));
     }, [dispatch, user]);
@@ -44,7 +48,7 @@ const HomePage = (): JSX.Element => {
                 openLoginModal={handleOpenLoginModal}
                 openRegistrationModal={handleOpenRegistratonModal}
             />
-            <HeroSection />
+            {!isLoggedUser() && <HeroSection />}
             <InstructionsSection />
             <StatisticsSection userCount={123} bookCount={334} />
             <AboutUsSection />

@@ -30,11 +30,17 @@ export const authSlice = createSlice({
             state.role = action.payload.role;
             state.token = action.payload.token;
         },
+        removeUser: (state) => {
+          localStorage.removeItem("user");
+          state.name = null;
+          state.role = null;
+          state.token = null;
+        }
     },
 });
 
 export const selectAuth = (state: RootState) => state.auth;
 
-export const { setUser } = authSlice.actions;
+export const { setUser, removeUser } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -2,7 +2,7 @@ package pl.wymiensie.server.service;
 
 import org.springframework.stereotype.Service;
 import pl.wymiensie.server.entity.Book;
-import pl.wymiensie.server.entity.BookStatus;
+import pl.wymiensie.server.model.BookStatus;
 import pl.wymiensie.server.exception.ResourceNotFoundException;
 import pl.wymiensie.server.repository.BookRepository;
 
@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book updateBookStatus(UUID id, BookStatus bookStatus) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("BOOK_WITH_ID_NOT_FOUND"));
         book.setStatus(bookStatus);
         return bookRepository.save(book);
     }

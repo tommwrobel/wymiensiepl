@@ -1,4 +1,4 @@
-package pl.wymiensie.server.entity;
+package pl.wymiensie.server.model;
 
 public enum Role {
     USER,

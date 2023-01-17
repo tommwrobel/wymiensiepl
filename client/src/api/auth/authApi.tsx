@@ -8,9 +8,9 @@ interface RegisterRequestArgs {
 }
 
 interface RegisterRequestResponse {
-  name: string;
-  role: "ADMIN" | "USER";
-  token: string;
+    name: string;
+    role: "ADMIN" | "USER";
+    token: string;
 }
 
 interface LoginRequestArgs {
@@ -33,7 +33,10 @@ export const authApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        register: builder.mutation<RegisterRequestResponse, RegisterRequestArgs>({
+        register: builder.mutation<
+            RegisterRequestResponse,
+            RegisterRequestArgs
+        >({
             query: (body) => ({
                 url: "/register",
                 method: "POST",

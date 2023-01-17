@@ -7,22 +7,28 @@ import pl.wymiensie.server.model.Role;
 import pl.wymiensie.server.entity.User;
 import pl.wymiensie.server.exception.ResourceNotFoundException;
 import pl.wymiensie.server.exception.UserNotPermittedException;
+import pl.wymiensie.server.model.Statistics;
 import pl.wymiensie.server.service.BookService;
+import pl.wymiensie.server.service.UserService;
 
 @RestController
-@RequestMapping("/book")
-public class BookController {
+@RequestMapping("/statistics")
+public class StatisticsController {
 
+    UserService userService;
     BookService bookService;
 
-    public BookController(BookService bookService) {
+    public StatisticsController(UserService userService, BookService bookService) {
+        this.userService = userService;
         this.bookService = bookService;
     }
 
-    @PostMapping
-    public Book saveBook(@RequestBody Book book, @AuthenticationPrincipal User user) {
-        book.setUser(user);
-        return bookService.saveBook(book);
+    @GetMapping
+    public Statistics getStatistics() {
+        int numberOfUsers = userService.getNumberOfUsers();
+        int numberOfBooks = bookService.getNumberOfBooks();
+
+        return new Statistics(numberOfUsers, numberOfBooks);
     }
 
     @PutMapping

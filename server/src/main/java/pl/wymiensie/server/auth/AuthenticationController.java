@@ -2,10 +2,7 @@ package pl.wymiensie.server.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.wymiensie.server.exception.UserAlreadyExistsException;
 import pl.wymiensie.server.exception.ResourceNotFoundException;
 import pl.wymiensie.server.service.UserService;
@@ -23,7 +20,9 @@ public class AuthenticationController {
             @RequestBody RegisterRequest request
     ) {
         if (userService.findByEmail(request.getEmail()).isPresent())
-            throw new UserAlreadyExistsException("User with given e-mail address already exists.");
+            throw new UserAlreadyExistsException("EMAIL_ALREADY_IN_USE");
+        if (userService.findByName(request.getName()).isPresent())
+            throw new UserAlreadyExistsException("NAME_ALREADY_IN_USE");
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
@@ -32,7 +31,7 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request
     ) {
         if (userService.findByEmail(request.getEmail()).isEmpty())
-            throw new ResourceNotFoundException("User with given e-mail address not found.");
+            throw new ResourceNotFoundException("USER_WITH_EMAIL_NOT_FOUND");
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }

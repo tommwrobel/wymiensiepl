@@ -1,8 +1,7 @@
 package pl.wymiensie.server.service;
 
-import org.springframework.stereotype.Service;
 import pl.wymiensie.server.entity.Book;
-import pl.wymiensie.server.entity.BookStatus;
+import pl.wymiensie.server.model.BookStatus;
 
 import java.util.Collection;
 import java.util.List;

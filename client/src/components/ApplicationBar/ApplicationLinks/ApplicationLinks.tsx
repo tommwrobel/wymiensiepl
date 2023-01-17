@@ -1,4 +1,6 @@
 import { Button, Link } from "@mui/material";
+import { removeUser } from "../../../features/authSlice";
+import useAppDispatch from "../../../hooks/useAppDispatch";
 
 interface ApplicationLinksProps {
     isLoggedUser?: boolean;
@@ -13,6 +15,12 @@ const ApplicationLinks = ({
     openLoginModal,
     openRegistrationModal,
 }: ApplicationLinksProps): JSX.Element => {
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        dispatch(removeUser());
+    }
+
     return (
         <>
             <Link underline="none" href="/home">
@@ -38,9 +46,7 @@ const ApplicationLinks = ({
                 </>
             )}
             {isLoggedUser && (
-                <Link underline="none" href="/logout">
-                    <Button variant="outlined">Wyloguj</Button>
-                </Link>
+                <Button variant="outlined" onClick={handleLogout}>Wyloguj</Button>
             )}
         </>
     );
