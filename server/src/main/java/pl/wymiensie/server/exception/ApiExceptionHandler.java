@@ -11,41 +11,32 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(value = {ApiRequestException.class})
     public ResponseEntity<Object> handleApiRequestException(ApiRequestException e) {
-        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-        ApiException apiException = new ApiException(e.getMessage(), badRequest);
-
-        return new ResponseEntity<>(apiException, badRequest);
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(e.getMessage(), httpStatus);
     }
 
     @ExceptionHandler(value = {ResourceNotFoundException.class})
     public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException e) {
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-        ApiException apiException = new ApiException(e.getMessage(), httpStatus);
-
-        return new ResponseEntity<>(apiException, httpStatus);
+        return new ResponseEntity<>(e.getMessage(), httpStatus);
     }
 
     @ExceptionHandler(value = {UserAlreadyExistsException.class})
     public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
         HttpStatus httpStatus = HttpStatus.CONFLICT;
-        ApiException apiException = new ApiException(e.getMessage(), httpStatus);
-
-        return new ResponseEntity<>(apiException, httpStatus);
+        return new ResponseEntity<>(e.getMessage(), httpStatus);
     }
 
     @ExceptionHandler(value = {AuthenticationException.class})
     public ResponseEntity<Object> handleAuthenticationException(AuthenticationException e) {
         HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
-        ApiException apiException = new ApiException(e.getMessage(), httpStatus);
-
-        return new ResponseEntity<>(apiException, httpStatus);
+        String message = "API.BAD_CREDENTIALS";
+        return new ResponseEntity<>(message, httpStatus);
     }
 
     @ExceptionHandler(value = {UserNotPermittedException.class})
     public ResponseEntity<Object> handleUserNotPermittedException(UserNotPermittedException e) {
         HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
-        ApiException apiException = new ApiException(e.getMessage(), httpStatus);
-
-        return new ResponseEntity<>(apiException, httpStatus);
+        return new ResponseEntity<>(e.getMessage(), httpStatus);
     }
 }

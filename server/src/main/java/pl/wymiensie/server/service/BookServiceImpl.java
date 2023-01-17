@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book updateBookStatus(UUID id, BookStatus bookStatus) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("BOOK_WITH_ID_NOT_FOUND"));
+                .orElseThrow(() -> new ResourceNotFoundException("API.BOOK_WITH_ID_NOT_FOUND"));
         book.setStatus(bookStatus);
         return bookRepository.save(book);
     }

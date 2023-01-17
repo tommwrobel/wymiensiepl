@@ -20,9 +20,9 @@ public class AuthenticationController {
             @RequestBody RegisterRequest request
     ) {
         if (userService.findByEmail(request.getEmail()).isPresent())
-            throw new UserAlreadyExistsException("EMAIL_ALREADY_IN_USE");
+            throw new UserAlreadyExistsException("API.EMAIL_ALREADY_IN_USE");
         if (userService.findByName(request.getName()).isPresent())
-            throw new UserAlreadyExistsException("NAME_ALREADY_IN_USE");
+            throw new UserAlreadyExistsException("API.NAME_ALREADY_IN_USE");
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
@@ -31,7 +31,7 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request
     ) {
         if (userService.findByEmail(request.getEmail()).isEmpty())
-            throw new ResourceNotFoundException("USER_WITH_EMAIL_NOT_FOUND");
+            throw new ResourceNotFoundException("API.USER_WITH_EMAIL_NOT_FOUND");
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }
