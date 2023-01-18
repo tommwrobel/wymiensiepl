@@ -1,6 +1,7 @@
 import { Link, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
+import FileUploadField from "../FileUploadField/FileUploadField";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
 import TextareaField from "../TextareaField/TextareaField";
@@ -54,10 +55,11 @@ const AddBookModal = ({
                         type="number"
                         name="publicationYear"
                     />
-                    <InputField
-                        label={t("COMMON.NUMBER_OF_PAGES")}
-                        type="number"
-                        name="numberOfPages"
+                    <FileUploadField
+                        label={t("COMMON.COVER_PHOTO") as string}
+                        actionLabel={t("COMMON.UPLOAD_BOOK_COVER_ACTION") as string}
+                        acceptedFileFormats={['*.png', '*.jpg']}
+                        maxFileSizeInMb={1}
                     />
                 </>
             }

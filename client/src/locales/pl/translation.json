@@ -19,7 +19,11 @@
       "ISBN_NUMBER": "Number ISBN",
       "COVER_PHOTO": "Zdjęcie okładki",
       "NUMBER_OF_PAGES": "Ilość stron",
-      "PUBLICATION_YEAR": "Rok publikacji"
+      "PUBLICATION_YEAR": "Rok publikacji",
+      "UPLOAD_BOOK_COVER_ACTION": "Wybierz zdjęcie okładki z dysku",
+      "UPLOAD_FILE_ACTION": "Dodaj plik",
+      "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
+      "MAX_FILE_SIZE_IN_MB": "Maksymalny romiar pliku: {{maxFileSizeInMb}} Mb"
     },
     "MENU": {
       "HOMEPAGE": "Strona główna",
