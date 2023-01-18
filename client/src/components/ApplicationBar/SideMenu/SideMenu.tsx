@@ -1,4 +1,5 @@
 import { Box, Drawer } from "@mui/material";
+import { ReactNode } from "react";
 import ApplicationLinks from "../ApplicationLinks/ApplicationLinks";
 import classes from "./SideMenu.module.css";
 
@@ -7,6 +8,7 @@ interface SideMenuProps {
     onClose: () => void;
     openLoginModal: () => void;
     openRegistrationModal: () => void;
+    content: ReactNode;
 }
 
 const SideMenu = ({
@@ -14,14 +16,12 @@ const SideMenu = ({
     onClose,
     openLoginModal,
     openRegistrationModal,
+    content,
 }: SideMenuProps): JSX.Element => {
     return (
         <Drawer open={open} anchor="right" onClose={onClose} onClick={onClose}>
             <Box className={classes.sideMenuContent}>
-                <ApplicationLinks
-                    openLoginModal={openLoginModal}
-                    openRegistrationModal={openRegistrationModal}
-                />
+                {content}
             </Box>
         </Drawer>
     );

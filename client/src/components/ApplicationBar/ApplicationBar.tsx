@@ -19,16 +19,33 @@ import { selectAuth } from "../../features/authSlice";
 interface ApplicationBarProps {
     openLoginModal: () => void;
     openRegistrationModal: () => void;
+    openAddBookModal: () => void;
 }
 
-const ApplicationBar = ({ openLoginModal, openRegistrationModal }: ApplicationBarProps): JSX.Element => {
+const ApplicationBar = ({
+    openLoginModal,
+    openRegistrationModal,
+    openAddBookModal,
+}: ApplicationBarProps): JSX.Element => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
 
     const user = useAppSelector(selectAuth);
     const isLoggedUser = () => {
         return Boolean(user.name && user.role && user.token);
-    }
+    };
+
+    const getApplicationLinks = () => {
+        return (
+            <ApplicationLinks
+                isLoggedUser={isLoggedUser()}
+                numberOfUnreadMessages={0}
+                openLoginModal={openLoginModal}
+                openRegistrationModal={openRegistrationModal}
+                openAddBookModal={openAddBookModal}
+            />
+        );
+    };
 
     return (
         <AppBar className={classes.mainContainer} position="static">
@@ -47,17 +64,11 @@ const ApplicationBar = ({ openLoginModal, openRegistrationModal }: ApplicationBa
                         onClose={() => setIsSideMenuOpen(false)}
                         openLoginModal={openLoginModal}
                         openRegistrationModal={openRegistrationModal}
+                        content={getApplicationLinks()}
                     />
 
                     <Box className={classes.links}>
-                        {!isSmallScreen && (
-                            <ApplicationLinks
-                                isLoggedUser={isLoggedUser()}
-                                numberOfUnreadMessages={0}
-                                openLoginModal={openLoginModal}
-                                openRegistrationModal={openRegistrationModal}
-                            />
-                        )}
+                        {!isSmallScreen && getApplicationLinks()}
                         {isSmallScreen && (
                             <IconButton onClick={() => setIsSideMenuOpen(true)}>
                                 <MenuIcon color="primary" />

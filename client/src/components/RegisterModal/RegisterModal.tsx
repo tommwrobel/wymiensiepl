@@ -1,7 +1,7 @@
 import { Link, Typography } from "@mui/material";
 import { useRegisterMutation } from "../../api/authApi";
 import FormModal from "../FormModal/FormModal";
-import { InputField } from "../InputField/InputField";
+import InputField from "../InputField/InputField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useCallback, useEffect, useState } from "react";

@@ -8,6 +8,7 @@ interface ApplicationLinksProps {
     numberOfUnreadMessages?: number;
     openLoginModal: () => void;
     openRegistrationModal: () => void;
+    openAddBookModal: () => void;
 }
 
 const ApplicationLinks = ({
@@ -15,6 +16,7 @@ const ApplicationLinks = ({
     numberOfUnreadMessages,
     openLoginModal,
     openRegistrationModal,
+    openAddBookModal,
 }: ApplicationLinksProps): JSX.Element => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
@@ -53,9 +55,14 @@ const ApplicationLinks = ({
                 </>
             )}
             {isLoggedUser && (
-                <Button variant="outlined" onClick={handleLogout}>
-                    {t("COMMON.LOGOUT_ACTION")}
-                </Button>
+                <>
+                    <Button variant="contained" onClick={openAddBookModal}>
+                        {t("COMMON.ADD_BOOK_ACTION")}
+                    </Button>
+                    <Button variant="outlined" onClick={handleLogout}>
+                        {t("COMMON.LOGOUT_ACTION")}
+                    </Button>
+                </>
             )}
         </>
     );

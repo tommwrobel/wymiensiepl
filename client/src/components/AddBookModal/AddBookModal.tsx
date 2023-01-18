@@ -1,98 +1,65 @@
 import { Link, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { useCallback, useEffect } from "react";
-import * as Yup from "yup";
-import { useLoginMutation } from "../../api/authApi";
-import { setUser } from "../../features/authSlice";
-import useAppDispatch from "../../hooks/useAppDispatch";
+import { useTranslation } from "react-i18next";
 import FormModal from "../FormModal/FormModal";
-import { InputField } from "../InputField/InputField";
+import InputField from "../InputField/InputField";
+import TextareaField from "../TextareaField/TextareaField";
 
 interface AddBookModalProps {
     isOpen: boolean;
-    onClose: () => void;
-    onRegister: () => void;
+    onClose: () => void,
 }
 
 const AddBookModal = ({
     isOpen,
     onClose,
-    onRegister,
 }: AddBookModalProps): JSX.Element => {
 
-    const [loginRequest, loginRequestStatus] = useLoginMutation();
-    const dispatch = useAppDispatch();
+    const { t } = useTranslation();
 
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: '',
-        },
-        validationSchema: Yup.object({
-            email: Yup.string().email("Adres e-mail jest niepoprawny.").required("Adres e-mail jest wymagany."),
-            password: Yup.string().required("Hasło jest wymagane."),
-        }),
-        validateOnChange: false,
-        onSubmit: values => {
-            loginRequest(values);
-        }
-    });
-
-    const handleRegister = () => {
-        onRegister();
+    const handleClose = () => {
         onClose();
-    };
+    }
 
-    const handleClose = useCallback(() => {
-        formik.resetForm();
-        loginRequestStatus.reset();
+    const handleSubmit = () => {
         onClose();
-    }, [formik, loginRequestStatus, onClose]);
-
-    useEffect(() => {
-        if (loginRequestStatus.isSuccess && loginRequestStatus.data) {
-            dispatch(setUser(loginRequestStatus.data));
-            setTimeout(function() { handleClose(); }, 3000);
-        }
-    }, [loginRequestStatus.isSuccess, loginRequestStatus.data, onClose, handleClose, dispatch]);
+    }
 
     return (
         <FormModal
             isOpen={isOpen}
-            onSubmit={formik.handleSubmit}
-            submitLabel="Zaloguj się"
-            submitLoading={loginRequestStatus.isLoading}
+            onSubmit={handleSubmit}
+            submitLabel={t("COMMON.ADD_BOOK_ACTION")}
             onClose={handleClose}
-            title={"Zaloguj się"}
-            errorMessage={loginRequestStatus.isError ? "Logowanie nie powiodło się." : undefined}
-            successMessage={loginRequestStatus.isSuccess ? "Zostałeś poprawnie zalogowany!" : undefined}
+            title={t("COMMON.ADD_NEW_BOOK_ACTION")}
             formFields={
                 <>
                     <InputField
-                        label="Adres e-mail:"
-                        type="email"
-                        name="email"
-                        onChange={formik.handleChange}
-                        value={formik.values.email}
-                        error={Boolean(formik.errors.email)}
-                        helperText={formik.errors.email}
+                        label={t("COMMON.BOOK_TITLE")}
+                        type="text"
+                        name="title"
+                    />
+                    <TextareaField
+                        label={t("COMMON.DESCRIPTION")}
+                        type="text"
+                        name="description"
                     />
                     <InputField
-                        label="Hasło:"
-                        type="password"
-                        name="password"
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
-                        error={Boolean(formik.errors.password)}
-                        helperText={formik.errors.password}
+                        label={t("COMMON.ISBN_NUMBER")}
+                        type="number"
+                        name="isbn"
+                    />
+                    <InputField
+                        label={t("COMMON.PUBLICATION_YEAR")}
+                        type="number"
+                        name="publicationYear"
+                    />
+                    <InputField
+                        label={t("COMMON.NUMBER_OF_PAGES")}
+                        type="number"
+                        name="numberOfPages"
                     />
                 </>
-            }
-            footer={
-                <Typography textAlign="center" variant="body2">
-                    Nie masz jeszcze konta?{" "}
-                    <Link onClick={handleRegister}>Zarejestruj się</Link>!
-                </Typography>
             }
         />
     );

@@ -11,7 +11,15 @@
       "REPEAT_PASSWORD": "Powtórz hasło",
       "EMAIL": "Adres e-mail",
       "DONT_HAVE_ACCOUNT": "Nie masz jeszcze konta?",
-      "HAVE_ACCOUNT": "Masz już konto?"
+      "HAVE_ACCOUNT": "Masz już konto?",
+      "ADD_BOOK_ACTION": "Dodaj książkę",
+      "ADD_NEW_BOOK_ACTION": "Dodaj nową książkę",
+      "BOOK_TITLE": "Tytuł książki",
+      "DESCRIPTION": "Opis",
+      "ISBN_NUMBER": "Number ISBN",
+      "COVER_PHOTO": "Zdjęcie okładki",
+      "NUMBER_OF_PAGES": "Ilość stron",
+      "PUBLICATION_YEAR": "Rok publikacji"
     },
     "MENU": {
       "HOMEPAGE": "Strona główna",

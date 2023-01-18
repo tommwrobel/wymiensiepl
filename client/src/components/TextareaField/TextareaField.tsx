@@ -1,7 +1,7 @@
 import { Box, InputLabel, TextField, TextFieldProps } from "@mui/material";
-import classes from "./InputField.module.css";
+import classes from "./TextareaField.module.css";
 
-const InputField = (props: TextFieldProps): JSX.Element => {
+const TextareaField = (props: TextFieldProps): JSX.Element => {
     return (
         <Box className={classes.inputContainer}>
             <InputLabel>{props.label}:</InputLabel>
@@ -10,10 +10,13 @@ const InputField = (props: TextFieldProps): JSX.Element => {
                 size="small"
                 variant="outlined"
                 label={undefined}
+                minRows={3}
+                maxRows={props.maxRows || 5}
+                multiline
                 fullWidth
             />
         </Box>
     );
 };
 
-export default InputField;
+export default TextareaField;

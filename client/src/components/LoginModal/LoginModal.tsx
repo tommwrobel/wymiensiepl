@@ -1,14 +1,13 @@
 import { Link, Typography } from "@mui/material";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { useFormik } from "formik";
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { useLoginMutation } from "../../api/authApi";
 import { setUser } from "../../features/authSlice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import FormModal from "../FormModal/FormModal";
-import { InputField } from "../InputField/InputField";
+import InputField from "../InputField/InputField";
 
 interface LoginModalProps {
     isOpen: boolean;

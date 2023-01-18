@@ -28,6 +28,8 @@ public class Book {
 
     private String description;
 
+    private long isbn;
+
     private int publicationYear;
 
     private int numberOfPages;

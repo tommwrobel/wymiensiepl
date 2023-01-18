@@ -34,6 +34,8 @@ const FormModal = ({
             onClose={onClose}
             aria-labelledby="customized-dialog-title"
             open={isOpen}
+            maxWidth="sm"
+            fullWidth
         >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
