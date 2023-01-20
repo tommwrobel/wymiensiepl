@@ -1,5 +1,4 @@
 import { IconButton, Typography, useMediaQuery } from "@mui/material";
-import { translationPl } from "../../common/constants";
 import PageSection from "../PageSection/PageSection";
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import Grid2 from "@mui/material/Unstable_Grid2";

@@ -1,6 +1,5 @@
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { translationPl } from "../../common/constants";
 import commonClasses from "../../common/App.module.css";
 import { theme } from "../../config/theme";
 import PageSection from "../PageSection/PageSection";

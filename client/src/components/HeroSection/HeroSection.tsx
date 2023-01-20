@@ -1,6 +1,5 @@
-import { Box, Button, Link, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { translationPl } from "../../common/constants";
 import { theme } from "../../config/theme";
 import commonClasses from "../../common/App.module.css";
 import classes from "./HeroSection.module.css";

@@ -32,7 +32,7 @@ const LoginModal = ({
             password: '',
         },
         validationSchema: Yup.object({
-            email: Yup.string().email("Adres e-mail jest niepoprawny.").required("Adres e-mail jest wymagany."),
+            email: Yup.string().email(t("VALIDATION.EMAIL_BAD_FORMAT")).required("Adres e-mail jest wymagany."),
             password: Yup.string().required("Hasło jest wymagane."),
         }),
         validateOnChange: false,

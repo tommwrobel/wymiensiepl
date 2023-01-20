@@ -15,15 +15,16 @@
       "ADD_BOOK_ACTION": "Dodaj książkę",
       "ADD_NEW_BOOK_ACTION": "Dodaj nową książkę",
       "BOOK_TITLE": "Tytuł książki",
+      "BOOK_AUTHOR": "Autor / autorzy książki",
       "DESCRIPTION": "Opis",
-      "ISBN_NUMBER": "Number ISBN",
+      "ISBN_NUMBER": "Numer ISBN",
       "COVER_PHOTO": "Zdjęcie okładki",
       "NUMBER_OF_PAGES": "Ilość stron",
       "PUBLICATION_YEAR": "Rok publikacji",
       "UPLOAD_BOOK_COVER_ACTION": "Wybierz zdjęcie okładki z dysku",
-      "UPLOAD_FILE_ACTION": "Dodaj plik",
+      "UPLOAD_FILE_ACTION": "Wybierz plik",
       "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
-      "MAX_FILE_SIZE_IN_MB": "Maksymalny romiar pliku: {{maxFileSizeInMb}} Mb"
+      "MAX_FILE_SIZE_IN_MB": "Maksymalny romiar pliku: {{maxFileSizeInMb}} MB"
     },
     "MENU": {
       "HOMEPAGE": "Strona główna",
@@ -56,6 +57,15 @@
         "FOOTER": {
           "COPYRIGHTS": "{{currentYear}} Tomasz Wróbel. Wszelkie prawa zastrzeżone."
         }
+    },
+    "VALIDATION": {
+      "TOO_LONG": "Pole powinno mieć mnież niż {{maxLetters}} znaków.",
+      "TOO_SHORT": "Pole powinno mieć co najmniej {{minLetters}} znaków",
+      "PASSWORDS_NOT_MATCH": "Hasła się nie zgadzają.",
+      "IS_REQUIRED": "Pole jest wymagane.",
+      "NUMBER_TOO_BIG": "Wartość powinna być mniejsza lub równa {{max}}.",
+      "NUMBER_TOO_LOW": "Wartość powinna być większa lub równa {{min}}.",
+      "EMAIL_BAD_FORMAT": "Adres e-mail ma niepoprawny format.",
     },
     "API": {
       "BOOK_WITH_ID_NOT_FOUND": "Książka o padanym id nie istnieje.",
