@@ -1,0 +1,12 @@
+.loaderWrapper {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.loaderIndicatorWrapper {
+  position: absolute;
+  opacity: 1!important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

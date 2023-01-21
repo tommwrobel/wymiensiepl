@@ -1,5 +1,5 @@
 import { Clear, UploadFileRounded } from "@mui/icons-material";
-import { Box, Button, IconButton, InputLabel } from "@mui/material";
+import { Box, Button, IconButton, InputLabel, Typography } from "@mui/material";
 import { ChangeEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classes from "./FileUploadField.module.css";
@@ -30,8 +30,8 @@ const FileUploadField = ({
 
     const handleChooseFile = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) {
-            console.log("niema")
             setFile(undefined);
+            onChange(undefined);
             return;
         }
         if (event.target.files.length > 0) {
@@ -53,7 +53,7 @@ const FileUploadField = ({
     return (
         <Box className={classes.fieldContainer}>
             <InputLabel>{label}:</InputLabel>
-            <Box className={classes.uploadButtonContainer}>
+            <Box className={classes.uploadButtonContainer} borderColor={error ? "#d32f2f" : undefined}>
                 <Button
                     startIcon={<UploadFileRounded />}
                     variant="text"
@@ -75,14 +75,18 @@ const FileUploadField = ({
                     </IconButton>
                 )}
             </Box>
-            {acceptedFileFormats && (
+            {error && helperText &&
+                <span className={classes.fileRequirementsError}>
+                    {helperText}</span>
+            }
+            {acceptedFileFormats && !helperText && (
                 <span className={classes.fileRequirements}>
                     {t("COMMON.ACCEPTED_FILE_FORMATS", {
                         fileFormats: acceptedFileFormats.join(", "),
                     })}
                 </span>
             )}
-            {maxFileSizeInMb && (
+            {maxFileSizeInMb && !helperText && (
                 <span className={classes.fileRequirements}>
                     {t("COMMON.MAX_FILE_SIZE_IN_MB", { maxFileSizeInMb })}
                 </span>

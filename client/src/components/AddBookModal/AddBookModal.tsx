@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useFormik } from "formik";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FileUploadField from "../FileUploadField/FileUploadField";
 import FormModal from "../FormModal/FormModal";
@@ -82,11 +82,25 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
             ),
             publicationYear: Yup.number(),
             numberOfPages: Yup.number(),
-            coverFile: Yup.mixed().test(
-                "fileSize",
-                t("VALIDATION.FILE_TOO_BIG", { maxFileSize: 2 }).toString(),
-                (value) => value?.size <= 2000
-            ),
+            coverPhoto: Yup.mixed()
+                .test(
+                    "fileSize",
+                    t("VALIDATION.FILE_TOO_BIG", { maxFileSize: 5 }).toString(),
+                    (value) => (value ? value?.size <= 5000 : true)
+                )
+                .test(
+                    "type",
+                    t("VALIDATION.FILE_WRONG_FORMAT", {
+                        allowedFormats: ["jpg", "png"],
+                    }).toString(),
+                    (value) => {
+                        if (!value) return true;
+                        else
+                            return (
+                                value === "image/png" || value === "image/jpeg"
+                            );
+                    }
+                ),
         }),
         validateOnChange: false,
         onSubmit: handleSubmit,
@@ -166,10 +180,14 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
                     <FileUploadField
                         label={t("COMMON.COVER_PHOTO") as string}
                         acceptedFileFormats={["png", "jpg"]}
-                        maxFileSizeInMb={2}
-                        onChange={(file) =>
-                            formik.setFieldValue("coverFile", file)
-                        }
+                        maxFileSizeInMb={5}
+                        onChange={(file) => {
+                            formik
+                                .setFieldValue("coverPhoto", file)
+                                .then(() => {
+                                    formik.validateField("coverPhoto");
+                                });
+                        }}
                         error={Boolean(formik.errors.coverPhoto)}
                         helperText={formik.errors.coverPhoto}
                     />

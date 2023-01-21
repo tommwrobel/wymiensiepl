@@ -1,14 +1,20 @@
-import { LoadingButton } from "@mui/lab";
-import { Alert, Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import {
+    Alert,
+    Box,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+} from "@mui/material";
 import { ReactNode } from "react";
-import { string } from "yup";
+import LoaderOverlay from "../LoaderOverlay/LoaderOverlay";
 import classes from "./FormModal.module.css";
 
 interface FormModalProps {
     isOpen: boolean;
     onSubmit: () => void;
     submitLabel: string;
-    submitLoading?: boolean;
+    isLoading?: boolean;
     onClose: () => void;
     title: string;
     errorMessage?: string;
@@ -27,7 +33,7 @@ const FormModal = ({
     formFields,
     footer,
     submitLabel,
-    submitLoading = false,
+    isLoading = false,
 }: FormModalProps): JSX.Element => {
     return (
         <Dialog
@@ -38,24 +44,26 @@ const FormModal = ({
             fullWidth
         >
             <DialogTitle>{title}</DialogTitle>
-            <DialogContent dividers>
-                {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-                {successMessage && <Alert severity="success">{successMessage}</Alert>}
-                <Box className={classes.formFields}>{formFields}</Box>
-                <Box className={classes.formActions}>
-                    <Button variant="outlined" onClick={onClose}>
-                        Anuluj
-                    </Button>
-                    <LoadingButton
-                        variant="contained"
-                        onClick={onSubmit}
-                        loading={submitLoading}
-                    >
-                        {submitLabel}
-                    </LoadingButton>
-                </Box>
-                {footer}
-            </DialogContent>
+            <LoaderOverlay isLoading={isLoading}>
+                <DialogContent dividers>
+                    {errorMessage && (
+                        <Alert severity="error">{errorMessage}</Alert>
+                    )}
+                    {successMessage && (
+                        <Alert severity="success">{successMessage}</Alert>
+                    )}
+                    <Box className={classes.formFields}>{formFields}</Box>
+                    <Box className={classes.formActions}>
+                        <Button variant="outlined" onClick={onClose}>
+                            Anuluj
+                        </Button>
+                        <Button variant="contained" onClick={onSubmit}>
+                            {submitLabel}
+                        </Button>
+                    </Box>
+                    {footer}
+                </DialogContent>
+            </LoaderOverlay>
         </Dialog>
     );
 };

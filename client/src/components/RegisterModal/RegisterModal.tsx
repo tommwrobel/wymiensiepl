@@ -120,6 +120,7 @@ const RegisterModal = ({
             isOpen={isOpen}
             onSubmit={formik.handleSubmit}
             submitLabel={t("COMMON.REGISTER_ACTION")}
+            isLoading={registerRequestStatus.isLoading}
             onClose={handleClose}
             title={t("COMMON.REGISTER")}
             errorMessage={errorMessage}

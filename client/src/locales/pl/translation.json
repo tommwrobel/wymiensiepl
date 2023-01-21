@@ -25,7 +25,7 @@
       "UPLOAD_BOOK_COVER_ACTION": "Wybierz zdjęcie okładki z dysku",
       "UPLOAD_FILE_ACTION": "Wybierz plik",
       "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
-      "MAX_FILE_SIZE_IN_MB": "Maksymalny romiar pliku: {{maxFileSizeInMb}} MB"
+      "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB"
     },
     "MENU": {
       "HOMEPAGE": "Strona główna",
@@ -67,7 +67,8 @@
       "NUMBER_TOO_BIG": "Wartość powinna być mniejsza lub równa {{max}}.",
       "NUMBER_TOO_LOW": "Wartość powinna być większa lub równa {{min}}.",
       "EMAIL_BAD_FORMAT": "Adres e-mail ma niepoprawny format.",
-      "FILE_TOO_BIG": "Rozmiar pliku jest za duży, maksymalny rozmiar: {{maxFileSize}} MB."
+      "FILE_TOO_BIG": "Rozmiar pliku jest za duży, maksymalny rozmiar: {{maxFileSize}} MB.",
+      "FILE_WRONG_FORMAT": "Zły format pliku, akceptowane formaty: {{allowedFormats}}."
     },
     "API": {
       "BOOK_WITH_ID_NOT_FOUND": "Książka o padanym id nie istnieje.",
