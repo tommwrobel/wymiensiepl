@@ -25,19 +25,19 @@ const StatisticsSection = (): JSX.Element => {
         <PageSection>
             <Grid2 container gap={3} direction="column" alignItems="center">
                 <Typography variant="h2" textAlign="center">
-                    {t("SECTIONS.STATISTICS.BODY_FIRST")}{" "}
+                    {t("SECTIONS.STATISTICS.BODY_1")}{" "}
                     <span className={commonClasses.primaryColorBolderText}>
                         {numberOfUsers}
                     </span>{" "}
-                    {t("SECTIONS.STATISTICS.BODY_SECOND")}
+                    {t("SECTIONS.STATISTICS.BODY_2")}
                     <br />
-                    {t("SECTIONS.STATISTICS.BODY_THIRD")}{" "}
+                    {t("SECTIONS.STATISTICS.BODY_3")}{" "}
                     <span className={commonClasses.primaryColorBolderText}>
                         {numberOfBooks}
                     </span>{" "}
                     {numberOfBooks % 10 > 1 && numberOfBooks % 10 < 5
-                        ? t("SECTIONS.STATISTICS.BODY_FOURTH_2")
-                        : t("SECTIONS.STATISTICS.BODY_FOURTH")}
+                        ? t("SECTIONS.STATISTICS.BODY_4_1")
+                        : t("SECTIONS.STATISTICS.BODY_4_2")}
                 </Typography>
                 <Grid2>
                     <Button variant="contained" color="secondary">

@@ -20,25 +20,33 @@ const LoginModal = ({
     onClose,
     onRegister,
 }: LoginModalProps): JSX.Element => {
-
     const { t } = useTranslation();
     const [loginRequest, loginRequestStatus] = useLoginMutation();
     const dispatch = useAppDispatch();
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
+    interface LoginFormValues {
+        email: string,
+        password: string,
+    }
+
+    const initialFormValues: LoginFormValues = {
+        email: "",
+        password: "",
+    }
+
     const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: '',
-        },
+        initialValues: initialFormValues,
         validationSchema: Yup.object({
-            email: Yup.string().email(t("VALIDATION.EMAIL_BAD_FORMAT")).required("Adres e-mail jest wymagany."),
-            password: Yup.string().required("Hasło jest wymagane."),
+            email: Yup.string()
+                .email(t("VALIDATION.EMAIL_BAD_FORMAT").toString())
+                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
+            password: Yup.string().required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
         }),
         validateOnChange: false,
-        onSubmit: values => {
+        onSubmit: (values) => {
             loginRequest(values);
-        }
+        },
     });
 
     const handleClose = useCallback(() => {
@@ -56,15 +64,25 @@ const LoginModal = ({
     useEffect(() => {
         if (loginRequestStatus.isSuccess && loginRequestStatus.data) {
             dispatch(setUser(loginRequestStatus.data));
-            setTimeout(function() { handleClose(); }, 3000);
+            setTimeout(function () {
+                handleClose();
+            }, 3000);
         }
-    }, [loginRequestStatus.isSuccess, loginRequestStatus.data, onClose, handleClose, dispatch]);
+    }, [
+        loginRequestStatus.isSuccess,
+        loginRequestStatus.data,
+        onClose,
+        handleClose,
+        dispatch,
+    ]);
 
     useEffect(() => {
-        if (loginRequestStatus.isError && 'data' in loginRequestStatus.error) {
+        if (loginRequestStatus.isError && "data" in loginRequestStatus.error) {
             const error = t(loginRequestStatus.error.data as string).toString();
             setErrorMessage(error);
-        } else { setErrorMessage(undefined) }
+        } else {
+            setErrorMessage(undefined);
+        }
     }, [loginRequestStatus.isError, loginRequestStatus.error, t]);
 
     return (
@@ -76,7 +94,11 @@ const LoginModal = ({
             onClose={handleClose}
             title={t("COMMON.LOGIN")}
             errorMessage={errorMessage}
-            successMessage={loginRequestStatus.isSuccess ? "Zostałeś poprawnie zalogowany!" : undefined}
+            successMessage={
+                loginRequestStatus.isSuccess
+                    ? "Zostałeś poprawnie zalogowany!"
+                    : undefined
+            }
             formFields={
                 <>
                     <InputField
@@ -102,7 +124,10 @@ const LoginModal = ({
             footer={
                 <Typography textAlign="center" variant="body2">
                     {t("COMMON.DONT_HAVE_ACCOUNT")}{" "}
-                    <Link onClick={handleRegister}>{t("COMMON.REGISTER_ACTION")}</Link>!
+                    <Link onClick={handleRegister}>
+                        {t("COMMON.REGISTER_ACTION")}
+                    </Link>
+                    !
                 </Typography>
             }
         />

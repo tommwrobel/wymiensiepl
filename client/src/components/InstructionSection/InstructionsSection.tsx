@@ -8,10 +8,10 @@ const InstructionsSection = (): JSX.Element => {
     const { t } = useTranslation();
 
     const instructionItems = [
-        t("SECTIONS.INSTRUCTIONS.FIRST_STEP"),
-        t("SECTIONS.INSTRUCTIONS.SECOND_STEP"),
-        t("SECTIONS.INSTRUCTIONS.THIRD_STEP"),
-        t("SECTIONS.INSTRUCTIONS.FOURTH_STEP"),
+        t("SECTIONS.INSTRUCTIONS.STEP_1"),
+        t("SECTIONS.INSTRUCTIONS.STEP_2"),
+        t("SECTIONS.INSTRUCTIONS.STEP_3"),
+        t("SECTIONS.INSTRUCTIONS.STEP_4"),
     ];
     
     return (

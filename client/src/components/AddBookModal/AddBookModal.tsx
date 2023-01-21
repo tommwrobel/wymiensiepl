@@ -1,75 +1,119 @@
 import { Box } from "@mui/material";
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FileUploadField from "../FileUploadField/FileUploadField";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
 import TextareaField from "../TextareaField/TextareaField";
 import * as Yup from "yup";
+import { useAddBookMutation } from "../../api/booksApi";
+import {
+    useGetFileUploadDataMutation,
+    useUploadFileMutation,
+} from "../../api/filesApi";
 
 interface AddBookModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-interface InitialFormValues {
+interface AddBookFormValues {
     title: string;
     author: string;
-    description: string;
-    publicationYear: string;
-    numberOfPages: string;
-    coverFile: File | null;
+    description?: string;
+    publicationYear?: number;
+    numberOfPages?: number;
+    coverPhoto?: File;
 }
+
+const initialValues: AddBookFormValues = {
+    title: "",
+    author: "",
+    description: undefined,
+    publicationYear: undefined,
+    numberOfPages: undefined,
+    coverPhoto: undefined,
+};
 
 const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
     const { t } = useTranslation();
+
+    const [addBookRequest, addBookRequestStatus] = useAddBookMutation();
+    const [fileUploadDataRequest, fileUploadDataRequestStatus] =
+        useGetFileUploadDataMutation();
+    const [uploadFileRequest, uploadFileRequestStatus] =
+        useUploadFileMutation();
+
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-    const initialValues: InitialFormValues = {
-        title: "",
-        author: "",
-        description: "",
-        publicationYear: "",
-        numberOfPages: "",
-        coverFile: null,
+    const handleClose = () => {
+        formik.resetForm();
+        setErrorMessage(undefined);
+        addBookRequestStatus.reset();
+        onClose();
+    };
+
+    const handleSubmit = (formValues: AddBookFormValues) => {
+        addBookRequest(formValues);
+        handleClose();
     };
 
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: Yup.object({
-            title: Yup.string().max(50).required(),
-            author: Yup.string().max(50).required(),
-            description: Yup.string().max(400),
-            publicationYear: Yup.number().min(1000).max(2023),
+            title: Yup.string()
+                .min(2, t("VALIDATION.TOO_SHORT", { minLetters: 2 }).toString())
+                .max(
+                    50,
+                    t("VALIDATION.TOO_LONG", { maxLetters: 50 }).toString()
+                )
+                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
+            author: Yup.string()
+                .min(2, t("VALIDATION.TOO_SHORT", { minLetters: 2 }).toString())
+                .max(
+                    50,
+                    t("VALIDATION.TOO_LONG", { maxLetters: 50 }).toString()
+                )
+                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
+            description: Yup.string().max(
+                50,
+                t("VALIDATION.TOO_LONG", { maxLetters: 500 }).toString()
+            ),
+            publicationYear: Yup.number(),
             numberOfPages: Yup.number(),
             coverFile: Yup.mixed().test(
                 "fileSize",
-                "File Size is too large",
+                t("VALIDATION.FILE_TOO_BIG", { maxFileSize: 2 }).toString(),
                 (value) => value?.size <= 2000
             ),
         }),
-        validateOnChange: true,
-        onSubmit: (values) => {
-            console.log(values);
-        },
+        validateOnChange: false,
+        onSubmit: handleSubmit,
     });
 
-    const handleClose = () => {
-        onClose();
-    };
-
-    const handleSubmit = () => {
-        onClose();
-    };
+    useEffect(() => {
+        if (
+            addBookRequestStatus.isError &&
+            "data" in addBookRequestStatus.error
+        ) {
+            const error = t(
+                addBookRequestStatus.error.data as string
+            ).toString();
+            setErrorMessage(error);
+        } else {
+            setErrorMessage(undefined);
+        }
+    }, [addBookRequestStatus.isError, addBookRequestStatus.error, t]);
 
     return (
         <FormModal
             isOpen={isOpen}
-            onSubmit={handleSubmit}
+            onSubmit={formik.submitForm}
             submitLabel={t("COMMON.ADD_BOOK_ACTION")}
             onClose={handleClose}
             title={t("COMMON.ADD_NEW_BOOK_ACTION")}
+            errorMessage={errorMessage}
             formFields={
                 <>
                     <InputField
@@ -126,8 +170,8 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
                         onChange={(file) =>
                             formik.setFieldValue("coverFile", file)
                         }
-                        error={Boolean(formik.errors.coverFile)}
-                        helperText={formik.errors.coverFile}
+                        error={Boolean(formik.errors.coverPhoto)}
+                        helperText={formik.errors.coverPhoto}
                     />
                 </>
             }

@@ -62,8 +62,6 @@ const ApplicationBar = ({
                     <SideMenu
                         open={isSideMenuOpen && isSmallScreen}
                         onClose={() => setIsSideMenuOpen(false)}
-                        openLoginModal={openLoginModal}
-                        openRegistrationModal={openRegistrationModal}
                         content={getApplicationLinks()}
                     />
 

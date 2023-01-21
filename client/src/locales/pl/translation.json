@@ -6,7 +6,8 @@
       "REGISTER_ACTION": "Zarejestruj się",
       "LOGOUT_ACTION": "Wyloguj się",
       "CANCEL": "Anuluj",
-      "USERNAME": "Nazwa uytkownika",
+      "REGISTER_SUCCESS": "Rejestracja udana! Zostałeś zalogowany.",
+      "USERNAME": "Nazwa użytkownika",
       "PASSWORD": "Hasło",
       "REPEAT_PASSWORD": "Powtórz hasło",
       "EMAIL": "Adres e-mail",
@@ -37,18 +38,18 @@
             "TITLE": "Lorem ipsum consectetur",
             "SUBTITLE": "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
-        "INSTRUCTION": {
-          "FIRST_STEP": "Znajdź książkę",
-          "SECOND_STEP": "Zaproponuj wymianę",
-          "THIRS_STEP": "Skontaktuj się",
-          "FOURTH_STEP": "Ciesz się nową książką!"
+        "INSTRUCTIONS": {
+          "STEP_1": "Znajdź książkę",
+          "STEP_2": "Zaproponuj wymianę",
+          "STEP_3": "Skontaktuj się",
+          "STEP_4": "Ciesz się nową książką!"
         },
         "STATISTICS": {
-          "BODY_FIRST": "Mamy już",
-          "BODY_SECOND": "aktywnych użytkowników ",
-          "BODY_THIRD": "którzy dodali aż",
-          "BODY_FOURTH": "książek!",
-          "BODY_FOURTH_2": "książki!",
+          "BODY_1": "Mamy już",
+          "BODY_2": "aktywnych użytkowników ",
+          "BODY_3": "którzy dodali aż",
+          "BODY_4_1": "książek!",
+          "BODY_4_2": "książki!",
           "RECOMMEND_ON_FACEBOOK": "Poleć nas na Facebooku!"
         },
         "ABOUT_US": {
@@ -62,10 +63,11 @@
       "TOO_LONG": "Pole powinno mieć mnież niż {{maxLetters}} znaków.",
       "TOO_SHORT": "Pole powinno mieć co najmniej {{minLetters}} znaków",
       "PASSWORDS_NOT_MATCH": "Hasła się nie zgadzają.",
-      "IS_REQUIRED": "Pole jest wymagane.",
+      "FIELD_IS_REQUIRED": "Pole jest wymagane.",
       "NUMBER_TOO_BIG": "Wartość powinna być mniejsza lub równa {{max}}.",
       "NUMBER_TOO_LOW": "Wartość powinna być większa lub równa {{min}}.",
       "EMAIL_BAD_FORMAT": "Adres e-mail ma niepoprawny format.",
+      "FILE_TOO_BIG": "Rozmiar pliku jest za duży, maksymalny rozmiar: {{maxFileSize}} MB."
     },
     "API": {
       "BOOK_WITH_ID_NOT_FOUND": "Książka o padanym id nie istnieje.",

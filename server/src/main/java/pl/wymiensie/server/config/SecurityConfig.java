@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**", "/statistics")
+                .requestMatchers("/auth/**", "/statistics", "/generate-upload-url")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

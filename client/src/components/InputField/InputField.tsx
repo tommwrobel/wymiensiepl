@@ -4,7 +4,7 @@ import classes from "./InputField.module.css";
 const InputField = (props: TextFieldProps): JSX.Element => {
     return (
         <Box className={classes.inputContainer}>
-            <InputLabel>{props.label}:</InputLabel>
+            {props.label && <InputLabel>{props.label}:{props.required && "*"}</InputLabel>}
             <TextField
                 {...props}
                 size="small"

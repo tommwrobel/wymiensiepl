@@ -26,26 +26,46 @@ const RegisterModal = ({
     const { t } = useTranslation();
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
+    interface RegisterFormValues {
+        name: string;
+        email: string;
+        password: string;
+        repeatedPassword: string;
+    }
+
+    const initialFormValues: RegisterFormValues = {
+        name: "",
+        email: "",
+        password: "",
+        repeatedPassword: "",
+    };
+
     const formik = useFormik({
-        initialValues: {
-            name: "",
-            email: "",
-            password: "",
-            repeatedPassword: "",
-        },
+        initialValues: initialFormValues,
         validationSchema: Yup.object({
             name: Yup.string()
-                .min(5, "Nazwa uytkownika powinna mieć minimum 5 znaków.")
-                .required("Nazwa uytkownika jest wymagana."),
+                .min(3, t("VALIDATION.TOO_SHORT", { minLetters: 3 }).toString())
+                .max(
+                    25,
+                    t("VALIDATION.TOO_LONG", { maxLetters: 25 }).toString()
+                )
+                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
             email: Yup.string()
-                .email("Adres e-mail jest niepoprawny.")
-                .required("Adres e-mail jest wymagany."),
+                .email(t("VALIDATION.EMAIL_BAD_FORMAT").toString())
+                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
             password: Yup.string()
-                .min(5, "Hasło powinno mieć minimum 5 znaków.")
-                .required("Hasło jest wymagane."),
+                .min(3, t("VALIDATION.TOO_SHORT", { minLetters: 3 }).toString())
+                .max(
+                    25,
+                    t("VALIDATION.TOO_LONG", { maxLetters: 25 }).toString()
+                )
+                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
             repeatedPassword: Yup.string()
-                .oneOf([Yup.ref("password")], "Hasła muszą się zgadzać.")
-                .required("Powtórzenie hasła jest wymagane."),
+                .oneOf(
+                    [Yup.ref("password")],
+                    t("VALIDATION.FIELD_IS_REQUIRED").toString()
+                )
+                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
         }),
         validateOnChange: false,
         onSubmit: (values) => {
@@ -68,7 +88,7 @@ const RegisterModal = ({
     useEffect(() => {
         if (registerRequestStatus.isSuccess && registerRequestStatus.data) {
             dispatch(setUser(registerRequestStatus.data));
-            dispatch(statisticsApi.util.invalidateTags(['Statistics']));
+            dispatch(statisticsApi.util.invalidateTags(["Statistics"]));
             setTimeout(function () {
                 handleClose();
             }, 3000);
@@ -82,8 +102,13 @@ const RegisterModal = ({
     ]);
 
     useEffect(() => {
-        if (registerRequestStatus.isError && "data" in registerRequestStatus.error) {
-            const error = t(registerRequestStatus.error.data as string).toString();
+        if (
+            registerRequestStatus.isError &&
+            "data" in registerRequestStatus.error
+        ) {
+            const error = t(
+                registerRequestStatus.error.data as string
+            ).toString();
             setErrorMessage(error);
         } else {
             setErrorMessage(undefined);
@@ -100,12 +125,13 @@ const RegisterModal = ({
             errorMessage={errorMessage}
             successMessage={
                 registerRequestStatus.isSuccess
-                    ? "Rejestracja udana! Zostałeś zalogowany."
+                    ? t("COMMON.REGISTER_SUCCESS").toString()
                     : undefined
             }
             formFields={
                 <>
                     <InputField
+                        required={true}
                         label={t("COMMON.USERNAME")}
                         type="text"
                         name="name"
