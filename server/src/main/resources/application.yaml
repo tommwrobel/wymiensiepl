@@ -19,8 +19,3 @@ spring:
 server:
   servlet:
     context-path: /api/v1
-amazon:
-  aws:
-    access-key: todo
-    secret-key: todo
-    region: todo

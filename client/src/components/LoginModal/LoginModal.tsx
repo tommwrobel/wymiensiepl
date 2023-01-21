@@ -66,7 +66,7 @@ const LoginModal = ({
             dispatch(setUser(loginRequestStatus.data));
             setTimeout(function () {
                 handleClose();
-            }, 3000);
+            }, 2000);
         }
     }, [
         loginRequestStatus.isSuccess,

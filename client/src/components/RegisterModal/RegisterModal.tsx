@@ -91,7 +91,7 @@ const RegisterModal = ({
             dispatch(statisticsApi.util.invalidateTags(["Statistics"]));
             setTimeout(function () {
                 handleClose();
-            }, 3000);
+            }, 2000);
         }
     }, [
         registerRequestStatus.isSuccess,
