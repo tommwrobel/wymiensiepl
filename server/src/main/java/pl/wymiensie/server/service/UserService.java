@@ -1,13 +1,15 @@
 package pl.wymiensie.server.service;
 
+import pl.wymiensie.server.entity.Book;
 import pl.wymiensie.server.entity.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public interface UserService {
-    List<User> findAllUsers();
+    List<User> findAll();
 
     Optional<User> findByEmail(String email);
 

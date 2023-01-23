@@ -55,7 +55,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
     };
 
     const handleSubmit = (formValues: AddBookFormValues) => {
-        addBookRequest(formValues);
+        addBookRequest({...formValues, coverPhoto: "none"});
         handleClose();
     };
 

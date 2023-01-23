@@ -7,6 +7,7 @@ import {
     DialogTitle,
 } from "@mui/material";
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import LoaderOverlay from "../LoaderOverlay/LoaderOverlay";
 import classes from "./FormModal.module.css";
 
@@ -35,6 +36,8 @@ const FormModal = ({
     submitLabel,
     isLoading = false,
 }: FormModalProps): JSX.Element => {
+    const { t } = useTranslation();
+
     return (
         <Dialog
             onClose={onClose}
@@ -55,7 +58,7 @@ const FormModal = ({
                     <Box className={classes.formFields}>{formFields}</Box>
                     <Box className={classes.formActions}>
                         <Button variant="outlined" onClick={onClose}>
-                            Anuluj
+                            {t("COMMON.CANCEL")}
                         </Button>
                         <Button variant="contained" onClick={onSubmit}>
                             {submitLabel}

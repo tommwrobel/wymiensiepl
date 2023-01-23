@@ -1,5 +1,6 @@
 package pl.wymiensie.server.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,21 +21,24 @@ public class Book {
     @GeneratedValue
     private UUID id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonProperty("userId")
+    @JsonIdentityReference(alwaysAsId = true)
     private User user;
 
     private String title;
 
-    private String description;
+    private String author;
 
-    private long isbn;
+    private String description;
 
     private int publicationYear;
 
     private int numberOfPages;
 
-    private String coverImg;
+    private String coverPhoto;
 
     @Enumerated(EnumType.STRING)
     private BookStatus status;

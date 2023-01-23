@@ -1,9 +1,12 @@
 package pl.wymiensie.server.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pl.wymiensie.server.entity.Book;
 import pl.wymiensie.server.entity.User;
 import pl.wymiensie.server.exception.ResourceNotFoundException;
+import pl.wymiensie.server.exception.UserNotPermittedException;
+import pl.wymiensie.server.model.Role;
 import pl.wymiensie.server.service.BookService;
 import pl.wymiensie.server.service.UserService;
 
@@ -13,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -26,7 +29,7 @@ public class UserController {
 
     @GetMapping
     public List<User> findAllUsers() {
-        return userService.findAllUsers();
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
@@ -41,6 +44,18 @@ public class UserController {
     public Collection<Book> getUserBooks(@PathVariable("id") UUID id) {
         Collection<Book> books = bookService.findByUserId(id);
         return books;
+    }
+
+    @PostMapping("/{id}/books")
+    public Book addBookToUser(
+            @PathVariable("id") UUID id,
+            @RequestBody Book book,
+            @AuthenticationPrincipal User currentUser) {
+        if (!currentUser.getId().equals(id))
+            throw new UserNotPermittedException();
+        User user = userService.findById(id).orElseThrow(() -> new ResourceNotFoundException());
+        book.setUser(user);
+        return bookService.saveBook(book);
     }
 
     @PostMapping

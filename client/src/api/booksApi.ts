@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { RootState } from "../store/store";
 import { getApiUrl } from "./utils/getApiUrl";
 
 interface AddBookRequestArgs {
@@ -7,26 +8,27 @@ interface AddBookRequestArgs {
     description?: string,
     publicationYear?: number,
     numberOfPages?: number,
-    coverPhotoKey?: string
-}
-
-interface AddBookRequestResponse {
-    name: string;
-    role: "ADMIN" | "USER";
-    token: string;
+    coverPhoto?: string
 }
 
 export const booksApi = createApi({
     reducerPath: "booksApi",
     baseQuery: fetchBaseQuery({
         baseUrl: `${getApiUrl()}/books`,
+        prepareHeaders: (headers, { getState }) => {
+            const { token } = (getState() as RootState).auth;
+            if (token) {
+                headers.set("authorization", `Bearer ${token}`);
+            }
+            return headers;
+        },
     }),
     endpoints: (builder) => ({
-        addBook: builder.mutation<AddBookRequestResponse, AddBookRequestArgs>({
+        addBook: builder.mutation<void, AddBookRequestArgs>({
             query: (body) => ({
-                url: "/books",
+                url: "",
                 method: "POST",
-                body,
+                body
             }),
         }),
     }),

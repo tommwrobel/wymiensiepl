@@ -13,6 +13,7 @@ spring:
       hibernate:
         format-sql: true
     database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
   h2:
     console:
       enabled: true

@@ -1,5 +1,6 @@
 package pl.wymiensie.server.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pl.wymiensie.server.entity.Book;
@@ -8,30 +9,25 @@ import pl.wymiensie.server.entity.User;
 import pl.wymiensie.server.exception.ResourceNotFoundException;
 import pl.wymiensie.server.exception.UserNotPermittedException;
 import pl.wymiensie.server.service.BookService;
+import pl.wymiensie.server.service.UserService;
+
+import java.security.Principal;
+import java.util.List;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/books")
 public class BookController {
 
     BookService bookService;
+    UserService userService;
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, UserService userService) {
         this.bookService = bookService;
+        this.userService = userService;
     }
 
-    @PostMapping
-    public Book saveBook(@RequestBody Book book, @AuthenticationPrincipal User user) {
-        book.setUser(user);
-        return bookService.saveBook(book);
-    }
-
-    @PutMapping
-    public Book updateBook(@RequestBody Book book, @AuthenticationPrincipal User user) {
-        if(bookService.findById(book.getId()).isEmpty())
-            throw new ResourceNotFoundException("Book not found.");
-        if(!book.getUser().equals(user) && user.getRole() != Role.ADMIN)
-            throw new UserNotPermittedException("User not permitted.");
-
-        return bookService.updateBook(book);
+    @GetMapping
+    public List<Book> getBooks() {
+        return bookService.findAll();
     }
 }

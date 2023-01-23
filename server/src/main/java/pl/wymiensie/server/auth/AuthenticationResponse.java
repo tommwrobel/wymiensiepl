@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.wymiensie.server.model.Role;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
 
-    private String name;
-    private Role role;
+    private UUID userId;
     private String token;
 }

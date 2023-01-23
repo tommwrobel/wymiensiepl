@@ -75,6 +75,7 @@
       "EMAIL_ALREADY_IN_USE": "Podany adress e-mail jest już zajęty.",
       "NAME_ALREADY_IN_USE": "Podana nazwa użytkownika jest już zajęta.",
       "USER_WITH_EMAIL_NOT_FOUND": "Użytkownik o padanym adresie e-mail nie istnieje.",
-      "BAD_CREDENTIALS": "Podane dane logowania są błędne."
+      "BAD_CREDENTIALS": "Podane dane logowania są błędne.", 
+      "API.USER_NOT_PERMITTED": "Brak wystarczających uprawnień."
     }
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface BookService {
-    List<Book> findAllBooks();
+    List<Book> findAll();
 
     Collection<Book> findByUserId(UUID userId);
 

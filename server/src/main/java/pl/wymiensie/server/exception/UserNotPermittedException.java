@@ -5,4 +5,7 @@ public class UserNotPermittedException extends RuntimeException {
     public UserNotPermittedException(String message) {
         super(message);
     }
+    public UserNotPermittedException() {
+        super("API.USER_NOT_PERMITTED");
+    }
 }

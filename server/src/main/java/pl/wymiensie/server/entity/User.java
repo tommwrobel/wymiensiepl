@@ -1,5 +1,6 @@
 package pl.wymiensie.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import pl.wymiensie.server.model.Role;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -22,13 +24,21 @@ import java.util.UUID;
 @Table(name="users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.UUID)
     private UUID id;
+
     private String name;
+
     private String email;
+
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Book> books;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
