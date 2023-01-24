@@ -10,7 +10,7 @@ export const appApi = createApi({
             const { token } = (getState() as RootState).auth;
             if (token) {
                 headers.set("authorization", `Bearer ${token.body}`);
-            } else console.log('no token')
+            }
             return headers;
         },
     }),

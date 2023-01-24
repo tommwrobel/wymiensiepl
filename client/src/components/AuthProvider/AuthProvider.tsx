@@ -19,7 +19,6 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     };
 
     const isTokenExpired = (token: Token) => {
-        console.log(Date.now(), token.expirationTime);
         return Date.now() >= token.expirationTime;
     };
 

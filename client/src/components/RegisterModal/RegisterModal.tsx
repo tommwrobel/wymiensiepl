@@ -89,9 +89,7 @@ const RegisterModal = ({
         if (registerRequestStatus.isSuccess && registerRequestStatus.data) {
             dispatch(setAuth(registerRequestStatus.data));
             dispatch(statisticsApi.util.invalidateTags(["Statistics"]));
-            setTimeout(function () {
-                handleClose();
-            }, 2000);
+            handleClose();
         }
     }, [
         registerRequestStatus.isSuccess,
@@ -124,11 +122,6 @@ const RegisterModal = ({
             onClose={handleClose}
             title={t("COMMON.REGISTER")}
             errorMessage={errorMessage}
-            successMessage={
-                registerRequestStatus.isSuccess
-                    ? t("COMMON.REGISTER_SUCCESS").toString()
-                    : undefined
-            }
             formFields={
                 <>
                     <InputField

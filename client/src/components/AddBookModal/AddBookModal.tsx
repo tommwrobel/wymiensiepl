@@ -8,12 +8,10 @@ import InputField from "../InputField/InputField";
 import TextareaField from "../TextareaField/TextareaField";
 import * as Yup from "yup";
 import { useAddBookMutation } from "../../api/booksApi";
-import {
-    useGetFileUploadDataMutation,
-    useUploadFileMutation,
-} from "../../api/filesApi";
+import { useLazyGetFileUploadDataQuery } from "../../api/filesApi";
 import useAppSelector from "../../hooks/useAppSelector";
 import { selectAuthUser } from "../../features/authSlice";
+import { useUploadFileMutation } from "../../api/awsApi";
 
 interface AddBookModalProps {
     isOpen: boolean;
@@ -43,15 +41,35 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
     const user = useAppSelector(selectAuthUser);
 
     const [addBookRequest, addBookRequestStatus] = useAddBookMutation();
-    // const [fileUploadDataRequest, fileUploadDataRequestStatus] =
-    //     useGetFileUploadDataMutation();
-    // const [uploadFileRequest, uploadFileRequestStatus] =
-    //     useUploadFileMutation();
+    const [fileUploadDataRequest, fileUploadDataRequestStatus] =
+        useLazyGetFileUploadDataQuery();
+    const [uploadFileRequest, uploadFileRequestStatus] =
+        useUploadFileMutation();
 
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-    const handleSubmit = (formValues: AddBookFormValues) => {
-        addBookRequest({userId: user?.id || "", ...formValues, coverPhoto: "none"});
+    const handleUploadFile = async (file: File) => {
+        const dataRequestResponse = await fileUploadDataRequest();
+        if (dataRequestResponse.isSuccess && dataRequestResponse.data) {
+            const { url, objectKey } = dataRequestResponse.data;
+            await uploadFileRequest({ url, file });
+            return objectKey;
+        }
+        return undefined;
+    };
+
+    const handleSubmit = async (formValues: AddBookFormValues) => {
+        if (user && user.id) {
+            let objectKey = undefined;
+            if (formValues.coverPhoto) {
+                objectKey = await handleUploadFile(formValues.coverPhoto);
+            }
+            addBookRequest({
+                ...formValues,
+                coverPhoto: objectKey,
+                userId: user.id,
+            });
+        }
     };
 
     const formik = useFormik({
@@ -81,20 +99,18 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
                 .test(
                     "fileSize",
                     t("VALIDATION.FILE_TOO_BIG", { maxFileSize: 5 }).toString(),
-                    (value) => (value ? value?.size <= 5000 : true)
+                    (value) => (value ? value?.size <= 1000000 * 5 : true)
                 )
                 .test(
                     "type",
                     t("VALIDATION.FILE_WRONG_FORMAT", {
                         allowedFormats: ["jpg", "png"],
                     }).toString(),
-                    (value) => {
-                        if (!value) return true;
-                        else
-                            return (
-                                value === "image/png" || value === "image/jpeg"
-                            );
-                    }
+                    (value) =>
+                        value && value.type
+                            ? value.type === "image/png" ||
+                              value.type === "image/jpeg"
+                            : true
                 ),
         }),
         validateOnChange: false,
@@ -124,11 +140,13 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
 
     useEffect(() => {
         if (addBookRequestStatus.isSuccess && addBookRequestStatus.data) {
-            setTimeout(function () {
-                handleClose();
-            }, 2000);
+            handleClose();
         }
-    }, [addBookRequestStatus.isSuccess, addBookRequestStatus.data, handleClose]);
+    }, [
+        addBookRequestStatus.isSuccess,
+        addBookRequestStatus.data,
+        handleClose,
+    ]);
 
     return (
         <FormModal
@@ -138,6 +156,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
             onClose={handleClose}
             title={t("COMMON.ADD_NEW_BOOK_ACTION")}
             errorMessage={errorMessage}
+            isLoading={uploadFileRequestStatus.isLoading}
             formFields={
                 <>
                     <InputField
@@ -173,7 +192,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
                             type="number"
                             name="publicationYear"
                             onChange={formik.handleChange}
-                            value={formik.values.publicationYear}
+                            value={formik.values.publicationYear || ""}
                             error={Boolean(formik.errors.publicationYear)}
                             helperText={formik.errors.publicationYear}
                         />
@@ -182,7 +201,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
                             type="number"
                             name="numberOfPages"
                             onChange={formik.handleChange}
-                            value={formik.values.numberOfPages}
+                            value={formik.values.numberOfPages || ""}
                             error={Boolean(formik.errors.numberOfPages)}
                             helperText={formik.errors.numberOfPages}
                         />

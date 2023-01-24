@@ -63,11 +63,8 @@ const LoginModal = ({
 
     useEffect(() => {
         if (loginRequestStatus.isSuccess && loginRequestStatus.data) {
-            console.log("login", loginRequestStatus.data);
             appDispatch(setAuth(loginRequestStatus.data));
-            setTimeout(function () {
-                handleClose();
-            }, 2000);
+            handleClose();
         }
     }, [
         loginRequestStatus.isSuccess,
@@ -95,11 +92,6 @@ const LoginModal = ({
             onClose={handleClose}
             title={t("COMMON.LOGIN")}
             errorMessage={errorMessage}
-            successMessage={
-                loginRequestStatus.isSuccess
-                    ? "Zostałeś poprawnie zalogowany!"
-                    : undefined
-            }
             formFields={
                 <>
                     <InputField
