@@ -1,15 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 
+export type UserRole = "ADMIN" | "USER";
+export interface User {
+    id: string,
+    name: string,
+    email: string,
+    role: UserRole,
+}
+export interface Token {
+    body: string,
+    expirationTime: number,
+}
 export interface AuthState {
-    name: string | null;
-    role: "ADMIN" | "USER" | null;
-    token: string | null;
+    user: User | null,
+    token: Token | null,
 }
 
 const initialState: AuthState = {
-    name: null,
-    role: null,
+    user: null,
     token: null,
 };
 
@@ -17,30 +26,30 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<AuthState>) => {
+        setAuth: (state, action: PayloadAction<AuthState>) => {
             localStorage.setItem(
-                "user",
+                "authentication",
                 JSON.stringify({
-                    name: action.payload.name,
-                    role: action.payload.role,
+                    user: action.payload.user,
                     token: action.payload.token,
                 })
             );
-            state.name = action.payload.name;
-            state.role = action.payload.role;
+            state.user = action.payload.user;
             state.token = action.payload.token;
         },
-        removeUser: (state) => {
-          localStorage.removeItem("user");
-          state.name = null;
-          state.role = null;
+        removeAuth: (state) => {
+          localStorage.removeItem("authentication");
+          state.user = null;
           state.token = null;
         }
     },
+    
 });
 
-export const selectAuth = (state: RootState) => state.auth;
+export const selectAuthToken = (state: RootState) => state.auth.token;
+export const selectAuthUser = (state: RootState) => state.auth.user;
+export const selectIsLoggedUser = (state: RootState) => Boolean(state.auth.user && state.auth.token);
 
-export const { setUser, removeUser } = authSlice.actions;
+export const { setAuth, removeAuth } = authSlice.actions;
 
 export default authSlice.reducer;

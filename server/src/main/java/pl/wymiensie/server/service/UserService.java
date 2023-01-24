@@ -23,5 +23,5 @@ public interface UserService {
 
     void deleteUser(UUID id);
 
-    int getNumberOfUsers();
+    long getNumberOfUsers();
 }

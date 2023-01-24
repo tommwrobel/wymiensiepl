@@ -1,5 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getApiUrl } from "./utils/getApiUrl";
+import { AuthState, User } from "../features/authSlice";
+import { appApi } from "./appApi";
+
+interface TokenResponse {
+    body: string;
+    expiresIn: number;
+}
 
 interface RegisterRequestArgs {
     name: string;
@@ -7,10 +12,9 @@ interface RegisterRequestArgs {
     password: string;
 }
 
-interface RegisterRequestResponse {
-    name: string;
-    role: "ADMIN" | "USER";
-    token: string;
+interface AuthRequestResponse {
+    user: User;
+    token: TokenResponse;
 }
 
 interface LoginRequestArgs {
@@ -18,34 +22,42 @@ interface LoginRequestArgs {
     password: string;
 }
 
-interface LoginRequestResponse {
-    name: string;
-    role: "ADMIN" | "USER";
-    token: string;
-}
-
-export const authApi = createApi({
-    reducerPath: "authApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${getApiUrl()}/auth`,
-    }),
+export const authApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
-        register: builder.mutation<
-            RegisterRequestResponse,
-            RegisterRequestArgs
-        >({
+        register: builder.mutation<AuthState, RegisterRequestArgs>({
             query: (body) => ({
-                url: "/register",
+                url: "/auth/register",
                 method: "POST",
                 body,
             }),
+            transformResponse: (response: AuthRequestResponse) => {
+                const expirationTime = Date.now() + response.token.expiresIn;
+                return {
+                    user: response.user,
+                    token: {
+                        body: response.token.body,
+                        expirationTime,
+                    },
+                };
+            },
+            invalidatesTags: ["Statistics"],
         }),
-        login: builder.mutation<LoginRequestResponse, LoginRequestArgs>({
+        login: builder.mutation<AuthState, LoginRequestArgs>({
             query: (body) => ({
-                url: "/login",
+                url: "/auth/login",
                 method: "POST",
                 body,
             }),
+            transformResponse: (response: AuthRequestResponse) => {
+                const expirationTime = Date.now() + response.token.expiresIn;
+                return {
+                    user: response.user,
+                    token: {
+                        body: response.token.body,
+                        expirationTime,
+                    },
+                };
+            },
         }),
     }),
 });

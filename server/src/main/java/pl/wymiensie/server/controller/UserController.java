@@ -6,13 +6,12 @@ import pl.wymiensie.server.entity.Book;
 import pl.wymiensie.server.entity.User;
 import pl.wymiensie.server.exception.ResourceNotFoundException;
 import pl.wymiensie.server.exception.UserNotPermittedException;
-import pl.wymiensie.server.model.Role;
+import pl.wymiensie.server.model.BookStatus;
 import pl.wymiensie.server.service.BookService;
 import pl.wymiensie.server.service.UserService;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -34,10 +33,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") UUID id) {
-        Optional<User> user = userService.findById(id);
-        if (user.isEmpty())
-            throw new ResourceNotFoundException("User not found.");
-        return user.get();
+        User user = userService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException());
+        return user;
     }
 
     @GetMapping("/{id}/books")
@@ -53,8 +51,10 @@ public class UserController {
             @AuthenticationPrincipal User currentUser) {
         if (!currentUser.getId().equals(id))
             throw new UserNotPermittedException();
-        User user = userService.findById(id).orElseThrow(() -> new ResourceNotFoundException());
+        User user = userService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException());
         book.setUser(user);
+        book.setStatus(BookStatus.AVAILABLE);
         return bookService.saveBook(book);
     }
 

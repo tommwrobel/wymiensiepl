@@ -58,7 +58,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public int getNumberOfBooks() {
-        return bookRepository.findAll().size();
+    public long getNumberOfBooks() {
+        return bookRepository.count();
     }
 }

@@ -1,5 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getApiUrl } from "./utils/getApiUrl";
+import { appApi } from "./appApi";
 
 interface FilesApiResponse {
     url: string;
@@ -11,11 +10,7 @@ interface UploadFileRequest {
     file: File;
 }
 
-export const filesApi = createApi({
-    reducerPath: "filesApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: getApiUrl(),
-    }),
+export const filesApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
         getFileUploadData: builder.mutation<FilesApiResponse, void>({
             query: () => ({

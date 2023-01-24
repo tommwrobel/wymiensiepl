@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import AddBookModal from "../../components/AddBookModal/AddBookModal";
 import ApplicationBar from "../../components/ApplicationBar/ApplicationBar";
@@ -8,24 +8,15 @@ import InstructionsSection from "../../components/InstructionSection/Instruction
 import LoginModal from "../../components/LoginModal/LoginModal";
 import RegisterModal from "../../components/RegisterModal/RegisterModal";
 import StatisticsSection from "../../components/StatisticsSection/StatisticsSection";
-import { setUser } from "../../features/authSlice";
-import useAppDispatch from "../../hooks/useAppDispatch";
+import { selectIsLoggedUser } from "../../features/authSlice";
+import useAppSelector from "../../hooks/useAppSelector";
 
 const HomePage = (): JSX.Element => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
 
-    const dispatch = useAppDispatch();
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-    const isLoggedUser = () => {
-        return Boolean(user.name && user.role && user.token);
-    };
-
-    useEffect(() => {
-        dispatch(setUser(user));
-    }, [dispatch, user]);
+    const isLoggedUser = useAppSelector(selectIsLoggedUser);
 
     const handleOpenLoginModal = () => {
         setIsLoginModalOpen(true);
@@ -58,7 +49,7 @@ const HomePage = (): JSX.Element => {
                 openRegistrationModal={handleOpenRegistratonModal}
                 openAddBookModal={handleOpenAddBookModal}
             />
-            {!isLoggedUser() && (
+            {!isLoggedUser && (
                 <HeroSection
                     onLogin={handleOpenLoginModal}
                     onRegister={handleOpenRegistratonModal}
@@ -81,10 +72,12 @@ const HomePage = (): JSX.Element => {
                 onLogin={handleOpenLoginModal}
             />
 
-            <AddBookModal
-                isOpen={isAddBookModalOpen}
-                onClose={handleCloseAddBookModal}
-            />
+            {isLoggedUser && (
+                <AddBookModal
+                    isOpen={isAddBookModalOpen}
+                    onClose={handleCloseAddBookModal}
+                />
+            )}
         </>
     );
 };

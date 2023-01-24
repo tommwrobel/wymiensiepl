@@ -36,8 +36,8 @@ const StatisticsSection = (): JSX.Element => {
                         {numberOfBooks}
                     </span>{" "}
                     {numberOfBooks % 10 > 1 && numberOfBooks % 10 < 5
-                        ? t("SECTIONS.STATISTICS.BODY_4_1")
-                        : t("SECTIONS.STATISTICS.BODY_4_2")}
+                        ? t("SECTIONS.STATISTICS.BODY_4_2")
+                        : t("SECTIONS.STATISTICS.BODY_4_1")}
                 </Typography>
                 <Grid2>
                     <Button variant="contained" color="secondary">

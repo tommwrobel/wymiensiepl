@@ -4,15 +4,18 @@ interface PageSectionProps {
     children: React.ReactNode;
     backgroundColor?: string;
     padding?: string;
+    sectionId?: string;
 }
 
-const PageSection = ({children, backgroundColor, padding}: PageSectionProps): JSX.Element => {
+const PageSection = ({children, backgroundColor, padding, sectionId}: PageSectionProps): JSX.Element => {
     return (
-        <Container maxWidth={false} sx={{ padding: padding || "90px 15px", backgroundColor: backgroundColor || "#ffffff" }}>
-            <Container fixed>
-                {children}
+        <div id={sectionId}>
+            <Container maxWidth={false} sx={{ padding: padding || "90px 15px", backgroundColor: backgroundColor || "#ffffff" }}>
+                <Container fixed>
+                    {children}
+                </Container>
             </Container>
-        </Container>
+        </div>
     );
 }
 

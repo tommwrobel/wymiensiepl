@@ -14,7 +14,7 @@ import { theme } from "../../config/theme";
 import ApplicationLinks from "./ApplicationLinks/ApplicationLinks";
 import SideMenu from "./SideMenu/SideMenu";
 import useAppSelector from "../../hooks/useAppSelector";
-import { selectAuth } from "../../features/authSlice";
+import { selectIsLoggedUser } from "../../features/authSlice";
 
 interface ApplicationBarProps {
     openLoginModal: () => void;
@@ -30,15 +30,12 @@ const ApplicationBar = ({
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
 
-    const user = useAppSelector(selectAuth);
-    const isLoggedUser = () => {
-        return Boolean(user.name && user.role && user.token);
-    };
+    const isLoggedUser = useAppSelector(selectIsLoggedUser);
 
     const getApplicationLinks = () => {
         return (
             <ApplicationLinks
-                isLoggedUser={isLoggedUser()}
+                isLoggedUser={isLoggedUser}
                 numberOfUnreadMessages={0}
                 openLoginModal={openLoginModal}
                 openRegistrationModal={openRegistrationModal}

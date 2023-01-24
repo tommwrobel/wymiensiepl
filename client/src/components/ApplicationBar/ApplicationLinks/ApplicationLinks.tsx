@@ -1,6 +1,6 @@
 import { Button, Link } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { removeUser } from "../../../features/authSlice";
+import { removeAuth } from "../../../features/authSlice";
 import useAppDispatch from "../../../hooks/useAppDispatch";
 
 interface ApplicationLinksProps {
@@ -22,7 +22,7 @@ const ApplicationLinks = ({
     const dispatch = useAppDispatch();
 
     const handleLogout = () => {
-        dispatch(removeUser());
+        dispatch(removeAuth());
     };
 
     return (
@@ -30,18 +30,20 @@ const ApplicationLinks = ({
             <Link underline="none" href="/home">
                 <Button>{t("MENU.HOMEPAGE")}</Button>
             </Link>
-            <Link underline="none" href="/home#about">
+            <Link underline="none" href="/home#aboutUs">
                 <Button>{t("MENU.ABOUT_US")}</Button>
             </Link>
-            <Link underline="none" href="/profile">
-                <Button>{t("MENU.PROFILE")}</Button>
-            </Link>
             {isLoggedUser && (
+                <>
+                <Link underline="none" href="/profile">
+                    <Button>{t("MENU.PROFILE")}</Button>
+                </Link>
                 <Link underline="none" href="/messages">
                     <Button>
                         {t("MENU.MESSAGES", { count: numberOfUnreadMessages })}
                     </Button>
                 </Link>
+                </>
             )}
 
             {!isLoggedUser && (

@@ -23,5 +23,5 @@ public interface BookService {
 
     void deleteBook(UUID id);
 
-    int getNumberOfBooks();
+    long getNumberOfBooks();
 }

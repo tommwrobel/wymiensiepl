@@ -5,7 +5,7 @@ import InputField from "../InputField/InputField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useCallback, useEffect, useState } from "react";
-import { setUser } from "../../features/authSlice";
+import { setAuth } from "../../features/authSlice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import { useTranslation } from "react-i18next";
 import { statisticsApi } from "../../api/statisticsApi";
@@ -87,7 +87,7 @@ const RegisterModal = ({
 
     useEffect(() => {
         if (registerRequestStatus.isSuccess && registerRequestStatus.data) {
-            dispatch(setUser(registerRequestStatus.data));
+            dispatch(setAuth(registerRequestStatus.data));
             dispatch(statisticsApi.util.invalidateTags(["Statistics"]));
             setTimeout(function () {
                 handleClose();

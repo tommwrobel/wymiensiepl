@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { useLoginMutation } from "../../api/authApi";
-import { setUser } from "../../features/authSlice";
+import { setAuth } from "../../features/authSlice";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
@@ -22,7 +22,7 @@ const LoginModal = ({
 }: LoginModalProps): JSX.Element => {
     const { t } = useTranslation();
     const [loginRequest, loginRequestStatus] = useLoginMutation();
-    const dispatch = useAppDispatch();
+    const appDispatch = useAppDispatch();
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
     interface LoginFormValues {
@@ -63,7 +63,8 @@ const LoginModal = ({
 
     useEffect(() => {
         if (loginRequestStatus.isSuccess && loginRequestStatus.data) {
-            dispatch(setUser(loginRequestStatus.data));
+            console.log("login", loginRequestStatus.data);
+            appDispatch(setAuth(loginRequestStatus.data));
             setTimeout(function () {
                 handleClose();
             }, 2000);
@@ -73,7 +74,7 @@ const LoginModal = ({
         loginRequestStatus.data,
         onClose,
         handleClose,
-        dispatch,
+        appDispatch,
     ]);
 
     useEffect(() => {

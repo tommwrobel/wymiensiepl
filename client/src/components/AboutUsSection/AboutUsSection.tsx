@@ -10,7 +10,7 @@ const AboutUsSection = (): JSX.Element => {
     const isSmallDisplay = useMediaQuery(theme.breakpoints.down("md"));
 
     return (
-        <PageSection backgroundColor="#444">
+        <PageSection backgroundColor="#444" sectionId="aboutUs">
             <Grid2 container alignItems="center" spacing={12}>
                 <Grid2 md={6} xs={12}>
                     <Box className={commonClasses.gridImgContainer}>

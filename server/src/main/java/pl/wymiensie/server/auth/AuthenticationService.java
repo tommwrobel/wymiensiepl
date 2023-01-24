@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pl.wymiensie.server.config.JwtService;
 import pl.wymiensie.server.model.Role;
 import pl.wymiensie.server.entity.User;
+import pl.wymiensie.server.model.Token;
 import pl.wymiensie.server.repository.UserRepository;
 
 @Service
@@ -27,9 +28,9 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
-        String jwtToken = jwtService.generateToken(user);
+        Token jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .userId(user.getId())
+                .user(user)
                 .token(jwtToken)
                 .build();
     }
@@ -42,9 +43,9 @@ public class AuthenticationService {
                 )
         );
         User user = userRepository.findByEmail(request.getEmail()).get();
-        String jwtToken = jwtService.generateToken(user);
+        Token jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .userId(user.getId())
+                .user(user)
                 .token(jwtToken)
                 .build();
     }

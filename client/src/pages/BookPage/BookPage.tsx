@@ -1,6 +1,7 @@
 const BookPage = (): JSX.Element => {
     return (
         <>
+            Book page
         </>
     );
 }

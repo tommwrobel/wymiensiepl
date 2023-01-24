@@ -52,5 +52,5 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(UUID id) { userRepository.deleteById(id); }
 
     @Override
-    public int getNumberOfUsers() { return userRepository.findAll().size(); }
+    public long getNumberOfUsers() { return userRepository.count(); }
 }

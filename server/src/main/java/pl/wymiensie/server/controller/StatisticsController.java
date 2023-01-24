@@ -25,19 +25,9 @@ public class StatisticsController {
 
     @GetMapping
     public Statistics getStatistics() {
-        int numberOfUsers = userService.getNumberOfUsers();
-        int numberOfBooks = bookService.getNumberOfBooks();
+        long numberOfUsers = userService.getNumberOfUsers();
+        long numberOfBooks = bookService.getNumberOfBooks();
 
         return new Statistics(numberOfUsers, numberOfBooks);
-    }
-
-    @PutMapping
-    public Book updateBook(@RequestBody Book book, @AuthenticationPrincipal User user) {
-        if(bookService.findById(book.getId()).isEmpty())
-            throw new ResourceNotFoundException("Book not found.");
-        if(!book.getUser().equals(user) && user.getRole() != Role.ADMIN)
-            throw new UserNotPermittedException("User not permitted.");
-
-        return bookService.updateBook(book);
     }
 }

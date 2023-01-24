@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FileUploadField from "../FileUploadField/FileUploadField";
 import FormModal from "../FormModal/FormModal";
@@ -12,6 +12,8 @@ import {
     useGetFileUploadDataMutation,
     useUploadFileMutation,
 } from "../../api/filesApi";
+import useAppSelector from "../../hooks/useAppSelector";
+import { selectAuthUser } from "../../features/authSlice";
 
 interface AddBookModalProps {
     isOpen: boolean;
@@ -38,25 +40,18 @@ const initialValues: AddBookFormValues = {
 
 const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
     const { t } = useTranslation();
+    const user = useAppSelector(selectAuthUser);
 
     const [addBookRequest, addBookRequestStatus] = useAddBookMutation();
-    const [fileUploadDataRequest, fileUploadDataRequestStatus] =
-        useGetFileUploadDataMutation();
-    const [uploadFileRequest, uploadFileRequestStatus] =
-        useUploadFileMutation();
+    // const [fileUploadDataRequest, fileUploadDataRequestStatus] =
+    //     useGetFileUploadDataMutation();
+    // const [uploadFileRequest, uploadFileRequestStatus] =
+    //     useUploadFileMutation();
 
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
-    const handleClose = () => {
-        formik.resetForm();
-        setErrorMessage(undefined);
-        addBookRequestStatus.reset();
-        onClose();
-    };
-
     const handleSubmit = (formValues: AddBookFormValues) => {
-        addBookRequest({...formValues, coverPhoto: "none"});
-        handleClose();
+        addBookRequest({userId: user?.id || "", ...formValues, coverPhoto: "none"});
     };
 
     const formik = useFormik({
@@ -106,6 +101,13 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
         onSubmit: handleSubmit,
     });
 
+    const handleClose = useCallback(() => {
+        formik.resetForm();
+        setErrorMessage(undefined);
+        addBookRequestStatus.reset();
+        onClose();
+    }, [addBookRequestStatus, formik, onClose]);
+
     useEffect(() => {
         if (
             addBookRequestStatus.isError &&
@@ -119,6 +121,14 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
             setErrorMessage(undefined);
         }
     }, [addBookRequestStatus.isError, addBookRequestStatus.error, t]);
+
+    useEffect(() => {
+        if (addBookRequestStatus.isSuccess && addBookRequestStatus.data) {
+            setTimeout(function () {
+                handleClose();
+            }, 2000);
+        }
+    }, [addBookRequestStatus.isSuccess, addBookRequestStatus.data, handleClose]);
 
     return (
         <FormModal
