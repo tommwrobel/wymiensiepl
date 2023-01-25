@@ -6,7 +6,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { statisticsApi } from "../../api/statisticsApi";
 import { AuthContext } from "../../context/AuthContext";
 
 interface RegisterModalProps {

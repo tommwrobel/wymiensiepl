@@ -1,5 +1,7 @@
+import { Box } from "@mui/material";
 import { Book } from "../../../../models/app.models";
 import SearchItem from "../SearchItem/SearchItem";
+import classes from "./SearchResults.module.css";
 
 interface SearchResultsProps {
     books: Book[];
@@ -7,11 +9,13 @@ interface SearchResultsProps {
 
 const SearchResults = ({ books = [] }: SearchResultsProps): JSX.Element => {
     return (
-        <div>
+      <Box maxWidth="sm"  className={classes.boxWrapper}>
+        <Box maxWidth="sm" className={classes.searchResultsWrapper}>
             {books.map((book) => (
-                <SearchItem book={book} />
+                <SearchItem book={book} key={book.id} />
             ))}
-        </div>
+        </Box>
+        </Box>
     );
 };
 

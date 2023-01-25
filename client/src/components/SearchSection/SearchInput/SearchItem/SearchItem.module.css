@@ -1,0 +1,31 @@
+.itemWrapper {
+    border: solid 2px #efefef;
+    border-radius: 12px;
+    padding: 12px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 250ms ease-in-out, border-color 250ms ease-in-out;
+    box-sizing: border-box;
+    z-index: 99;
+    background: white;
+}
+
+.itemWrapper:hover {
+    cursor: pointer;
+    border: solid 2px #E16C39;
+}
+
+.photoCoverImg {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #eee
+}
+
+.txtContentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
