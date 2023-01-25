@@ -27,7 +27,7 @@ const ApplicationBar = ({
     openRegistrationModal,
     openAddBookModal,
 }: ApplicationBarProps): JSX.Element => {
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down("lg"));
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
 
     const isLoggedUser = useAppSelector(selectIsLoggedUser);

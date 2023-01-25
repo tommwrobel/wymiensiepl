@@ -107,6 +107,7 @@ export const theme = createTheme({
         },
         MuiOutlinedInput: {
             styleOverrides: {
+                root: {backgroundColor: "white",},
                 notchedOutline: {
                     borderColor: "rgba(0, 0, 0, 0.23)",
                 },
