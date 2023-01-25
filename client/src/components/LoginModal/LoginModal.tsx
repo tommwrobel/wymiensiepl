@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { useLoginMutation } from "../../api/authApi";
 import { AuthContext } from "../../context/AuthContext";
-import useAppDispatch from "../../hooks/useAppDispatch";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
 
@@ -24,7 +23,6 @@ const LoginModal = ({
 
     const { login } = useContext(AuthContext);
     const [loginRequest, loginRequestStatus] = useLoginMutation();
-    const appDispatch = useAppDispatch();
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
     interface LoginFormValues {
@@ -71,13 +69,7 @@ const LoginModal = ({
             });
             handleClose();
         }
-    }, [
-        loginRequestStatus.isSuccess,
-        loginRequestStatus.data,
-        onClose,
-        handleClose,
-        appDispatch,
-    ]);
+    }, [loginRequestStatus.isSuccess, loginRequestStatus.data, onClose, handleClose, login]);
 
     useEffect(() => {
         if (loginRequestStatus.isError && "data" in loginRequestStatus.error) {

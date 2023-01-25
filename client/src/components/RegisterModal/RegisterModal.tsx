@@ -8,7 +8,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { statisticsApi } from "../../api/statisticsApi";
 import { AuthContext } from "../../context/AuthContext";
-import useAppDispatch from "../../hooks/useAppDispatch";
 
 interface RegisterModalProps {
     isOpen: boolean;
@@ -25,7 +24,6 @@ const RegisterModal = ({
     const [registerRequest, registerRequestStatus] = useRegisterMutation();
     const { t } = useTranslation();
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
-    const dispatch = useAppDispatch();
 
     interface RegisterFormValues {
         name: string;
@@ -92,10 +90,9 @@ const RegisterModal = ({
                 user: registerRequestStatus.data.user,
                 token: registerRequestStatus.data.token,
             });
-            dispatch(statisticsApi.util.invalidateTags(["Statistics"]));
             handleClose();
         }
-    }, [registerRequestStatus.isSuccess, registerRequestStatus.data, onClose, handleClose, dispatch, login]);
+    }, [registerRequestStatus.isSuccess, registerRequestStatus.data, onClose, handleClose, login]);
 
     useEffect(() => {
         if (
