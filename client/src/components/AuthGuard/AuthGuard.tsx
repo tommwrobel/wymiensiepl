@@ -1,6 +1,5 @@
-import { ReactNode } from "react";
-import { selectIsLoggedUser } from "../../features/authSlice";
-import useAppSelector from "../../hooks/useAppSelector";
+import { ReactNode, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 interface AuthGuardProps {
@@ -8,9 +7,9 @@ interface AuthGuardProps {
 }
 
 const AuthGuard = ({ children }: AuthGuardProps): JSX.Element => {
-    const isLoggedUser = useAppSelector(selectIsLoggedUser);
+    const { isLoggedUser } = useContext(AuthContext);
 
-    return <>{isLoggedUser ? children : <ErrorPage />}</>;
+    return <>{isLoggedUser() ? children : <ErrorPage />}</>;
 };
 
 export default AuthGuard;

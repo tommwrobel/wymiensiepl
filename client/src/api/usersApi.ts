@@ -1,4 +1,4 @@
-import { User } from "../features/authSlice";
+import { User } from "../models/app.models";
 import { appApi } from "./appApi";
 
 interface GetUsersResponse {

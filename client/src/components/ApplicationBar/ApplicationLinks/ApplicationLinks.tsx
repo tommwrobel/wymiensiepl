@@ -1,7 +1,7 @@
 import { Button, Link } from "@mui/material";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { removeAuth } from "../../../features/authSlice";
-import useAppDispatch from "../../../hooks/useAppDispatch";
+import { AuthContext } from "../../../context/AuthContext";
 
 interface ApplicationLinksProps {
     isLoggedUser?: boolean;
@@ -19,10 +19,10 @@ const ApplicationLinks = ({
     openAddBookModal,
 }: ApplicationLinksProps): JSX.Element => {
     const { t } = useTranslation();
-    const dispatch = useAppDispatch();
+    const { logout } = useContext(AuthContext);
 
     const handleLogout = () => {
-        dispatch(removeAuth());
+        logout();
     };
 
     return (

@@ -1,11 +1,7 @@
-import { SearchOffOutlined, SearchRounded } from "@mui/icons-material";
+import { SearchRounded } from "@mui/icons-material";
 import {
-    Box,
     Chip,
-    CircularProgress,
-    Input,
     InputAdornment,
-    Popover,
     TextField,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -14,10 +10,11 @@ import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BookResponse, useLazySearchBooksQuery } from "../../api/booksApi";
 import PageSection from "../PageSection/PageSection";
+import SearchResults from "./SearchInput/SearchResults/SearchResults";
 
-interface SearchBarProps {}
+interface SearchSectionProps {}
 
-const SearchBar = ({}: SearchBarProps): JSX.Element => {
+const SearchSection = ({}: SearchSectionProps): JSX.Element => {
     const { t } = useTranslation();
 
     const [text, setText] = useState("");
@@ -76,8 +73,8 @@ const SearchBar = ({}: SearchBarProps): JSX.Element => {
                                 <InputAdornment position="end">
                                     <Chip
                                         size="small"
-                                        color="default"
-                                        label={books.length}
+                                        color={books.length > 0 ? "primary" : "default"}
+                                        label={t("COMMON.RESULTS_NUMBER", { number: books.length})}
                                     />
                                 </InputAdornment>
                             ),
@@ -88,29 +85,7 @@ const SearchBar = ({}: SearchBarProps): JSX.Element => {
                     </div>
                 </Grid2>
             </Grid2>
-            {backdrop && books.length > 0  && <div
-                style={{
-                    width: "520px",
-                    borderRadius: 12,
-                    padding: 30,
-                    backgroundColor: "white",
-                    position: "absolute",
-                    top: 225,
-                    left: "50%",
-                    zIndex: 52,
-                    translate: "-50% 0",
-                }}
-            >
-              
-              
-                {books.map(book => <div style={{padding: "12px 0", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "solid 1px #eee"}}>
-                  <div style={{display: "flex", flexDirection: "column", gap: 4}}>
-                    <b>{book.title}</b>
-                    <i>{book.author}</i>
-                  </div>
-                  {book.coverPhoto && <img width={50} height={50} src={process.env.REACT_APP_AWS_IMG_URL + book.coverPhoto} alt="no img" />}
-              </div>)}
-                </div>}
+            {backdrop && books.length > 0  && <SearchResults books={books} />}
             {backdrop && <div
                 style={{
                     width: "100%",
@@ -128,4 +103,4 @@ const SearchBar = ({}: SearchBarProps): JSX.Element => {
     );
 };
 
-export default SearchBar;
+export default SearchSection;

@@ -5,18 +5,23 @@ import { User } from "../models/app.models";
 export interface AuthContextProps {
     user?: User;
     token?: Token;
-    login: (user: User, token: Token) => void;
+    isLoggedUser: () => boolean;
+    login: (auth: AuthLocalStorage) => void;
     logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
-    login: (user: User, token: Token) => undefined,
+    isLoggedUser: () => false,
+    login: (auth: AuthLocalStorage) => undefined,
     logout: () => undefined,
 });
 
-type AuthContextProviderProps = {
+export interface AuthLocalStorage
+    extends Pick<AuthContextProps, "user" | "token"> {}
+
+interface AuthContextProviderProps {
     children?: ReactNode;
-};
+}
 
 export const AuthContextProvider = ({
     children,
@@ -29,18 +34,25 @@ export const AuthContextProvider = ({
         authLocalStorage = JSON.parse(authLocalStorage);
     }
 
+    const isTokenExpired = (token: Token) => {
+        return Date.now() >= token.expirationTime;
+    };
+
     useEffect(() => {
-        if (authLocalStorage) {
-            const auth = authLocalStorage as Pick<
-                AuthContextProps,
-                "user" | "token"
-            >;
+        if (token && isTokenExpired(token)) {
+            handleLogout();
+        }
+    });
+
+    useEffect(() => {
+        if (authLocalStorage && (!user || !token)) {
+            const auth = authLocalStorage as AuthLocalStorage;
             setUser(auth.user);
             setToken(auth.token);
         }
-    }, [authLocalStorage]);
+    }, [authLocalStorage, token, user]);
 
-    const handleLogin = (user: User, token: Token) => {
+    const handleLogin = ({user, token}: AuthLocalStorage) => {
         setUser(user);
         setToken(token);
         localStorage.setItem(
@@ -63,6 +75,7 @@ export const AuthContextProvider = ({
             value={{
                 user: user,
                 token: token,
+                isLoggedUser: () => Boolean(user && token),
                 login: handleLogin,
                 logout: handleLogout,
             }}

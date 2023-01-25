@@ -4,11 +4,11 @@ import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useCallback, useEffect, useState } from "react";
-import { setAuth } from "../../features/authSlice";
-import useAppDispatch from "../../hooks/useAppDispatch";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { statisticsApi } from "../../api/statisticsApi";
+import { AuthContext } from "../../context/AuthContext";
+import useAppDispatch from "../../hooks/useAppDispatch";
 
 interface RegisterModalProps {
     isOpen: boolean;
@@ -21,10 +21,11 @@ const RegisterModal = ({
     onClose,
     onLogin,
 }: RegisterModalProps): JSX.Element => {
+    const { login } = useContext(AuthContext);
     const [registerRequest, registerRequestStatus] = useRegisterMutation();
-    const dispatch = useAppDispatch();
     const { t } = useTranslation();
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
+    const dispatch = useAppDispatch();
 
     interface RegisterFormValues {
         name: string;
@@ -87,17 +88,14 @@ const RegisterModal = ({
 
     useEffect(() => {
         if (registerRequestStatus.isSuccess && registerRequestStatus.data) {
-            dispatch(setAuth(registerRequestStatus.data));
+            login({
+                user: registerRequestStatus.data.user,
+                token: registerRequestStatus.data.token,
+            });
             dispatch(statisticsApi.util.invalidateTags(["Statistics"]));
             handleClose();
         }
-    }, [
-        registerRequestStatus.isSuccess,
-        registerRequestStatus.data,
-        onClose,
-        handleClose,
-        dispatch,
-    ]);
+    }, [registerRequestStatus.isSuccess, registerRequestStatus.data, onClose, handleClose, dispatch, login]);
 
     useEffect(() => {
         if (

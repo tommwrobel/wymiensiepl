@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import AddBookModal from "../../components/AddBookModal/AddBookModal";
 import ApplicationBar from "../../components/ApplicationBar/ApplicationBar";
@@ -7,17 +7,16 @@ import HeroSection from "../../components/HeroSection/HeroSection";
 import InstructionsSection from "../../components/InstructionSection/InstructionsSection";
 import LoginModal from "../../components/LoginModal/LoginModal";
 import RegisterModal from "../../components/RegisterModal/RegisterModal";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import SearchSection from "../../components/SearchSection/SearchSection";
 import StatisticsSection from "../../components/StatisticsSection/StatisticsSection";
-import { selectIsLoggedUser } from "../../features/authSlice";
-import useAppSelector from "../../hooks/useAppSelector";
+import { AuthContext } from "../../context/AuthContext";
 
 const HomePage = (): JSX.Element => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
 
-    const isLoggedUser = useAppSelector(selectIsLoggedUser);
+    const { isLoggedUser, user } = useContext(AuthContext);
 
     const handleOpenLoginModal = () => {
         setIsLoginModalOpen(true);
@@ -50,8 +49,8 @@ const HomePage = (): JSX.Element => {
                 openRegistrationModal={handleOpenRegistratonModal}
                 openAddBookModal={handleOpenAddBookModal}
             />
-            {isLoggedUser ? (
-                <SearchBar />
+            {isLoggedUser() ? (
+                <SearchSection />
             ) : (
                 <HeroSection
                     onLogin={handleOpenLoginModal}
@@ -75,8 +74,9 @@ const HomePage = (): JSX.Element => {
                 onLogin={handleOpenLoginModal}
             />
 
-            {isLoggedUser && (
+            {isLoggedUser() && user && (
                 <AddBookModal
+                    userId={user.id}
                     isOpen={isAddBookModalOpen}
                     onClose={handleCloseAddBookModal}
                 />

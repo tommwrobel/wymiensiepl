@@ -9,12 +9,11 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classes from "./ApplicationBar.module.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { theme } from "../../config/theme";
 import ApplicationLinks from "./ApplicationLinks/ApplicationLinks";
 import SideMenu from "./SideMenu/SideMenu";
-import useAppSelector from "../../hooks/useAppSelector";
-import { selectIsLoggedUser } from "../../features/authSlice";
+import { AuthContext } from "../../context/AuthContext";
 
 interface ApplicationBarProps {
     openLoginModal: () => void;
@@ -30,12 +29,12 @@ const ApplicationBar = ({
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("lg"));
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
 
-    const isLoggedUser = useAppSelector(selectIsLoggedUser);
+    const { isLoggedUser } = useContext(AuthContext);
 
     const getApplicationLinks = () => {
         return (
             <ApplicationLinks
-                isLoggedUser={isLoggedUser}
+                isLoggedUser={isLoggedUser()}
                 numberOfUnreadMessages={0}
                 openLoginModal={openLoginModal}
                 openRegistrationModal={openRegistrationModal}

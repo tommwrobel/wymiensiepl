@@ -1,19 +1,16 @@
-import { AppBar, Box, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useContext } from "react";
 import { BookResponse, useGetUserBooksQuery } from "../../api/booksApi";
 import ApplicationBar from "../../components/ApplicationBar/ApplicationBar";
-import { selectAuthUser } from "../../features/authSlice";
-import useAppSelector from "../../hooks/useAppSelector";
-import { store } from "../../store/store";
+import { AuthContext } from "../../context/AuthContext";
 
 const MyLibraryPage = (): JSX.Element => {
-    const user = useAppSelector(selectAuthUser);
-
-    //const user = store.getState().auth.user;
+    const { isLoggedUser, user } = useContext(AuthContext);
 
     const books = useGetUserBooksQuery(
         { userId: user?.id || "" },
         {
-            skip: !Boolean(user),
+            skip:!isLoggedUser(),
         }
     );
 

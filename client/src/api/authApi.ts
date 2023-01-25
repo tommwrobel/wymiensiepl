@@ -1,32 +1,33 @@
-import { AuthState, User } from "../features/authSlice";
+import { AuthLocalStorage } from "../context/AuthContext";
+import { User } from "../models/app.models";
 import { appApi } from "./appApi";
 
-interface TokenResponse {
+export interface TokenResponse {
     body: string;
     expiresIn: number;
 }
 
-interface RegisterRequest {
+export interface RegisterRequest {
     name: string;
     email: string;
     password: string;
 }
 
-interface RegisterResponse {
+export interface RegisterResponse {
     user: User;
     token: TokenResponse;
 }
 
-interface LoginRequest {
+export interface LoginRequest {
     email: string;
     password: string;
 }
 
-interface LoginResponse extends RegisterResponse {}
+export interface LoginResponse extends RegisterResponse {}
 
 export const authApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
-        register: builder.mutation<AuthState, RegisterRequest>({
+        register: builder.mutation<AuthLocalStorage, RegisterRequest>({
             query: (body) => ({
                 url: "/auth/register",
                 method: "POST",
@@ -44,7 +45,7 @@ export const authApi = appApi.injectEndpoints({
             },
             invalidatesTags: ["Statistics"],
         }),
-        login: builder.mutation<AuthState, LoginRequest>({
+        login: builder.mutation<AuthLocalStorage, LoginRequest>({
             query: (body) => ({
                 url: "/auth/login",
                 method: "POST",

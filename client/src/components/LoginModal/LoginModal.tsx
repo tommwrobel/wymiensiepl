@@ -1,10 +1,10 @@
 import { Link, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { useLoginMutation } from "../../api/authApi";
-import { setAuth } from "../../features/authSlice";
+import { AuthContext } from "../../context/AuthContext";
 import useAppDispatch from "../../hooks/useAppDispatch";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
@@ -21,6 +21,8 @@ const LoginModal = ({
     onRegister,
 }: LoginModalProps): JSX.Element => {
     const { t } = useTranslation();
+
+    const { login } = useContext(AuthContext);
     const [loginRequest, loginRequestStatus] = useLoginMutation();
     const appDispatch = useAppDispatch();
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
@@ -63,7 +65,10 @@ const LoginModal = ({
 
     useEffect(() => {
         if (loginRequestStatus.isSuccess && loginRequestStatus.data) {
-            appDispatch(setAuth(loginRequestStatus.data));
+            login({
+                user: loginRequestStatus.data.user,
+                token: loginRequestStatus.data.token,
+            });
             handleClose();
         }
     }, [

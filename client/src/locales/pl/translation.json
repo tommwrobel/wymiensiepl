@@ -29,7 +29,8 @@
       "UPLOAD_FILE_ACTION": "Wybierz plik",
       "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
       "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB",
-      "SEARCH_BOOKS_ACTION": "Szukaj książki na wymianę..."
+      "SEARCH_BOOKS_ACTION": "Szukaj książki na wymianę...",
+      "RESULTS_NUMBER": "Wyniki: {{number}}"
     },
     "MENU": {
       "HOMEPAGE": "Strona główna",

@@ -9,11 +9,10 @@ import TextareaField from "../TextareaField/TextareaField";
 import * as Yup from "yup";
 import { useAddBookMutation } from "../../api/booksApi";
 import { useLazyGetFileUploadDataQuery } from "../../api/filesApi";
-import useAppSelector from "../../hooks/useAppSelector";
-import { selectAuthUser } from "../../features/authSlice";
 import { useUploadFileMutation } from "../../api/awsApi";
 
 interface AddBookModalProps {
+    userId: string;
     isOpen: boolean;
     onClose: () => void;
 }
@@ -36,9 +35,12 @@ const initialValues: AddBookFormValues = {
     coverPhoto: undefined,
 };
 
-const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
+const AddBookModal = ({
+    userId,
+    isOpen,
+    onClose,
+}: AddBookModalProps): JSX.Element => {
     const { t } = useTranslation();
-    const user = useAppSelector(selectAuthUser);
 
     const [addBookRequest, addBookRequestStatus] = useAddBookMutation();
     const [fileUploadDataRequest, fileUploadDataRequestStatus] =
@@ -61,17 +63,15 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
 
     const handleSubmit = async (formValues: AddBookFormValues) => {
         setIsLoading(true);
-        if (user && user.id) {
-            let objectKey = undefined;
-            if (formValues.coverPhoto) {
-                objectKey = await handleUploadFile(formValues.coverPhoto);
-            }
-            addBookRequest({
-                ...formValues,
-                coverPhoto: objectKey,
-                userId: user.id,
-            });
+        let objectKey = undefined;
+        if (formValues.coverPhoto) {
+            objectKey = await handleUploadFile(formValues.coverPhoto);
         }
+        addBookRequest({
+            ...formValues,
+            coverPhoto: objectKey,
+            userId: userId,
+        });
     };
 
     const formik = useFormik({

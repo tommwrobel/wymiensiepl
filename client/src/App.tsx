@@ -6,17 +6,16 @@ import { RouterProvider } from "react-router";
 import { router } from "./config/routes";
 import { theme } from "./config/theme";
 import { store } from "./store/store";
-import AuthProvider from "./components/AuthProvider/AuthProvider";
+import AuthContextProvider from "./context/AuthContext";
 
 function App() {
-
     return (
         <div className="App">
             <ThemeProvider theme={theme}>
                 <StoreProvider store={store}>
-                    <AuthProvider>
+                    <AuthContextProvider>
                         <RouterProvider router={router} />
-                    </AuthProvider>
+                    </AuthContextProvider>
                 </StoreProvider>
             </ThemeProvider>
         </div>
