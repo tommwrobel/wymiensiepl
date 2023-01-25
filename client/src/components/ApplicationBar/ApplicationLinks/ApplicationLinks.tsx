@@ -35,8 +35,8 @@ const ApplicationLinks = ({
             </Link>
             {isLoggedUser && (
                 <>
-                <Link underline="none" href="/profile">
-                    <Button>{t("MENU.PROFILE")}</Button>
+                <Link underline="none" href="/mylibrary">
+                    <Button>{t("MENU.MY_LIBRARY")}</Button>
                 </Link>
                 <Link underline="none" href="/messages">
                     <Button>

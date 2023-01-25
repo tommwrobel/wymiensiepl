@@ -45,6 +45,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
         useLazyGetFileUploadDataQuery();
     const [uploadFileRequest, uploadFileRequestStatus] =
         useUploadFileMutation();
+    const [isLoading, setIsLoading] = useState(false);
 
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
@@ -59,6 +60,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
     };
 
     const handleSubmit = async (formValues: AddBookFormValues) => {
+        setIsLoading(true);
         if (user && user.id) {
             let objectKey = undefined;
             if (formValues.coverPhoto) {
@@ -90,7 +92,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
                 )
                 .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
             description: Yup.string().max(
-                50,
+                500,
                 t("VALIDATION.TOO_LONG", { maxLetters: 500 }).toString()
             ),
             publicationYear: Yup.number(),
@@ -133,6 +135,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
                 addBookRequestStatus.error.data as string
             ).toString();
             setErrorMessage(error);
+            setIsLoading(false);
         } else {
             setErrorMessage(undefined);
         }
@@ -140,6 +143,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
 
     useEffect(() => {
         if (addBookRequestStatus.isSuccess && addBookRequestStatus.data) {
+            setIsLoading(false);
             handleClose();
         }
     }, [
@@ -156,7 +160,7 @@ const AddBookModal = ({ isOpen, onClose }: AddBookModalProps): JSX.Element => {
             onClose={handleClose}
             title={t("COMMON.ADD_NEW_BOOK_ACTION")}
             errorMessage={errorMessage}
-            isLoading={uploadFileRequestStatus.isLoading}
+            isLoading={isLoading}
             formFields={
                 <>
                     <InputField

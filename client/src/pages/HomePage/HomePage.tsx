@@ -7,6 +7,7 @@ import HeroSection from "../../components/HeroSection/HeroSection";
 import InstructionsSection from "../../components/InstructionSection/InstructionsSection";
 import LoginModal from "../../components/LoginModal/LoginModal";
 import RegisterModal from "../../components/RegisterModal/RegisterModal";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import StatisticsSection from "../../components/StatisticsSection/StatisticsSection";
 import { selectIsLoggedUser } from "../../features/authSlice";
 import useAppSelector from "../../hooks/useAppSelector";
@@ -49,7 +50,9 @@ const HomePage = (): JSX.Element => {
                 openRegistrationModal={handleOpenRegistratonModal}
                 openAddBookModal={handleOpenAddBookModal}
             />
-            {!isLoggedUser && (
+            {isLoggedUser ? (
+                <SearchBar />
+            ) : (
                 <HeroSection
                     onLogin={handleOpenLoginModal}
                     onRegister={handleOpenRegistratonModal}

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { Navigate } from "react-router";
 import { selectIsLoggedUser } from "../../features/authSlice";
 import useAppSelector from "../../hooks/useAppSelector";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 interface AuthGuardProps {
     children: ReactNode;
@@ -10,9 +10,7 @@ interface AuthGuardProps {
 const AuthGuard = ({ children }: AuthGuardProps): JSX.Element => {
     const isLoggedUser = useAppSelector(selectIsLoggedUser);
 
-    if (!isLoggedUser) return <Navigate to="/error" replace />;
-
-    return <>{children}</>;
+    return <>{isLoggedUser ? children : <ErrorPage />}</>;
 };
 
 export default AuthGuard;

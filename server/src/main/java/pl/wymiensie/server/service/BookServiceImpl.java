@@ -25,8 +25,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Collection<Book> findByUserId(UUID userId) {
+    public List<Book> findByUserId(UUID userId) {
         return bookRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<Book> searchAllBooks(String text) {
+        return bookRepository.searchAllBooks(text);
     }
 
     @Override

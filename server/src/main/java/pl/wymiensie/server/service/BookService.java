@@ -11,7 +11,9 @@ import java.util.UUID;
 public interface BookService {
     List<Book> findAll();
 
-    Collection<Book> findByUserId(UUID userId);
+    List<Book> findByUserId(UUID userId);
+
+    List<Book> searchAllBooks(String text);
 
     Optional<Book> findById(UUID id);
 

@@ -28,13 +28,15 @@
       "UPLOAD_BOOK_COVER_ACTION": "Wybierz zdjęcie okładki z dysku",
       "UPLOAD_FILE_ACTION": "Wybierz plik",
       "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
-      "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB"
+      "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB",
+      "SEARCH_BOOKS_ACTION": "Szukaj książki na wymianę..."
     },
     "MENU": {
       "HOMEPAGE": "Strona główna",
       "ABOUT_US": "O nas",
       "PROFILE": "Profil",
-      "MESSAGES": "Wiadomości ({{count}})"
+      "MESSAGES": "Wiadomości ({{count}})",
+      "MY_LIBRARY": "Moja bliblioteczka"
     },
     "SECTIONS": {
         "HERO": {
