@@ -1,13 +1,13 @@
 import { appApi } from "./appApi";
 
-interface StatisticsRequestResponse {
+interface StatisticsResponse {
     numberOfUsers: number;
     numberOfBooks: number;
 }
 
 export const statisticsApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
-        getStatistics: builder.query<StatisticsRequestResponse, void>({
+        getStatistics: builder.query<StatisticsResponse, void>({
             query: () => "/statistics",
             providesTags: ['Statistics'],
         }),

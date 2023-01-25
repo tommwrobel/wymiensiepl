@@ -1,27 +1,17 @@
+import { Book } from "../models/app.models";
 import { appApi } from "./appApi";
 
-interface AddBookRequestArgs {
-    userId: string,
-    title: string,
-    author: string,
-    description?: string,
-    publicationYear?: number,
-    numberOfPages?: number,
-    coverPhoto?: string
+interface AddBookRequest {
+    userId: string;
+    title: string;
+    author: string;
+    description?: string;
+    publicationYear?: number;
+    numberOfPages?: number;
+    coverPhoto?: string;
 }
 
-export interface AddBookRequestResponse {
-    id:string,
-    userId: string,
-    title: string,
-    author: string,
-    description?: string,
-    publicationYear?: number,
-    numberOfPages?: number,
-    coverPhoto?: string,
-}
-
-export interface BookResponse {
+export interface AddBookResponse {
     id: string;
     userId: string;
     title: string;
@@ -32,27 +22,29 @@ export interface BookResponse {
     coverPhoto?: string;
 }
 
-export interface GetUserBooksRequestArgs {
+export interface BookResponse extends Book {}
+
+export interface GetUserBooksRequest {
     userId: string;
 }
 
-export interface SearchBooksRequestArgs {
+export interface SearchBooksRequest {
     text: string;
 }
 
 export const booksApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
-        getUserBooks: builder.query<BookResponse[], GetUserBooksRequestArgs>({
+        getUserBooks: builder.query<BookResponse[], GetUserBooksRequest>({
             query: ({ userId }) => ({
                 url: `users/${userId}/books`,
             }),
         }),
-        searchBooks: builder.query<BookResponse[], SearchBooksRequestArgs>({
+        searchBooks: builder.query<BookResponse[], SearchBooksRequest>({
             query: ({ text }) => ({
                 url: `books/search?text=${text}`,
             }),
         }),
-        addBook: builder.mutation<AddBookRequestResponse, AddBookRequestArgs>({
+        addBook: builder.mutation<AddBookResponse, AddBookRequest>({
             query: ({ userId, ...body }) => ({
                 url: `users/${userId}/books`,
                 method: "POST",
@@ -63,4 +55,8 @@ export const booksApi = appApi.injectEndpoints({
     }),
 });
 
-export const { useAddBookMutation, useGetUserBooksQuery, useLazySearchBooksQuery } = booksApi;
+export const {
+    useAddBookMutation,
+    useGetUserBooksQuery,
+    useLazySearchBooksQuery,
+} = booksApi;

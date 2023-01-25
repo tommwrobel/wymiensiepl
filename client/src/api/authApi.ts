@@ -6,31 +6,33 @@ interface TokenResponse {
     expiresIn: number;
 }
 
-interface RegisterRequestArgs {
+interface RegisterRequest {
     name: string;
     email: string;
     password: string;
 }
 
-interface AuthRequestResponse {
+interface RegisterResponse {
     user: User;
     token: TokenResponse;
 }
 
-interface LoginRequestArgs {
+interface LoginRequest {
     email: string;
     password: string;
 }
 
+interface LoginResponse extends RegisterResponse {}
+
 export const authApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
-        register: builder.mutation<AuthState, RegisterRequestArgs>({
+        register: builder.mutation<AuthState, RegisterRequest>({
             query: (body) => ({
                 url: "/auth/register",
                 method: "POST",
                 body,
             }),
-            transformResponse: (response: AuthRequestResponse) => {
+            transformResponse: (response: RegisterResponse) => {
                 const expirationTime = Date.now() + response.token.expiresIn;
                 return {
                     user: response.user,
@@ -42,13 +44,13 @@ export const authApi = appApi.injectEndpoints({
             },
             invalidatesTags: ["Statistics"],
         }),
-        login: builder.mutation<AuthState, LoginRequestArgs>({
+        login: builder.mutation<AuthState, LoginRequest>({
             query: (body) => ({
                 url: "/auth/login",
                 method: "POST",
                 body,
             }),
-            transformResponse: (response: AuthRequestResponse) => {
+            transformResponse: (response: LoginResponse) => {
                 const expirationTime = Date.now() + response.token.expiresIn;
                 return {
                     user: response.user,

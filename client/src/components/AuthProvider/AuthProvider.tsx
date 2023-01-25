@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { removeAuth, setAuth, Token } from "../../features/authSlice";
-import useAppDispatch from "../../hooks/useAppDispatch";
+import { AuthContext } from "../../context/AuthContext";
+import { Token } from "../../features/authSlice";
 import WarningModal from "../WarningModal/WarningModal";
 
 interface AuthProviderProps {
@@ -10,8 +10,7 @@ interface AuthProviderProps {
 
 const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     const { t } = useTranslation();
-    const dispatch = useAppDispatch();
-    const auth = JSON.parse(localStorage.getItem("authentication") || "{}");
+    const authContext = useContext(AuthContext);
     const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
 
     const handleCloseWarningModal = () => {
@@ -23,15 +22,11 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     };
 
     useEffect(() => {
-        dispatch(setAuth(auth));
-    }, [dispatch, auth]);
-
-    useEffect(() => {
-        if (auth && auth.token && isTokenExpired(auth.token)) {
-            dispatch(removeAuth());
+        if (authContext.token && isTokenExpired(authContext.token)) {
+            authContext.logout();
             setIsWarningModalOpen(true);
         }
-    }, [auth, dispatch]);
+    }, [authContext]);
 
     return (
         <>

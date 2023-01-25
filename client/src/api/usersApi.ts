@@ -1,14 +1,14 @@
 import { User } from "../features/authSlice";
 import { appApi } from "./appApi";
 
-interface GetUsersRequestResponse {
+interface GetUsersResponse {
     users: User[],
 }
 
 export const userApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
         getUsers: builder.query<
-            GetUsersRequestResponse,
+            GetUsersResponse,
             void
         >({
             query: () => ({
