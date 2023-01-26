@@ -1,19 +1,20 @@
 .itemWrapper {
-    border: solid 2px #efefef;
+    border: solid 2px white;
     border-radius: 12px;
-    padding: 12px;
+    padding: 12px 12px 12px 24px;
     display:flex;
     justify-content: space-between;
     align-items: center;
-    transition: transform 250ms ease-in-out, border-color 250ms ease-in-out;
+    transition: transform 250ms ease-in-out, border-color 100ms ease-in-out;
     box-sizing: border-box;
     z-index: 99;
     background: white;
+    width: 100%;
 }
 
 .itemWrapper:hover {
     cursor: pointer;
-    border: solid 2px #E16C39;
+    transform: scale(1.02, 1.03);
 }
 
 .photoCoverImg {
@@ -28,4 +29,9 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+}
+
+.bookTitle {
+    font-size: 1.4rem;
+    color: #555;
 }

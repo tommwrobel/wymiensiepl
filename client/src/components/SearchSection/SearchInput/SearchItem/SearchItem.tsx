@@ -9,16 +9,18 @@ interface SearchItemProps {
 }
 
 const SearchItem = ({ book, key }: SearchItemProps): JSX.Element => {
-    console.log(book);
+    
+    const imgUrl = book.coverPhoto ? getAwsS3Url(book.coverPhoto) : "book-img-placeholder.png";
+
     return (
         <Box className={classes.itemWrapper} key={key}>
             <Box className={classes.txtContentWrapper}>
-                <Typography variant="h6">{book.title}</Typography>
-                <Typography variant="body1">{book.author}</Typography>
+                <span className={classes.bookTitle}>{book.title}</span>
+                <span className={classes.bookAuthor}>{book.author}</span>
             </Box>
             <Box>
                 <img
-                    src={getAwsS3Url(book.coverPhoto)}
+                    src={imgUrl}
                     alt=""
                     className={classes.photoCoverImg}
                 />

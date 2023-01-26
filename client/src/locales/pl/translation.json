@@ -30,7 +30,8 @@
       "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
       "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB",
       "SEARCH_BOOKS_ACTION": "Szukaj książki na wymianę...",
-      "RESULTS_NUMBER": "Wyniki: {{number}}"
+      "RESULTS_NUMBER": "Wyniki: {{number}}",
+      "SERVER_ERROR": "Wystąpił nieoczekiwany błąd."
     },
     "MENU": {
       "HOMEPAGE": "Strona główna",
@@ -56,6 +57,8 @@
           "BODY_3": "którzy dodali aż",
           "BODY_4_1": "książek!",
           "BODY_4_2": "książki!",
+          "RECOMMEND_US_1": "Twoje wsparcie jest dla nas bardzo ważne.",
+          "RECOMMEND_US_2": "Poleć nas znajomym, abyśmy mogli się dalej rozwijać!",
           "RECOMMEND_ON_FACEBOOK": "Poleć nas na Facebooku!"
         },
         "ABOUT_US": {

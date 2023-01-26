@@ -1,6 +1,10 @@
 .boxWrapper {
-    padding: 12px;
-    border-radius: 12px;
+    position: absolute;
+    top: 212px;
+    left: 50%;
+    transform: translate(-52%);
+    width: 100%;
+    z-index: 99;
 }
 
 .searchResultsWrapper {
@@ -9,4 +13,5 @@
     gap: 12px;
     padding: 12px;
     border-radius: 12px;
+    width: 100%;
 }

@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import { useAddBookMutation } from "../../api/booksApi";
 import { useLazyGetFileUploadDataQuery } from "../../api/filesApi";
 import { useUploadFileMutation } from "../../api/awsApi";
+import useServerError from "../../hooks/useServerError";
 
 interface AddBookModalProps {
     userId: string;
@@ -49,7 +50,19 @@ const AddBookModal = ({
         useUploadFileMutation();
     const [isLoading, setIsLoading] = useState(false);
 
-    const [errorMessage, setErrorMessage] = useState<string | undefined>();
+    const [fileUploadDataError, resetFileUploadDataError] = useServerError(fileUploadDataRequestStatus);
+    const [fileUploadAwsError, resetFileUploadAwsError] = useServerError(uploadFileRequestStatus);
+    const [addBookError, resetAddBookError] = useServerError(addBookRequestStatus);
+
+    const handleResetErrors = () => {
+        resetFileUploadDataError();
+        resetFileUploadAwsError();
+        resetAddBookError();
+    }
+
+    const getErrorMessage = () => {
+        return fileUploadDataError || fileUploadAwsError || addBookError || undefined;
+    }
 
     const handleUploadFile = async (file: File) => {
         const dataRequestResponse = await fileUploadDataRequest();
@@ -121,25 +134,10 @@ const AddBookModal = ({
 
     const handleClose = useCallback(() => {
         formik.resetForm();
-        setErrorMessage(undefined);
+        handleResetErrors();
         addBookRequestStatus.reset();
         onClose();
-    }, [addBookRequestStatus, formik, onClose]);
-
-    useEffect(() => {
-        if (
-            addBookRequestStatus.isError &&
-            "data" in addBookRequestStatus.error
-        ) {
-            const error = t(
-                addBookRequestStatus.error.data as string
-            ).toString();
-            setErrorMessage(error);
-            setIsLoading(false);
-        } else {
-            setErrorMessage(undefined);
-        }
-    }, [addBookRequestStatus.isError, addBookRequestStatus.error, t]);
+    }, [addBookRequestStatus, formik, handleResetErrors, onClose]);
 
     useEffect(() => {
         if (addBookRequestStatus.isSuccess && addBookRequestStatus.data) {
@@ -159,7 +157,7 @@ const AddBookModal = ({
             submitLabel={t("COMMON.ADD_BOOK_ACTION")}
             onClose={handleClose}
             title={t("COMMON.ADD_NEW_BOOK_ACTION")}
-            errorMessage={errorMessage}
+            errorMessage={getErrorMessage()}
             isLoading={isLoading}
             formFields={
                 <>

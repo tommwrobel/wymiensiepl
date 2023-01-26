@@ -4,9 +4,10 @@ import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../context/AuthContext";
+import useServerError from "../../hooks/useServerError";
 
 interface RegisterModalProps {
     isOpen: boolean;
@@ -21,8 +22,9 @@ const RegisterModal = ({
 }: RegisterModalProps): JSX.Element => {
     const { login } = useContext(AuthContext);
     const [registerRequest, registerRequestStatus] = useRegisterMutation();
+    const [errorMessage, handleResetErrorMessage] =
+        useServerError(registerRequestStatus);
     const { t } = useTranslation();
-    const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
     interface RegisterFormValues {
         name: string;
@@ -73,10 +75,10 @@ const RegisterModal = ({
 
     const handleClose = useCallback(() => {
         formik.resetForm();
-        setErrorMessage(undefined);
+        handleResetErrorMessage();
         registerRequestStatus.reset();
         onClose();
-    }, [formik, registerRequestStatus, onClose]);
+    }, [formik, handleResetErrorMessage, registerRequestStatus, onClose]);
 
     const handleLogin = () => {
         onLogin();
@@ -92,20 +94,6 @@ const RegisterModal = ({
             handleClose();
         }
     }, [registerRequestStatus.isSuccess, registerRequestStatus.data, onClose, handleClose, login]);
-
-    useEffect(() => {
-        if (
-            registerRequestStatus.isError &&
-            "data" in registerRequestStatus.error
-        ) {
-            const error = t(
-                registerRequestStatus.error.data as string
-            ).toString();
-            setErrorMessage(error);
-        } else {
-            setErrorMessage(undefined);
-        }
-    }, [registerRequestStatus.isError, registerRequestStatus.error, t]);
 
     return (
         <FormModal

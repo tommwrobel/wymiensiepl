@@ -1,9 +1,10 @@
 import { Link, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { useLoginMutation } from "../../api/authApi";
+import useServerError from "../../hooks/useServerError";
 import { AuthContext } from "../../context/AuthContext";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
@@ -23,17 +24,18 @@ const LoginModal = ({
 
     const { login } = useContext(AuthContext);
     const [loginRequest, loginRequestStatus] = useLoginMutation();
-    const [errorMessage, setErrorMessage] = useState<string | undefined>();
+    const [errorMessage, handleResetErrorMessage] =
+        useServerError(loginRequestStatus);
 
     interface LoginFormValues {
-        email: string,
-        password: string,
+        email: string;
+        password: string;
     }
 
     const initialFormValues: LoginFormValues = {
         email: "",
         password: "",
-    }
+    };
 
     const formik = useFormik({
         initialValues: initialFormValues,
@@ -41,7 +43,9 @@ const LoginModal = ({
             email: Yup.string()
                 .email(t("VALIDATION.EMAIL_BAD_FORMAT").toString())
                 .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
-            password: Yup.string().required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
+            password: Yup.string().required(
+                t("VALIDATION.FIELD_IS_REQUIRED").toString()
+            ),
         }),
         validateOnChange: false,
         onSubmit: (values) => {
@@ -51,10 +55,10 @@ const LoginModal = ({
 
     const handleClose = useCallback(() => {
         formik.resetForm();
-        setErrorMessage(undefined);
+        handleResetErrorMessage();
         loginRequestStatus.reset();
         onClose();
-    }, [formik, loginRequestStatus, onClose]);
+    }, [formik, handleResetErrorMessage, loginRequestStatus, onClose]);
 
     const handleRegister = () => {
         onRegister();
@@ -69,16 +73,13 @@ const LoginModal = ({
             });
             handleClose();
         }
-    }, [loginRequestStatus.isSuccess, loginRequestStatus.data, onClose, handleClose, login]);
-
-    useEffect(() => {
-        if (loginRequestStatus.isError && "data" in loginRequestStatus.error) {
-            const error = t(loginRequestStatus.error.data as string).toString();
-            setErrorMessage(error);
-        } else {
-            setErrorMessage(undefined);
-        }
-    }, [loginRequestStatus.isError, loginRequestStatus.error, t]);
+    }, [
+        loginRequestStatus.isSuccess,
+        loginRequestStatus.data,
+        onClose,
+        handleClose,
+        login,
+    ]);
 
     return (
         <FormModal

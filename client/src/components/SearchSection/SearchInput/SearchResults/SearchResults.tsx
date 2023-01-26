@@ -9,12 +9,12 @@ interface SearchResultsProps {
 
 const SearchResults = ({ books = [] }: SearchResultsProps): JSX.Element => {
     return (
-      <Box maxWidth="sm"  className={classes.boxWrapper}>
-        <Box maxWidth="sm" className={classes.searchResultsWrapper}>
-            {books.map((book) => (
-                <SearchItem book={book} key={book.id} />
-            ))}
-        </Box>
+        <Box maxWidth="sm" className={classes.boxWrapper}>
+            <Box className={classes.searchResultsWrapper}>
+                {books.map((book) => (
+                    <SearchItem book={book} key={book.id} />
+                ))}
+            </Box>
         </Box>
     );
 };

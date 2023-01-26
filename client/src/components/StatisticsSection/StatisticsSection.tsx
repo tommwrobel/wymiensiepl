@@ -15,7 +15,7 @@ const StatisticsSection = (): JSX.Element => {
     const statisticsQuery = useGetStatisticsQuery();
 
     useEffect(() => {
-        if(statisticsQuery.isSuccess && statisticsQuery.data) {
+        if (statisticsQuery.isSuccess && statisticsQuery.data) {
             setNumberOfUsers(statisticsQuery.data.numberOfUsers);
             setNumberOfBooks(statisticsQuery.data.numberOfBooks);
         }
@@ -25,19 +25,34 @@ const StatisticsSection = (): JSX.Element => {
         <PageSection>
             <Grid2 container gap={3} direction="column" alignItems="center">
                 <Typography variant="h2" textAlign="center">
-                    {t("SECTIONS.STATISTICS.BODY_1")}{" "}
-                    <span className={commonClasses.primaryColorBolderText}>
-                        {numberOfUsers}
-                    </span>{" "}
-                    {t("SECTIONS.STATISTICS.BODY_2")}
-                    <br />
-                    {t("SECTIONS.STATISTICS.BODY_3")}{" "}
-                    <span className={commonClasses.primaryColorBolderText}>
-                        {numberOfBooks}
-                    </span>{" "}
-                    {numberOfBooks % 10 > 1 && numberOfBooks % 10 < 5
-                        ? t("SECTIONS.STATISTICS.BODY_4_2")
-                        : t("SECTIONS.STATISTICS.BODY_4_1")}
+                    {numberOfUsers === 0 || numberOfBooks === 0 ? (
+                        <>
+                            {t("SECTIONS.STATISTICS.RECOMMEND_US_1")}
+                            <br />
+                            {t("SECTIONS.STATISTICS.RECOMMEND_US_2")}
+                        </>
+                    ) : (
+                        <>
+                            {t("SECTIONS.STATISTICS.BODY_1")}{" "}
+                            <span
+                                className={commonClasses.primaryColorBolderText}
+                            >
+                                {numberOfUsers}
+                            </span>{" "}
+                            {t("SECTIONS.STATISTICS.BODY_2")}
+                            <br />
+                            {t("SECTIONS.STATISTICS.BODY_3")}{" "}
+                            <span
+                                className={commonClasses.primaryColorBolderText}
+                            >
+                                {numberOfBooks}
+                            </span>{" "}
+                            {numberOfBooks % 10 > 1 && numberOfBooks % 10 < 5
+                                ? t("SECTIONS.STATISTICS.BODY_4_2")
+                                : t("SECTIONS.STATISTICS.BODY_4_1")}
+                            )
+                        </>
+                    )}
                 </Typography>
                 <Grid2>
                     <Button variant="contained" color="secondary">
