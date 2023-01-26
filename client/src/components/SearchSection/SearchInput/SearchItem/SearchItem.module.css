@@ -1,7 +1,5 @@
 .itemWrapper {
-    border: solid 2px white;
-    border-radius: 12px;
-    padding: 12px 12px 12px 24px;
+    padding: 6px;
     display:flex;
     justify-content: space-between;
     align-items: center;
@@ -12,14 +10,18 @@
     width: 100%;
 }
 
+.itemWrapper:not(:last-child) {
+    border-bottom: solid 1px #eee;
+}
+
 .itemWrapper:hover {
     cursor: pointer;
     transform: scale(1.02, 1.03);
 }
 
 .photoCoverImg {
-    width: 80px;
-    height: 100px;
+    width: 60px;
+    height: 80px;
     object-fit: cover;
     border-radius: 6px;
     background: #eee

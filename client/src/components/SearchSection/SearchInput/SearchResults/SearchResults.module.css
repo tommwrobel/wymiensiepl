@@ -1,8 +1,8 @@
 .boxWrapper {
     position: absolute;
-    top: 212px;
+    top: 222px;
     left: 50%;
-    transform: translate(-52%);
+    transform: translate(-50%);
     width: 100%;
     z-index: 99;
 }
@@ -11,7 +11,9 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 12px;
+    padding: 16px;
     border-radius: 12px;
-    width: 100%;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
 }

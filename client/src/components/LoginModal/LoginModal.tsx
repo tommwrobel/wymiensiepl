@@ -109,6 +109,7 @@ const LoginModal = ({
                         value={formik.values.password}
                         error={Boolean(formik.errors.password)}
                         helperText={formik.errors.password}
+                        autoComplete="on"
                     />
                 </>
             }

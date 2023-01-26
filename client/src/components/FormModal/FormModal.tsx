@@ -5,9 +5,11 @@ import {
     Dialog,
     DialogContent,
     DialogTitle,
+    TextField,
 } from "@mui/material";
-import { ReactNode } from "react";
+import { FormEvent, FormEventHandler, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import InputField from "../InputField/InputField";
 import LoaderOverlay from "../LoaderOverlay/LoaderOverlay";
 import classes from "./FormModal.module.css";
 
@@ -38,6 +40,11 @@ const FormModal = ({
 }: FormModalProps): JSX.Element => {
     const { t } = useTranslation();
 
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log("form submitted ✅");
+    };
+
     return (
         <Dialog
             onClose={onClose}
@@ -55,7 +62,9 @@ const FormModal = ({
                     {successMessage && (
                         <Alert severity="success">{successMessage}</Alert>
                     )}
-                    <Box className={classes.formFields}>{formFields}</Box>
+                    <Box className={classes.formFields}>
+                        <form>{formFields}</form>
+                    </Box>
                     <Box className={classes.formActions}>
                         <Button variant="outlined" onClick={onClose}>
                             {t("COMMON.CANCEL")}
