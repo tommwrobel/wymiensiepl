@@ -18,24 +18,36 @@ export const addBookFormSchema = Yup.object({
         t("VALIDATION.TOO_LONG", { maxLetters: 500 }).toString()
     ),
 
-    publicationYear: Yup.number().nullable().transform(value => isNaN(value) ? null : value),
+    publicationYear: Yup.number()
+        .nullable()
+        .transform((value) => (isNaN(value) ? null : value)),
 
-    numberOfPages: Yup.number().nullable().transform(value => isNaN(value) ? null : value),
-    
+    numberOfPages: Yup.number()
+        .nullable()
+        .transform((value) => (isNaN(value) ? null : value)),
+
     coverPhoto: Yup.mixed()
         .test(
             "fileSize",
             t("VALIDATION.FILE_TOO_BIG", { maxFileSize: 5 }).toString(),
-            (value) => value.size ? value?.size <= 1000000 * 5 : true
+            (value) => {
+                if (value && value.length > 0)
+                    return value[0].size <= 10000 * 5;
+                return true;
+            }
         )
         .test(
             "type",
             t("VALIDATION.FILE_WRONG_FORMAT", {
                 allowedFormats: ["jpg", "png"],
             }).toString(),
-            (value) =>
-                value && value.type
-                    ? value.type === "image/png" || value.type === "image/jpeg"
-                    : true
+            (value) => {
+                if (value && value.length > 0)
+                    return (
+                        value[0].type === "image/png" ||
+                        value[0].type === "image/jpeg"
+                    );
+                return true;
+            }
         ),
 });

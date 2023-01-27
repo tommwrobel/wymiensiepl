@@ -1,12 +1,8 @@
 import { Clear, UploadFileRounded } from "@mui/icons-material";
-import { Box, Button, IconButton, Input, InputLabel, Typography } from "@mui/material";
-import {
-    ChangeEvent,
-    forwardRef,
-    RefAttributes,
-    useState,
-} from "react";
+import { Box, Button, IconButton, InputLabel } from "@mui/material";
+import { forwardRef, RefAttributes, useState, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { Nullable } from "../../models/app.models";
 import classes from "./FileUploadField.module.css";
 
 interface FileUploadFieldProps extends RefAttributes<HTMLInputElement> {
@@ -16,6 +12,7 @@ interface FileUploadFieldProps extends RefAttributes<HTMLInputElement> {
     maxFileSizeInMb?: number;
     error?: boolean;
     helperText?: string;
+    onReset?: () => void;
 }
 
 const FileUploadField = forwardRef<HTMLInputElement, FileUploadFieldProps>(
@@ -27,30 +24,27 @@ const FileUploadField = forwardRef<HTMLInputElement, FileUploadFieldProps>(
             maxFileSizeInMb,
             error,
             helperText,
+            onReset,
             ...props
         },
         ref
     ): JSX.Element => {
         const { t } = useTranslation();
+        const [file, setFile] = useState<Nullable<File>>(null);
 
-        const [file, setFile] = useState<File | undefined>();
-        //const fileInputRef = useRef<HTMLInputElement>(null);
-
-        const handleChooseFile = (event: ChangeEvent<HTMLInputElement>) => {
-            // if (!event.target.files) {
-            //     setFile(undefined);
-            //     onChange(undefined);
-            //     return;
-            // }
-            // if (event.target.files.length > 0) {
-            //     setFile(event.target.files[0]);
-            //     onChange(event.target.files[0]);
-            // }
+        const handleOnChangeCapture = (
+            event: ChangeEvent<HTMLInputElement>
+        ) => {
+            if (event.target && event.target.files) {
+                setFile(event.target.files[0]);
+            }
         };
 
-        const handleRemoveFile = () => {
-            // if (fileInputRef.current?.value) fileInputRef.current.value = "";
-            // setFile(undefined);
+        const handleReset = () => {
+            if (onReset) {
+                onReset();
+                setFile(null);
+            }
         };
 
         const truncText = (text: string, length: number) =>
@@ -70,10 +64,17 @@ const FileUploadField = forwardRef<HTMLInputElement, FileUploadFieldProps>(
                     >
                         {actionLabel || t("COMMON.UPLOAD_FILE_ACTION")}{" "}
                         {file?.name && ` (${truncText(file?.name, 20)})`}
-                        <input {...props} ref={ref} hidden accept="image/*" type="file" />
+                        <input
+                            {...props}
+                            ref={ref}
+                            hidden
+                            accept="image/*"
+                            type="file"
+                            onChangeCapture={handleOnChangeCapture}
+                        />
                     </Button>
-                    {file && (
-                        <IconButton onClick={handleRemoveFile} size="small">
+                    {file && onReset && (
+                        <IconButton onClick={handleReset} size="small">
                             <Clear fontSize="inherit" color="error" />
                         </IconButton>
                     )}

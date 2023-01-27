@@ -49,7 +49,7 @@ const LoginModal = ({
         loginRequestStatus.reset();
         resetForm();
         onClose();
-    }, [handleResetErrorMessage, loginRequestStatus, onClose]);
+    }, [handleResetErrorMessage, loginRequestStatus, onClose, resetForm]);
 
     const handleRegister = () => {
         onRegister();

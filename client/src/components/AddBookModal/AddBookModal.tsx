@@ -20,22 +20,22 @@ interface AddBookModalProps {
 }
 
 interface AddBookFormValues {
-    title?: string;
-    author?: string;
+    title: string;
+    author: string;
     description?: string;
     publicationYear?: number;
     numberOfPages?: number;
-    coverPhoto?: File;
+    coverPhoto?: File[];
 }
 
 const defaultFormValues: AddBookFormValues = {
-    title: undefined,
-    author: undefined,
+    title: "",
+    author: "",
     description: undefined,
     publicationYear: undefined,
     numberOfPages: undefined,
     coverPhoto: undefined,
-}
+};
 
 const AddBookModal = ({
     userId,
@@ -56,54 +56,75 @@ const AddBookModal = ({
         handleSubmit: handleSubmitForm,
         formState: { errors: formErrors },
         reset: resetForm,
+        resetField,
     } = useForm<AddBookFormValues>({
         resolver: yupResolver(addBookFormSchema),
-        defaultValues: defaultFormValues
+        defaultValues: defaultFormValues,
     });
 
-    const [fileUploadDataError, resetFileUploadDataError] = useServerError(fileUploadDataRequestStatus);
-    const [fileUploadAwsError, resetFileUploadAwsError] = useServerError(uploadFileRequestStatus);
-    const [addBookError, resetAddBookError] = useServerError(addBookRequestStatus);
-
-    const handleResetErrors = () => {
-        resetFileUploadDataError();
-        resetFileUploadAwsError();
-        resetAddBookError();
-    }
-
+    const [fileUploadDataError, resetFileUploadDataError] = useServerError(
+        fileUploadDataRequestStatus
+    );
+    const [fileUploadAwsError, resetFileUploadAwsError] = useServerError(
+        uploadFileRequestStatus
+    );
+    const [addBookError, resetAddBookError] =
+        useServerError(addBookRequestStatus);
     const getErrorMessage = () => {
-        return fileUploadDataError || fileUploadAwsError || addBookError || undefined;
-    }
+        return (
+            fileUploadDataError ||
+            fileUploadAwsError ||
+            addBookError ||
+            undefined
+        );
+    };
 
     const handleUploadFile = async (file: File) => {
         const dataRequestResponse = await fileUploadDataRequest();
         if (dataRequestResponse.isSuccess && dataRequestResponse.data) {
             const { url, objectKey } = dataRequestResponse.data;
             await uploadFileRequest({ url, file });
-            return objectKey;
+            if (uploadFileRequestStatus.isSuccess) return objectKey;
         }
         return undefined;
     };
 
-    const handleSubmit = async (formValues: AddBookFormValues) => {
+    const handleSubmit = handleSubmitForm(async (formValues) => {
         setIsLoading(true);
         let objectKey = undefined;
-        if (formValues.coverPhoto) {
-            objectKey = await handleUploadFile(formValues.coverPhoto);
+        if (formValues.coverPhoto && formValues.coverPhoto.length > 0) {
+            objectKey = await handleUploadFile(formValues.coverPhoto[0]);
+            if (!objectKey) {
+                setIsLoading(false);
+                return;
+            }
         }
-        // addBookRequest({
-        //     ...formValues,
-        //     coverPhoto: objectKey,
-        //     userId: userId,
-        // });
-    };
+        await addBookRequest({
+            ...formValues,
+            coverPhoto: objectKey,
+            userId: userId,
+        });
+        setIsLoading(false);
+    });
 
     const handleClose = useCallback(() => {
+        const handleResetErrors = () => {
+            resetFileUploadDataError();
+            resetFileUploadAwsError();
+            resetAddBookError();
+        };
         handleResetErrors();
         addBookRequestStatus.reset();
         resetForm();
         onClose();
-    }, [addBookRequestStatus, handleResetErrors, onClose]);
+    }, [
+        addBookRequestStatus,
+        onClose,
+        resetAddBookError,
+        resetFileUploadAwsError,
+        resetFileUploadDataError,
+        resetForm,
+    ]);
 
     useEffect(() => {
         if (addBookRequestStatus.isSuccess && addBookRequestStatus.data) {
@@ -116,12 +137,10 @@ const AddBookModal = ({
         handleClose,
     ]);
 
-    const handleTest = handleSubmitForm((v) => console.log(v));
-
     return (
         <FormModal
             isOpen={isOpen}
-            onSubmit={handleTest}
+            onSubmit={handleSubmit}
             submitLabel={t("COMMON.ADD_BOOK_ACTION")}
             onClose={handleClose}
             title={t("COMMON.ADD_NEW_BOOK_ACTION")}
@@ -169,9 +188,10 @@ const AddBookModal = ({
                         label={t("COMMON.COVER_PHOTO") as string}
                         acceptedFileFormats={["png", "jpg"]}
                         maxFileSizeInMb={5}
-                        {...register("coverPhoto")}
                         error={Boolean(formErrors.coverPhoto)}
                         helperText={formErrors.coverPhoto?.message}
+                        {...register("coverPhoto")}
+                        onReset={() => resetField("coverPhoto")}
                     />
                 </>
             }

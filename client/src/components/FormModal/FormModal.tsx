@@ -5,11 +5,9 @@ import {
     Dialog,
     DialogContent,
     DialogTitle,
-    TextField,
 } from "@mui/material";
-import { FormEvent, FormEventHandler, ReactNode } from "react";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import InputField from "../InputField/InputField";
 import LoaderOverlay from "../LoaderOverlay/LoaderOverlay";
 import classes from "./FormModal.module.css";
 
@@ -57,9 +55,7 @@ const FormModal = ({
                     {successMessage && (
                         <Alert severity="success">{successMessage}</Alert>
                     )}
-                    <Box className={classes.formFields}>
-                        <form>{formFields}</form>
-                    </Box>
+                    <form className={classes.formFields}>{formFields}</form>
                     <Box className={classes.formActions}>
                         <Button variant="outlined" onClick={onClose}>
                             {t("COMMON.CANCEL")}
