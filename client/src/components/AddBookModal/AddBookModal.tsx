@@ -1,16 +1,17 @@
 import { Box } from "@mui/material";
-import { useFormik } from "formik";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FileUploadField from "../FileUploadField/FileUploadField";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
 import TextareaField from "../TextareaField/TextareaField";
-import * as Yup from "yup";
 import { useAddBookMutation } from "../../api/booksApi";
 import { useLazyGetFileUploadDataQuery } from "../../api/filesApi";
 import { useUploadFileMutation } from "../../api/awsApi";
 import useServerError from "../../hooks/useServerError";
+import { addBookFormSchema } from "./addBookFormSchema";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface AddBookModalProps {
     userId: string;
@@ -19,22 +20,22 @@ interface AddBookModalProps {
 }
 
 interface AddBookFormValues {
-    title: string;
-    author: string;
+    title?: string;
+    author?: string;
     description?: string;
     publicationYear?: number;
     numberOfPages?: number;
     coverPhoto?: File;
 }
 
-const initialValues: AddBookFormValues = {
-    title: "",
-    author: "",
+const defaultFormValues: AddBookFormValues = {
+    title: undefined,
+    author: undefined,
     description: undefined,
     publicationYear: undefined,
     numberOfPages: undefined,
     coverPhoto: undefined,
-};
+}
 
 const AddBookModal = ({
     userId,
@@ -49,6 +50,16 @@ const AddBookModal = ({
     const [uploadFileRequest, uploadFileRequestStatus] =
         useUploadFileMutation();
     const [isLoading, setIsLoading] = useState(false);
+
+    const {
+        register,
+        handleSubmit: handleSubmitForm,
+        formState: { errors: formErrors },
+        reset: resetForm,
+    } = useForm<AddBookFormValues>({
+        resolver: yupResolver(addBookFormSchema),
+        defaultValues: defaultFormValues
+    });
 
     const [fileUploadDataError, resetFileUploadDataError] = useServerError(fileUploadDataRequestStatus);
     const [fileUploadAwsError, resetFileUploadAwsError] = useServerError(uploadFileRequestStatus);
@@ -80,64 +91,19 @@ const AddBookModal = ({
         if (formValues.coverPhoto) {
             objectKey = await handleUploadFile(formValues.coverPhoto);
         }
-        addBookRequest({
-            ...formValues,
-            coverPhoto: objectKey,
-            userId: userId,
-        });
+        // addBookRequest({
+        //     ...formValues,
+        //     coverPhoto: objectKey,
+        //     userId: userId,
+        // });
     };
 
-    const formik = useFormik({
-        initialValues: initialValues,
-        validationSchema: Yup.object({
-            title: Yup.string()
-                .min(2, t("VALIDATION.TOO_SHORT", { minLetters: 2 }).toString())
-                .max(
-                    50,
-                    t("VALIDATION.TOO_LONG", { maxLetters: 50 }).toString()
-                )
-                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
-            author: Yup.string()
-                .min(2, t("VALIDATION.TOO_SHORT", { minLetters: 2 }).toString())
-                .max(
-                    50,
-                    t("VALIDATION.TOO_LONG", { maxLetters: 50 }).toString()
-                )
-                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
-            description: Yup.string().max(
-                500,
-                t("VALIDATION.TOO_LONG", { maxLetters: 500 }).toString()
-            ),
-            publicationYear: Yup.number(),
-            numberOfPages: Yup.number(),
-            coverPhoto: Yup.mixed()
-                .test(
-                    "fileSize",
-                    t("VALIDATION.FILE_TOO_BIG", { maxFileSize: 5 }).toString(),
-                    (value) => (value ? value?.size <= 1000000 * 5 : true)
-                )
-                .test(
-                    "type",
-                    t("VALIDATION.FILE_WRONG_FORMAT", {
-                        allowedFormats: ["jpg", "png"],
-                    }).toString(),
-                    (value) =>
-                        value && value.type
-                            ? value.type === "image/png" ||
-                              value.type === "image/jpeg"
-                            : true
-                ),
-        }),
-        validateOnChange: false,
-        onSubmit: handleSubmit,
-    });
-
     const handleClose = useCallback(() => {
-        formik.resetForm();
         handleResetErrors();
         addBookRequestStatus.reset();
+        resetForm();
         onClose();
-    }, [addBookRequestStatus, formik, handleResetErrors, onClose]);
+    }, [addBookRequestStatus, handleResetErrors, onClose]);
 
     useEffect(() => {
         if (addBookRequestStatus.isSuccess && addBookRequestStatus.data) {
@@ -150,10 +116,12 @@ const AddBookModal = ({
         handleClose,
     ]);
 
+    const handleTest = handleSubmitForm((v) => console.log(v));
+
     return (
         <FormModal
             isOpen={isOpen}
-            onSubmit={formik.submitForm}
+            onSubmit={handleTest}
             submitLabel={t("COMMON.ADD_BOOK_ACTION")}
             onClose={handleClose}
             title={t("COMMON.ADD_NEW_BOOK_ACTION")}
@@ -164,63 +132,46 @@ const AddBookModal = ({
                     <InputField
                         label={t("COMMON.BOOK_TITLE")}
                         type="text"
-                        name="title"
-                        onChange={formik.handleChange}
-                        value={formik.values.title}
-                        error={Boolean(formik.errors.title)}
-                        helperText={formik.errors.title}
+                        {...register("title")}
+                        error={Boolean(formErrors.title)}
+                        helperText={formErrors.title?.message}
                     />
                     <InputField
                         label={t("COMMON.BOOK_AUTHOR")}
                         type="text"
-                        name="author"
-                        onChange={formik.handleChange}
-                        value={formik.values.author}
-                        error={Boolean(formik.errors.author)}
-                        helperText={formik.errors.author}
+                        {...register("author")}
+                        error={Boolean(formErrors.author)}
+                        helperText={formErrors.author?.message}
                     />
                     <TextareaField
                         label={t("COMMON.DESCRIPTION")}
-                        type="text"
-                        name="description"
-                        onChange={formik.handleChange}
-                        value={formik.values.description}
-                        error={Boolean(formik.errors.description)}
-                        helperText={formik.errors.description}
+                        {...register("description")}
+                        error={Boolean(formErrors.description)}
+                        helperText={formErrors.description?.message}
                     />
                     <Box display="flex" gap={2}>
                         <InputField
                             label={t("COMMON.PUBLICATION_YEAR")}
                             type="number"
-                            name="publicationYear"
-                            onChange={formik.handleChange}
-                            value={formik.values.publicationYear || ""}
-                            error={Boolean(formik.errors.publicationYear)}
-                            helperText={formik.errors.publicationYear}
+                            {...register("publicationYear")}
+                            error={Boolean(formErrors.publicationYear)}
+                            helperText={formErrors.publicationYear?.message}
                         />
                         <InputField
                             label={t("COMMON.NUMBER_OF_PAGES")}
                             type="number"
-                            name="numberOfPages"
-                            onChange={formik.handleChange}
-                            value={formik.values.numberOfPages || ""}
-                            error={Boolean(formik.errors.numberOfPages)}
-                            helperText={formik.errors.numberOfPages}
+                            {...register("numberOfPages")}
+                            error={Boolean(formErrors.numberOfPages)}
+                            helperText={formErrors.numberOfPages?.message}
                         />
                     </Box>
                     <FileUploadField
                         label={t("COMMON.COVER_PHOTO") as string}
                         acceptedFileFormats={["png", "jpg"]}
                         maxFileSizeInMb={5}
-                        onChange={(file) => {
-                            formik
-                                .setFieldValue("coverPhoto", file)
-                                .then(() => {
-                                    formik.validateField("coverPhoto");
-                                });
-                        }}
-                        error={Boolean(formik.errors.coverPhoto)}
-                        helperText={formik.errors.coverPhoto}
+                        {...register("coverPhoto")}
+                        error={Boolean(formErrors.coverPhoto)}
+                        helperText={formErrors.coverPhoto?.message}
                     />
                 </>
             }

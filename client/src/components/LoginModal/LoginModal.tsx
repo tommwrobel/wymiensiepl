@@ -1,13 +1,14 @@
 import { Link, Typography } from "@mui/material";
-import { useFormik } from "formik";
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import * as Yup from "yup";
 import { useLoginMutation } from "../../api/authApi";
 import useServerError from "../../hooks/useServerError";
 import { AuthContext } from "../../context/AuthContext";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
+import { useForm } from "react-hook-form";
+import { loginFormSchema } from "./loginFormSchema";
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface LoginModalProps {
     isOpen: boolean;
@@ -32,33 +33,23 @@ const LoginModal = ({
         password: string;
     }
 
-    const initialFormValues: LoginFormValues = {
-        email: "",
-        password: "",
-    };
-
-    const formik = useFormik({
-        initialValues: initialFormValues,
-        validationSchema: Yup.object({
-            email: Yup.string()
-                .email(t("VALIDATION.EMAIL_BAD_FORMAT").toString())
-                .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
-            password: Yup.string().required(
-                t("VALIDATION.FIELD_IS_REQUIRED").toString()
-            ),
-        }),
-        validateOnChange: false,
-        onSubmit: (values) => {
-            loginRequest(values);
-        },
+    const {
+        register,
+        handleSubmit: handleSubmitForm,
+        formState: { errors: formErrors },
+        reset: resetForm,
+    } = useForm<LoginFormValues>({
+        resolver: yupResolver(loginFormSchema),
     });
 
+    const handleLogin = handleSubmitForm((data) => loginRequest(data));
+
     const handleClose = useCallback(() => {
-        formik.resetForm();
         handleResetErrorMessage();
         loginRequestStatus.reset();
+        resetForm();
         onClose();
-    }, [formik, handleResetErrorMessage, loginRequestStatus, onClose]);
+    }, [handleResetErrorMessage, loginRequestStatus, onClose]);
 
     const handleRegister = () => {
         onRegister();
@@ -84,7 +75,7 @@ const LoginModal = ({
     return (
         <FormModal
             isOpen={isOpen}
-            onSubmit={formik.handleSubmit}
+            onSubmit={handleLogin}
             submitLabel={t("COMMON.LOGIN_ACTION")}
             isLoading={loginRequestStatus.isLoading}
             onClose={handleClose}
@@ -95,20 +86,16 @@ const LoginModal = ({
                     <InputField
                         label={t("COMMON.EMAIL")}
                         type="email"
-                        name="email"
-                        onChange={formik.handleChange}
-                        value={formik.values.email}
-                        error={Boolean(formik.errors.email)}
-                        helperText={formik.errors.email}
+                        {...register("email")}
+                        error={Boolean(formErrors.email)}
+                        helperText={formErrors.email?.message}
                     />
                     <InputField
                         label={t("COMMON.PASSWORD")}
                         type="password"
-                        name="password"
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
-                        error={Boolean(formik.errors.password)}
-                        helperText={formik.errors.password}
+                        {...register("password")}
+                        error={Boolean(formErrors.password)}
+                        helperText={formErrors.password?.message}
                         autoComplete="on"
                     />
                 </>
