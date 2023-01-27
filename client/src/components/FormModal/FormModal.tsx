@@ -40,11 +40,6 @@ const FormModal = ({
 }: FormModalProps): JSX.Element => {
     const { t } = useTranslation();
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log("form submitted ✅");
-    };
-
     return (
         <Dialog
             onClose={onClose}
