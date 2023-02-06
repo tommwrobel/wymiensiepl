@@ -35,14 +35,16 @@ const ApplicationLinks = ({
             </Link>
             {isLoggedUser && (
                 <>
-                <Link underline="none" href="/mylibrary">
-                    <Button>{t("MENU.MY_LIBRARY")}</Button>
-                </Link>
-                <Link underline="none" href="/messages">
-                    <Button>
-                        {t("MENU.MESSAGES", { count: numberOfUnreadMessages })}
-                    </Button>
-                </Link>
+                    <Link underline="none" href="/mylibrary">
+                        <Button>{t("MENU.MY_LIBRARY")}</Button>
+                    </Link>
+                    <Link underline="none" href="/messages">
+                        <Button>
+                            {t("MENU.MESSAGES", {
+                                count: numberOfUnreadMessages,
+                            })}
+                        </Button>
+                    </Link>
                 </>
             )}
 

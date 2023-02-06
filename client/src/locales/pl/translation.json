@@ -1,44 +1,44 @@
 {
     "COMMON": {
-      "LOGIN": "Logowanie",
-      "REGISTER": "Rejestracja",
-      "LOGIN_ACTION": "Zaloguj się",
-      "REGISTER_ACTION": "Zarejestruj się",
-      "LOGOUT_ACTION": "Wyloguj się",
-      "CANCEL": "Anuluj",
-      "CLOSE": "Zamknij",
-      "TOKEN_EXPIRED_TITLE": "Sesja wygasła",
-      "TOKEN_EXPIRED": "Sesja została zakończona, zaloguj się ponownie aby kontynuować.",
-      "REGISTER_SUCCESS": "Rejestracja udana! Zostałeś zalogowany.",
-      "USERNAME": "Nazwa użytkownika",
-      "PASSWORD": "Hasło",
-      "REPEAT_PASSWORD": "Powtórz hasło",
-      "EMAIL": "Adres e-mail",
-      "DONT_HAVE_ACCOUNT": "Nie masz jeszcze konta?",
-      "HAVE_ACCOUNT": "Masz już konto?",
-      "ADD_BOOK_ACTION": "Dodaj książkę",
-      "ADD_NEW_BOOK_ACTION": "Dodaj nową książkę",
-      "BOOK_TITLE": "Tytuł książki",
-      "BOOK_AUTHOR": "Autor / autorzy książki",
-      "DESCRIPTION": "Opis",
-      "ISBN_NUMBER": "Numer ISBN",
-      "COVER_PHOTO": "Zdjęcie okładki",
-      "NUMBER_OF_PAGES": "Ilość stron",
-      "PUBLICATION_YEAR": "Rok publikacji",
-      "UPLOAD_BOOK_COVER_ACTION": "Wybierz zdjęcie okładki z dysku",
-      "UPLOAD_FILE_ACTION": "Wybierz plik",
-      "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
-      "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB",
-      "SEARCH_BOOKS_ACTION": "Szukaj książki na wymianę...",
-      "RESULTS_NUMBER": "Wyniki: {{number}}",
-      "SERVER_ERROR": "Wystąpił nieoczekiwany błąd."
+        "LOGIN": "Logowanie",
+        "REGISTER": "Rejestracja",
+        "LOGIN_ACTION": "Zaloguj się",
+        "REGISTER_ACTION": "Zarejestruj się",
+        "LOGOUT_ACTION": "Wyloguj się",
+        "CANCEL": "Anuluj",
+        "CLOSE": "Zamknij",
+        "TOKEN_EXPIRED_TITLE": "Sesja wygasła",
+        "TOKEN_EXPIRED": "Sesja została zakończona, zaloguj się ponownie aby kontynuować.",
+        "REGISTER_SUCCESS": "Rejestracja udana! Zostałeś zalogowany.",
+        "USERNAME": "Nazwa użytkownika",
+        "PASSWORD": "Hasło",
+        "REPEAT_PASSWORD": "Powtórz hasło",
+        "EMAIL": "Adres e-mail",
+        "DONT_HAVE_ACCOUNT": "Nie masz jeszcze konta?",
+        "HAVE_ACCOUNT": "Masz już konto?",
+        "ADD_BOOK_ACTION": "Dodaj książkę",
+        "ADD_NEW_BOOK_ACTION": "Dodaj nową książkę",
+        "BOOK_TITLE": "Tytuł książki",
+        "BOOK_AUTHOR": "Autor / autorzy książki",
+        "DESCRIPTION": "Opis",
+        "ISBN_NUMBER": "Numer ISBN",
+        "COVER_PHOTO": "Zdjęcie okładki",
+        "NUMBER_OF_PAGES": "Ilość stron",
+        "PUBLICATION_YEAR": "Rok publikacji",
+        "UPLOAD_BOOK_COVER_ACTION": "Wybierz zdjęcie okładki z dysku",
+        "UPLOAD_FILE_ACTION": "Wybierz plik",
+        "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
+        "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB",
+        "SEARCH_BOOKS_ACTION": "Szukaj książki na wymianę...",
+        "RESULTS_NUMBER": "Wyniki: {{number}}",
+        "SERVER_ERROR": "Wystąpił nieoczekiwany błąd."
     },
     "MENU": {
-      "HOMEPAGE": "Strona główna",
-      "ABOUT_US": "O nas",
-      "PROFILE": "Profil",
-      "MESSAGES": "Wiadomości ({{count}})",
-      "MY_LIBRARY": "Moja bliblioteczka"
+        "HOMEPAGE": "Strona główna",
+        "ABOUT_US": "O nas",
+        "PROFILE": "Profil",
+        "MESSAGES": "Wiadomości ({{count}})",
+        "MY_LIBRARY": "Moja bliblioteczka"
     },
     "SECTIONS": {
         "HERO": {
@@ -46,45 +46,45 @@
             "SUBTITLE": "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         "INSTRUCTIONS": {
-          "STEP_1": "Znajdź książkę",
-          "STEP_2": "Zaproponuj wymianę",
-          "STEP_3": "Skontaktuj się",
-          "STEP_4": "Ciesz się nową książką!"
+            "STEP_1": "Znajdź książkę",
+            "STEP_2": "Zaproponuj wymianę",
+            "STEP_3": "Skontaktuj się",
+            "STEP_4": "Ciesz się nową książką!"
         },
         "STATISTICS": {
-          "BODY_1": "Mamy już",
-          "BODY_2": "aktywnych użytkowników ",
-          "BODY_3": "którzy dodali aż",
-          "BODY_4_1": "książek!",
-          "BODY_4_2": "książki!",
-          "RECOMMEND_US_1": "Twoje wsparcie jest dla nas bardzo ważne.",
-          "RECOMMEND_US_2": "Poleć nas znajomym, abyśmy mogli się dalej rozwijać!",
-          "RECOMMEND_ON_FACEBOOK": "Poleć nas na Facebooku!"
+            "BODY_1": "Mamy już",
+            "BODY_2": "aktywnych użytkowników ",
+            "BODY_3": "którzy dodali aż",
+            "BODY_4_1": "książek!",
+            "BODY_4_2": "książki!",
+            "RECOMMEND_US_1": "Twoje wsparcie jest dla nas bardzo ważne.",
+            "RECOMMEND_US_2": "Poleć nas znajomym, abyśmy mogli się dalej rozwijać!",
+            "RECOMMEND_ON_FACEBOOK": "Poleć nas na Facebooku!"
         },
         "ABOUT_US": {
-          "BODY": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sincididunt ut labore et dolore magna alut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            "BODY": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sincididunt ut labore et dolore magna alut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         "FOOTER": {
-          "COPYRIGHTS": "{{currentYear}} Tomasz Wróbel. Wszelkie prawa zastrzeżone."
+            "COPYRIGHTS": "{{currentYear}} Tomasz Wróbel. Wszelkie prawa zastrzeżone."
         }
     },
     "VALIDATION": {
-      "TOO_LONG": "Pole powinno mieć mnież niż {{maxLetters}} znaków.",
-      "TOO_SHORT": "Pole powinno mieć co najmniej {{minLetters}} znaków",
-      "PASSWORDS_NOT_MATCH": "Hasła się nie zgadzają.",
-      "FIELD_IS_REQUIRED": "Pole jest wymagane.",
-      "NUMBER_TOO_BIG": "Wartość powinna być mniejsza lub równa {{max}}.",
-      "NUMBER_TOO_LOW": "Wartość powinna być większa lub równa {{min}}.",
-      "EMAIL_BAD_FORMAT": "Adres e-mail ma niepoprawny format.",
-      "FILE_TOO_BIG": "Rozmiar pliku jest za duży, maksymalny rozmiar: {{maxFileSize}} MB.",
-      "FILE_WRONG_FORMAT": "Zły format pliku, akceptowane formaty: {{allowedFormats}}."
+        "TOO_LONG": "Pole powinno mieć mnież niż {{maxLetters}} znaków.",
+        "TOO_SHORT": "Pole powinno mieć co najmniej {{minLetters}} znaków",
+        "PASSWORDS_NOT_MATCH": "Hasła się nie zgadzają.",
+        "FIELD_IS_REQUIRED": "Pole jest wymagane.",
+        "NUMBER_TOO_BIG": "Wartość powinna być mniejsza lub równa {{max}}.",
+        "NUMBER_TOO_LOW": "Wartość powinna być większa lub równa {{min}}.",
+        "EMAIL_BAD_FORMAT": "Adres e-mail ma niepoprawny format.",
+        "FILE_TOO_BIG": "Rozmiar pliku jest za duży, maksymalny rozmiar: {{maxFileSize}} MB.",
+        "FILE_WRONG_FORMAT": "Zły format pliku, akceptowane formaty: {{allowedFormats}}."
     },
     "API": {
-      "BOOK_WITH_ID_NOT_FOUND": "Książka o padanym id nie istnieje.",
-      "EMAIL_ALREADY_IN_USE": "Podany adress e-mail jest już zajęty.",
-      "NAME_ALREADY_IN_USE": "Podana nazwa użytkownika jest już zajęta.",
-      "USER_WITH_EMAIL_NOT_FOUND": "Użytkownik o padanym adresie e-mail nie istnieje.",
-      "BAD_CREDENTIALS": "Podane dane logowania są błędne.", 
-      "API.USER_NOT_PERMITTED": "Brak wystarczających uprawnień."
+        "BOOK_WITH_ID_NOT_FOUND": "Książka o padanym id nie istnieje.",
+        "EMAIL_ALREADY_IN_USE": "Podany adress e-mail jest już zajęty.",
+        "NAME_ALREADY_IN_USE": "Podana nazwa użytkownika jest już zajęta.",
+        "USER_WITH_EMAIL_NOT_FOUND": "Użytkownik o padanym adresie e-mail nie istnieje.",
+        "BAD_CREDENTIALS": "Podane dane logowania są błędne.",
+        "API.USER_NOT_PERMITTED": "Brak wystarczających uprawnień."
     }
 }
