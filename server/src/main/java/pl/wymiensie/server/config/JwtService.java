@@ -37,7 +37,7 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
-        int expiresIn = 1000 * 20 * 60;
+        int expiresIn = 1000 * 60 * 120;
         Date expirationDate = new Date(System.currentTimeMillis() + expiresIn);
         String body =  Jwts
                 .builder()

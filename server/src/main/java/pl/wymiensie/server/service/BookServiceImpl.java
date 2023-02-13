@@ -1,5 +1,7 @@
 package pl.wymiensie.server.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.wymiensie.server.entity.Book;
 import pl.wymiensie.server.model.BookStatus;
@@ -25,13 +27,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findByUserId(UUID userId) {
-        return bookRepository.findByUserId(userId);
-    }
+    public Page<Book> findAllBooksWithPagination(int page, int size) {
+        return bookRepository.findAll(PageRequest.of(page, size));
+    };
 
     @Override
-    public List<Book> searchAllBooks(String text) {
-        return bookRepository.searchAllBooks(text);
+    public Page<Book> findAllByText(String text, int page, int size) {
+        if (text == null || text.length() == 0)
+            return bookRepository.findAll(PageRequest.of(page, size));
+        return bookRepository
+            .findAllByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(text, text);
+    };
+
+    @Override
+    public List<Book> findByUserId(UUID userId) {
+        return bookRepository.findByUserId(userId);
     }
 
     @Override
