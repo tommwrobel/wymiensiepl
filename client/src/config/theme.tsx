@@ -64,6 +64,11 @@ export const theme = createTheme({
                     lineHeight: "30pt",
                     fontWeight: "400",
                 },
+                h3: {
+                    fontSize: "20pt",
+                    lineHeight: "30pt",
+                    fontWeight: "400",
+                },
                 subtitle1: {
                     fontSize: "16px",
                     lineHeight: "22px",
@@ -115,3 +120,21 @@ export const theme = createTheme({
         }
     },
 });
+
+export const customColors = {
+    primary: theme.palette.primary.main.toString(),
+    secondary: theme.palette.secondary.main.toString(),
+
+    success: theme.palette.success.main.toString(),
+    warning: theme.palette.warning.main.toString(),
+    error: theme.palette.error.main.toString(),
+
+    lightGrey: theme.palette.grey[100].toString(),
+    darkGrey: theme.palette.grey[800].toString(),
+    mediumGrey: theme.palette.grey[400].toString(),
+
+    white: "white",
+    black: "black",
+}
+
+export type themeColor = keyof typeof customColors;

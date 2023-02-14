@@ -4,7 +4,7 @@ import BookPage from "../pages/BookPage/BookPage";
 import BooksPage from "../pages/BooksPage/BooksPage";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
-import MyLibraryPage from "../pages/MyLibraryPage/MyLibraryPage";
+import LibraryPage from "../pages/LibraryPage/LibraryPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import TestPage from "../pages/TestPage/TestPage";
 
@@ -51,10 +51,10 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "/mylibrary",
+        path: "/library",
         element: (
             <AuthGuard>
-                <MyLibraryPage />
+                <LibraryPage />
             </AuthGuard>
         ),
     },

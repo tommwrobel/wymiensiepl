@@ -5,12 +5,12 @@ export const appApi = createApi({
     reducerPath: "appApi",
     baseQuery: fetchBaseQuery({
         baseUrl: `${getApiUrl()}`,
-        prepareHeaders: (headers, { getState }) => {
+        prepareHeaders: (headers) => {
             const token = getLocalStorageToken();
             if (token) headers.set("authorization", `Bearer ${token}`);
             return headers;
         },
     }),
-    tagTypes: ["Statistics"],
+    tagTypes: ["Statistics", "Books"],
     endpoints: () => ({}),
 });

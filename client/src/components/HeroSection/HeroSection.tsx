@@ -5,18 +5,13 @@ import commonClasses from "../../common/App.module.css";
 import classes from "./HeroSection.module.css";
 import PageSection from "../PageSection/PageSection";
 import { useTranslation } from "react-i18next";
+import { useContext } from "react";
+import { ModalContext } from "../../context/ModalContext";
 
-interface HeroSectionProps {
-    onLogin: () => void;
-    onRegister: () => void;
-}
-
-const HeroSection = ({
-    onLogin,
-    onRegister,
-}: HeroSectionProps): JSX.Element => {
+const HeroSection = (): JSX.Element => {
     const { t } = useTranslation();
     const isImageVisible = useMediaQuery(theme.breakpoints.up("md"));
+    const { openModal } = useContext(ModalContext);
 
     return (
         <PageSection>
@@ -41,10 +36,16 @@ const HeroSection = ({
                             isImageVisible ? "flex-start" : "center"
                         }
                     >
-                        <Button variant="outlined" onClick={onLogin}>
+                        <Button
+                            variant="outlined"
+                            onClick={() => openModal("LOGIN_MODAL")}
+                        >
                             {t("COMMON.LOGIN_ACTION")}
                         </Button>
-                        <Button variant="contained" onClick={onRegister}>
+                        <Button
+                            variant="contained"
+                            onClick={() => openModal("REGISTER_MODAL")}
+                        >
                             {t("COMMON.REGISTER_ACTION")}
                         </Button>
                     </Grid2>

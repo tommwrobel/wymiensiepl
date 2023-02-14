@@ -15,7 +15,7 @@ const InstructionsSection = (): JSX.Element => {
     ];
     
     return (
-        <PageSection backgroundColor="#f3f3f3">
+        <PageSection background="lightGrey">
             <Grid2 container spacing={2}>
                 {instructionItems.map((instructionItem, index) => (
                     <InstructionItem

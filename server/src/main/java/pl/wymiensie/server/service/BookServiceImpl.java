@@ -2,6 +2,8 @@ package pl.wymiensie.server.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.wymiensie.server.entity.Book;
 import pl.wymiensie.server.model.BookStatus;
@@ -27,21 +29,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<Book> findAllBooksWithPagination(int page, int size) {
-        return bookRepository.findAll(PageRequest.of(page, size));
-    };
-
-    @Override
     public Page<Book> findAllByText(String text, int page, int size) {
         if (text == null || text.length() == 0)
-            return bookRepository.findAll(PageRequest.of(page, size));
+            return bookRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
         return bookRepository
-            .findAllByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(text, text);
+                .findAllByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(text, text, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
     };
 
     @Override
-    public List<Book> findByUserId(UUID userId) {
-        return bookRepository.findByUserId(userId);
+    public Page<Book> findByUserId(UUID userId, int page, int size) {
+        return bookRepository.findByUserId(userId, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
     }
 
     @Override

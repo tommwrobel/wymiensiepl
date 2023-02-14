@@ -6,23 +6,25 @@ import {
     DialogTitle,
     Typography,
 } from "@mui/material";
-import classes from "./WarningModal.module.css";
+import classes from "./MessageModal.module.css";
 
-interface WarningModalProps {
+interface MessageModalProps {
     isOpen: boolean;
     closeLabel: string;
     onClose: () => void;
     title: string;
     text: string;
+    type?: "warning" | "info" | "error",
 }
 
-const WarningModal = ({
+const MessageModal = ({
     isOpen,
     onClose,
     title,
     text,
     closeLabel,
-}: WarningModalProps): JSX.Element => {
+    type = "info",
+}: MessageModalProps): JSX.Element => {
 
     return (
         <Dialog
@@ -45,4 +47,4 @@ const WarningModal = ({
     );
 };
 
-export default WarningModal;
+export default MessageModal;

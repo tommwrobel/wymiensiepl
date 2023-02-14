@@ -1,5 +1,6 @@
 package pl.wymiensie.server.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pl.wymiensie.server.entity.Book;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @RequestMapping("/users")
 public class UserController {
 
+    private final int DEFAULT_RECORDS_PER_PAGE = 5;
     private final UserService userService;
     private final BookService bookService;
 
@@ -39,8 +41,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}/books")
-    public Collection<Book> getUserBooks(@PathVariable("id") UUID id) {
-        Collection<Book> books = bookService.findByUserId(id);
+    public Page<Book> getUserBooks(
+            @PathVariable("id") UUID id,
+            @RequestParam(required = false) String searchTxt,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size
+    ) {
+        int pageNumber = (page != null && page >= 0) ? page.intValue() : 0;
+        int recordsPerPage = (size != null && size > 0) ? size.intValue() : DEFAULT_RECORDS_PER_PAGE;
+        Page<Book> books = bookService.findByUserId(id, pageNumber, recordsPerPage);
         return books;
     }
 

@@ -1,23 +1,19 @@
 import { Box } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FileUploadField from "../FileUploadField/FileUploadField";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
 import TextareaField from "../TextareaField/TextareaField";
-import { useAddBookMutation } from "../../api/booksApi";
+import { useAddBookMutation } from "../../api/usersApi";
 import { useLazyGetFileUploadDataQuery } from "../../api/filesApi";
 import { useUploadFileMutation } from "../../api/awsApi";
 import useServerError from "../../hooks/useServerError";
 import { addBookFormSchema } from "./addBookFormSchema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-interface AddBookModalProps {
-    userId: string;
-    isOpen: boolean;
-    onClose: () => void;
-}
+import { ModalProps } from "../../models/app.models";
+import { AuthContext } from "../../context/AuthContext";
 
 interface AddBookFormValues {
     title: string;
@@ -37,12 +33,9 @@ const defaultFormValues: AddBookFormValues = {
     coverPhoto: undefined,
 };
 
-const AddBookModal = ({
-    userId,
-    isOpen,
-    onClose,
-}: AddBookModalProps): JSX.Element => {
+const AddBookModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     const { t } = useTranslation();
+    const { user } = useContext(AuthContext);
 
     const [addBookRequest, addBookRequestStatus] = useAddBookMutation();
     const [fileUploadDataRequest, fileUploadDataRequestStatus] =
@@ -90,21 +83,23 @@ const AddBookModal = ({
     };
 
     const handleSubmit = handleSubmitForm(async (formValues) => {
-        setIsLoading(true);
-        let objectKey = undefined;
-        if (formValues.coverPhoto && formValues.coverPhoto.length > 0) {
-            objectKey = await handleUploadFile(formValues.coverPhoto[0]);
-            if (!objectKey) {
-                setIsLoading(false);
-                return;
+        if (user) {
+            setIsLoading(true);
+            let objectKey = undefined;
+            if (formValues.coverPhoto && formValues.coverPhoto.length > 0) {
+                objectKey = await handleUploadFile(formValues.coverPhoto[0]);
+                if (!objectKey) {
+                    setIsLoading(false);
+                    return;
+                }
             }
+            await addBookRequest({
+                ...formValues,
+                coverPhoto: objectKey,
+                userId: user.id,
+            });
+            setIsLoading(false);
         }
-        await addBookRequest({
-            ...formValues,
-            coverPhoto: objectKey,
-            userId: userId,
-        });
-        setIsLoading(false);
     });
 
     const handleClose = useCallback(() => {

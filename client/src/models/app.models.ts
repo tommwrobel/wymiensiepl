@@ -20,7 +20,28 @@ export interface Book {
     coverPhoto?: string;
 }
 
+export interface BooksFilter {
+    text?: string;
+}
+
 export interface Token {
     body: string,
     expirationTime: number,
+}
+
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export interface PageInfo {
+    totalPages: number;
+    totalElements: number;
+    currentPage: number;
+    numberOfElements: number;
+}
+
+export interface PagedResponse<T> {
+    body: T[];
+    pageInfo: PageInfo;
 }

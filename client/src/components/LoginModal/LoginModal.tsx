@@ -8,22 +8,16 @@ import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
 import { useForm } from "react-hook-form";
 import { loginFormSchema } from "./loginFormSchema";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ModalProps } from "../../models/app.models";
+import { ModalContext } from "../../context/ModalContext";
 
-interface LoginModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onRegister: () => void;
-}
-
-const LoginModal = ({
-    isOpen,
-    onClose,
-    onRegister,
-}: LoginModalProps): JSX.Element => {
+const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     const { t } = useTranslation();
 
     const { login } = useContext(AuthContext);
+    const { openModal } = useContext(ModalContext);
+
     const [loginRequest, loginRequestStatus] = useLoginMutation();
     const [errorMessage, handleResetErrorMessage] =
         useServerError(loginRequestStatus);
@@ -52,7 +46,7 @@ const LoginModal = ({
     }, [handleResetErrorMessage, loginRequestStatus, onClose, resetForm]);
 
     const handleRegister = () => {
-        onRegister();
+        openModal("REGISTER_MODAL");
         handleClose();
     };
 

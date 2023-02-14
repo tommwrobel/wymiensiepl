@@ -2,24 +2,20 @@ import { Button, Link } from "@mui/material";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../context/AuthContext";
+import { ModalContext } from "../../../context/ModalContext";
 
 interface ApplicationLinksProps {
     isLoggedUser?: boolean;
     numberOfUnreadMessages?: number;
-    openLoginModal: () => void;
-    openRegistrationModal: () => void;
-    openAddBookModal: () => void;
 }
 
 const ApplicationLinks = ({
     isLoggedUser,
     numberOfUnreadMessages,
-    openLoginModal,
-    openRegistrationModal,
-    openAddBookModal,
 }: ApplicationLinksProps): JSX.Element => {
     const { t } = useTranslation();
     const { logout } = useContext(AuthContext);
+    const { openModal } = useContext(ModalContext);
 
     const handleLogout = () => {
         logout();
@@ -35,8 +31,8 @@ const ApplicationLinks = ({
             </Link>
             {isLoggedUser && (
                 <>
-                    <Link underline="none" href="/mylibrary">
-                        <Button>{t("MENU.MY_LIBRARY")}</Button>
+                    <Link underline="none" href="/library">
+                        <Button>{t("MENU.LIBRARY")}</Button>
                     </Link>
                     <Link underline="none" href="/messages">
                         <Button>
@@ -50,17 +46,17 @@ const ApplicationLinks = ({
 
             {!isLoggedUser && (
                 <>
-                    <Button onClick={openLoginModal} variant="outlined">
+                    <Button onClick={() => openModal("LOGIN_MODAL")} variant="outlined">
                         {t("COMMON.LOGIN_ACTION")}
                     </Button>
-                    <Button onClick={openRegistrationModal} variant="contained">
+                    <Button onClick={() => openModal("REGISTER_MODAL")} variant="contained">
                         {t("COMMON.REGISTER_ACTION")}
                     </Button>
                 </>
             )}
             {isLoggedUser && (
                 <>
-                    <Button variant="contained" onClick={openAddBookModal}>
+                    <Button variant="contained" onClick={() => openModal("ADD_BOOK_MODAL")}>
                         {t("COMMON.ADD_BOOK_ACTION")}
                     </Button>
                     <Button variant="outlined" onClick={handleLogout}>

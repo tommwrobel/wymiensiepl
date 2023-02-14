@@ -1,6 +1,7 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { Maybe, Token } from "../models/app.models";
 import { User } from "../models/app.models";
+import { ModalContext } from "./ModalContext";
 
 export interface AuthContextProps {
     user?: User;
@@ -26,6 +27,8 @@ interface AuthContextProviderProps {
 export const AuthContextProvider = ({
     children,
 }: AuthContextProviderProps): JSX.Element => {
+    const { openModal } = useContext(ModalContext);
+
     const [user, setUser] = useState<Maybe<User>>();
     const [token, setToken] = useState<Maybe<Token>>();
 

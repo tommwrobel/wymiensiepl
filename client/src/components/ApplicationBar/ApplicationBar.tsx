@@ -15,17 +15,7 @@ import ApplicationLinks from "./ApplicationLinks/ApplicationLinks";
 import SideMenu from "./SideMenu/SideMenu";
 import { AuthContext } from "../../context/AuthContext";
 
-interface ApplicationBarProps {
-    openLoginModal: () => void;
-    openRegistrationModal: () => void;
-    openAddBookModal: () => void;
-}
-
-const ApplicationBar = ({
-    openLoginModal,
-    openRegistrationModal,
-    openAddBookModal,
-}: ApplicationBarProps): JSX.Element => {
+const ApplicationBar = (): JSX.Element => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("lg"));
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
 
@@ -36,9 +26,6 @@ const ApplicationBar = ({
             <ApplicationLinks
                 isLoggedUser={isLoggedUser()}
                 numberOfUnreadMessages={0}
-                openLoginModal={openLoginModal}
-                openRegistrationModal={openRegistrationModal}
-                openAddBookModal={openAddBookModal}
             />
         );
     };

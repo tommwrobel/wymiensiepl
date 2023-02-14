@@ -9,12 +9,8 @@ import useServerError from "../../hooks/useServerError";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { registerFormSchema } from "./registerFormSchema";
-
-interface RegisterModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onLogin: () => void;
-}
+import { ModalProps } from "../../models/app.models";
+import { ModalContext } from "../../context/ModalContext";
 
 interface RegisterFormValues {
     name: string;
@@ -26,9 +22,10 @@ interface RegisterFormValues {
 const RegisterModal = ({
     isOpen,
     onClose,
-    onLogin,
-}: RegisterModalProps): JSX.Element => {
+}: ModalProps): JSX.Element => {
     const { login } = useContext(AuthContext);
+    const { openModal } = useContext(ModalContext);
+    
     const [registerRequest, registerRequestStatus] = useRegisterMutation();
     const [errorMessage, handleResetErrorMessage] =
         useServerError(registerRequestStatus);
@@ -53,7 +50,7 @@ const RegisterModal = ({
     }, [handleResetErrorMessage, registerRequestStatus, resetForm, onClose]);
 
     const handleLogin = () => {
-        onLogin();
+        openModal("LOGIN_MODAL");
         handleClose();
     };
 

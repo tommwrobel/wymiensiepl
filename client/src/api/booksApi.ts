@@ -1,31 +1,10 @@
-import { Book } from "../models/app.models";
+import { Book, PagedResponse, PageInfo } from "../models/app.models";
 import { appApi } from "./appApi";
 
-interface AddBookRequest {
-    userId: string;
-    title: string;
-    author: string;
-    description?: string;
-    publicationYear?: number;
-    numberOfPages?: number;
-    coverPhoto?: string;
-}
-
-export interface AddBookResponse {
-    id: string;
-    userId: string;
-    title: string;
-    author: string;
-    description?: string;
-    publicationYear?: number;
-    numberOfPages?: number;
-    coverPhoto?: string;
-}
-
-export interface BookResponse extends Book {}
-
-export interface GetUserBooksRequest {
-    userId: string;
+export interface BooksRequestParams {
+    searchTxt?: string;
+    page?: number;
+    size?: number;
 }
 
 export interface SearchBooksRequest {
@@ -34,29 +13,25 @@ export interface SearchBooksRequest {
 
 export const booksApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
-        getUserBooks: builder.query<BookResponse[], GetUserBooksRequest>({
-            query: ({ userId }) => ({
-                url: `users/${userId}/books`,
+        getBooks: builder.query<PagedResponse<Book>, BooksRequestParams>({
+            query: ({ searchTxt, page, size }) => ({
+                url: `/books`,
+                params: {
+                    searchTxt: searchTxt,
+                    page: page,
+                    size: size,
+                },
             }),
-        }),
-        searchBooks: builder.query<BookResponse[], SearchBooksRequest>({
-            query: ({ text }) => ({
-                url: `books/search?text=${text}`,
-            }),
-        }),
-        addBook: builder.mutation<AddBookResponse, AddBookRequest>({
-            query: ({ userId, ...body }) => ({
-                url: `users/${userId}/books`,
-                method: "POST",
-                body,
-            }),
-            invalidatesTags: ["Statistics"],
+            transformResponse: (response) => {
+                const pagedResponse = response as PagedResponse<Book>;
+                return {
+                    body: pagedResponse.body,
+                    pageInfo: pagedResponse.pageInfo,
+                };
+            },
+            providesTags: ["Books"],
         }),
     }),
 });
 
-export const {
-    useAddBookMutation,
-    useGetUserBooksQuery,
-    useLazySearchBooksQuery,
-} = booksApi;
+export const { useGetBooksQuery, useLazyGetBooksQuery } = booksApi;

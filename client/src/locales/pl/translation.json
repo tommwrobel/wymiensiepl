@@ -1,5 +1,7 @@
 {
     "COMMON": {
+        "HELLO_USER": "Witaj {{username}}!",
+        "SEE_ALL_BOOKS": "Zobacz wszystkie książki!",
         "LOGIN": "Logowanie",
         "REGISTER": "Rejestracja",
         "LOGIN_ACTION": "Zaloguj się",
@@ -8,7 +10,7 @@
         "CANCEL": "Anuluj",
         "CLOSE": "Zamknij",
         "TOKEN_EXPIRED_TITLE": "Sesja wygasła",
-        "TOKEN_EXPIRED": "Sesja została zakończona, zaloguj się ponownie aby kontynuować.",
+        "TOKEN_EXPIRED_BODY": "Sesja została zakończona, zaloguj się ponownie aby kontynuować.",
         "REGISTER_SUCCESS": "Rejestracja udana! Zostałeś zalogowany.",
         "USERNAME": "Nazwa użytkownika",
         "PASSWORD": "Hasło",
@@ -38,7 +40,7 @@
         "ABOUT_US": "O nas",
         "PROFILE": "Profil",
         "MESSAGES": "Wiadomości ({{count}})",
-        "MY_LIBRARY": "Moja bliblioteczka"
+        "LIBRARY": "Bliblioteczka"
     },
     "SECTIONS": {
         "HERO": {
