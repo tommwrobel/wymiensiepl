@@ -32,7 +32,7 @@ export const addBookFormSchema = Yup.object({
             t("VALIDATION.FILE_TOO_BIG", { maxFileSize: 5 }).toString(),
             (value) => {
                 if (value && value.length > 0)
-                    return value[0].size <= 10000 * 5;
+                    return value[0].size <= 1024 * 1024 * 5;
                 return true;
             }
         )

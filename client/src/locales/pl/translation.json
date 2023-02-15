@@ -31,7 +31,8 @@
         "UPLOAD_FILE_ACTION": "Wybierz plik",
         "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
         "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB",
-        "SEARCH_BOOKS_ACTION": "Szukaj książki na wymianę...",
+        "SEARCH_ACTION": "Szukaj",
+        "SEARCH_BOOKS_PLACEHOLDER": "Szukaj książki na wymianę...",
         "RESULTS_NUMBER": "Wyniki: {{number}}",
         "SERVER_ERROR": "Wystąpił nieoczekiwany błąd."
     },
@@ -41,6 +42,11 @@
         "PROFILE": "Profil",
         "MESSAGES": "Wiadomości ({{count}})",
         "LIBRARY": "Bliblioteczka"
+    },
+    "PAGES": {
+        "LIBRARY": {
+            "TITLE": "Wszystkie dostępne książki ({{bookCount}})"
+        }
     },
     "SECTIONS": {
         "HERO": {

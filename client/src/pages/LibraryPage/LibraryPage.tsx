@@ -1,7 +1,10 @@
 import { Box, Button, Pagination } from "@mui/material";
 import { useContext, useState, useEffect } from "react";
 import { useLazyGetBooksQuery } from "../../api/booksApi";
+import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import BookList from "../../components/BookList/BookList";
+import Footer from "../../components/Footer/Footer";
+import SearchBarSection from "../../components/SearchBarSection/SearchBarSection";
 import { AuthContext } from "../../context/AuthContext";
 import { Book, BooksFilter, Maybe, PageInfo } from "../../models/app.models";
 
@@ -33,6 +36,7 @@ const LibraryPage = (): JSX.Element => {
 
     return (
         <>
+        <SearchBarSection />
             Search:
             <input
                 type="text"
@@ -57,6 +61,8 @@ const LibraryPage = (): JSX.Element => {
                     }
                 />
             )}
+            <AboutUsSection />
+            <Footer />
         </>
     );
 };
