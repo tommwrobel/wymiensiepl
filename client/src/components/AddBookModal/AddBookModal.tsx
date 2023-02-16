@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ModalProps } from "../../models/app.models";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 interface AddBookFormValues {
     title: string;
@@ -95,8 +96,7 @@ const AddBookModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                             ...formValues,
                             coverPhoto: objectKey as string,
                             userId,
-                        });
-                        setIsLoading(false);
+                        }).then(() => setIsLoading(false));
                     })
                     .catch(() => {
                         setIsLoading(false);
@@ -115,10 +115,10 @@ const AddBookModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
 
     useEffect(() => {
         if (addBookRequestStatus.isSuccess && addBookRequestStatus.data) {
-            setIsLoading(false);
+            toast.success(t("COMMON.ADD_NEW_BOOK_SUCCESS"));
             onClose();
         }
-    }, [addBookRequestStatus.isSuccess, addBookRequestStatus.data, onClose]);
+    }, [addBookRequestStatus.isSuccess, addBookRequestStatus.data, onClose, t]);
 
     return (
         <FormModal

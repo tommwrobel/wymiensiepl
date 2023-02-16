@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { registerFormSchema } from "./registerFormSchema";
 import { ModalProps } from "../../models/app.models";
 import { ModalContext } from "../../context/ModalContext";
+import { toast } from "react-toastify";
 
 interface RegisterFormValues {
     name: string;
@@ -52,6 +53,7 @@ const RegisterModal = ({
                 user: registerRequestStatus.data.user,
                 token: registerRequestStatus.data.token,
             });
+            toast.success(t("COMMON.REGISTER_SUCCESS"));
             onClose();
         }
     }, [registerRequestStatus.isSuccess, registerRequestStatus.data, onClose, login]);

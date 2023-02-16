@@ -9,6 +9,8 @@ import { store } from "./store/store";
 import AuthContextProvider from "./context/AuthContext";
 import ModalContextProvider from "./context/ModalContext";
 import ApplicationBar from "./components/ApplicationBar/ApplicationBar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
     return (
@@ -19,6 +21,11 @@ function App() {
                         <ModalContextProvider>
                             <ApplicationBar />
                             <RouterProvider router={router} />
+                            <ToastContainer
+                                theme="light"
+                                position="bottom-center"
+                                autoClose={3000}
+                            />
                         </ModalContextProvider>
                     </AuthContextProvider>
                 </StoreProvider>

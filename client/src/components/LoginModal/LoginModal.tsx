@@ -11,6 +11,7 @@ import { loginFormSchema } from "./loginFormSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ModalProps } from "../../models/app.models";
 import { ModalContext } from "../../context/ModalContext";
+import { toast } from "react-toastify";
 
 const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     const { t } = useTranslation();
@@ -48,14 +49,10 @@ const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                 user: loginRequestStatus.data.user,
                 token: loginRequestStatus.data.token,
             });
+            toast.success(t("COMMON.LOGIN_SUCCESS"));
             onClose();
         }
-    }, [
-        loginRequestStatus.isSuccess,
-        loginRequestStatus.data,
-        onClose,
-        login,
-    ]);
+    }, [loginRequestStatus.isSuccess, loginRequestStatus.data, onClose, login, t]);
 
     return (
         <FormModal
