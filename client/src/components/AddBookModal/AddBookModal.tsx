@@ -72,33 +72,50 @@ const AddBookModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
         );
     };
 
-    const handleUploadFile = async (file: File) => {
-        const dataRequestResponse = await fileUploadDataRequest();
-        if (dataRequestResponse.isSuccess && dataRequestResponse.data) {
-            const { url, objectKey } = dataRequestResponse.data;
-            await uploadFileRequest({ url, file });
-            if (uploadFileRequestStatus.isSuccess) return objectKey;
-        }
-        return undefined;
+    const handleUploadFile = (file: File) => {
+        return new Promise((resolve, reject) => {
+            fileUploadDataRequest()
+                .then(({ data }) => {
+                    if (data) {
+                        uploadFileRequest({ url: data.url, file })
+                            .then(() => resolve(data.objectKey))
+                            .catch(() => reject());
+                    } else reject();
+                })
+                .catch(() => {
+                    reject();
+                });
+        });
     };
 
     const handleSubmit = handleSubmitForm(async (formValues) => {
+        setIsLoading(true);
         if (user) {
-            setIsLoading(true);
-            let objectKey = undefined;
-            if (formValues.coverPhoto && formValues.coverPhoto.length > 0) {
-                objectKey = await handleUploadFile(formValues.coverPhoto[0]);
-                if (!objectKey) {
-                    setIsLoading(false);
-                    return;
-                }
+            await fileUploadDataRequest();
+            let coverPhoto = undefined;
+            const userId = user.id;
+            if (formValues.coverPhoto?.[0]) {
+                handleUploadFile(formValues.coverPhoto[0])
+                    .then((objectKey) => {
+                        addBookRequest({
+                            ...formValues,
+                            coverPhoto: objectKey as string,
+                            userId,
+                        });
+                        setIsLoading(false);
+                    })
+                    .catch(() => {
+                        setIsLoading(false);
+                        return;
+                    });
+            } else {
+                await addBookRequest({
+                    ...formValues,
+                    coverPhoto,
+                    userId,
+                });
+                setIsLoading(false);
             }
-            await addBookRequest({
-                ...formValues,
-                coverPhoto: objectKey,
-                userId: user.id,
-            });
-            setIsLoading(false);
         }
     });
 
