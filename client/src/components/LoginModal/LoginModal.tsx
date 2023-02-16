@@ -1,5 +1,5 @@
 import { Link, Typography } from "@mui/material";
-import { useCallback, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLoginMutation } from "../../api/authApi";
 import useServerError from "../../hooks/useServerError";
@@ -19,7 +19,7 @@ const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     const { openModal } = useContext(ModalContext);
 
     const [loginRequest, loginRequestStatus] = useLoginMutation();
-    const [errorMessage, handleResetErrorMessage] =
+    const [errorMessage] =
         useServerError(loginRequestStatus);
 
     interface LoginFormValues {
@@ -31,23 +31,15 @@ const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
         register,
         handleSubmit: handleSubmitForm,
         formState: { errors: formErrors },
-        reset: resetForm,
     } = useForm<LoginFormValues>({
         resolver: yupResolver(loginFormSchema),
     });
 
     const handleLogin = handleSubmitForm((data) => loginRequest(data));
 
-    const handleClose = useCallback(() => {
-        handleResetErrorMessage();
-        loginRequestStatus.reset();
-        resetForm();
-        onClose();
-    }, [handleResetErrorMessage, loginRequestStatus, onClose, resetForm]);
-
     const handleRegister = () => {
         openModal("REGISTER_MODAL");
-        handleClose();
+        onClose();
     };
 
     useEffect(() => {
@@ -56,13 +48,12 @@ const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
                 user: loginRequestStatus.data.user,
                 token: loginRequestStatus.data.token,
             });
-            handleClose();
+            onClose();
         }
     }, [
         loginRequestStatus.isSuccess,
         loginRequestStatus.data,
         onClose,
-        handleClose,
         login,
     ]);
 
@@ -72,7 +63,7 @@ const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
             onSubmit={handleLogin}
             submitLabel={t("COMMON.LOGIN_ACTION")}
             isLoading={loginRequestStatus.isLoading}
-            onClose={handleClose}
+            onClose={onClose}
             title={t("COMMON.LOGIN")}
             errorMessage={errorMessage}
             formFields={

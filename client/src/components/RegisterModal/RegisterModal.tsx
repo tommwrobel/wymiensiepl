@@ -2,7 +2,7 @@ import { Link, Typography } from "@mui/material";
 import { useRegisterMutation } from "../../api/authApi";
 import FormModal from "../FormModal/FormModal";
 import InputField from "../InputField/InputField";
-import { useCallback, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../context/AuthContext";
 import useServerError from "../../hooks/useServerError";
@@ -27,7 +27,7 @@ const RegisterModal = ({
     const { openModal } = useContext(ModalContext);
     
     const [registerRequest, registerRequestStatus] = useRegisterMutation();
-    const [errorMessage, handleResetErrorMessage] =
+    const [errorMessage] =
         useServerError(registerRequestStatus);
     const { t } = useTranslation();
 
@@ -35,23 +35,15 @@ const RegisterModal = ({
         register,
         handleSubmit: handleSubmitForm,
         formState: { errors: formErrors },
-        reset: resetForm,
     } = useForm<RegisterFormValues>({
         resolver: yupResolver(registerFormSchema),
     });
 
     const handleRegister = handleSubmitForm((data) => registerRequest(data));
 
-    const handleClose = useCallback(() => {
-        handleResetErrorMessage();
-        registerRequestStatus.reset();
-        resetForm();
-        onClose();
-    }, [handleResetErrorMessage, registerRequestStatus, resetForm, onClose]);
-
     const handleLogin = () => {
         openModal("LOGIN_MODAL");
-        handleClose();
+        onClose();
     };
 
     useEffect(() => {
@@ -60,9 +52,9 @@ const RegisterModal = ({
                 user: registerRequestStatus.data.user,
                 token: registerRequestStatus.data.token,
             });
-            handleClose();
+            onClose();
         }
-    }, [registerRequestStatus.isSuccess, registerRequestStatus.data, onClose, handleClose, login]);
+    }, [registerRequestStatus.isSuccess, registerRequestStatus.data, onClose, login]);
 
     return (
         <FormModal
@@ -70,7 +62,7 @@ const RegisterModal = ({
             onSubmit={handleRegister}
             submitLabel={t("COMMON.REGISTER_ACTION")}
             isLoading={registerRequestStatus.isLoading}
-            onClose={handleClose}
+            onClose={onClose}
             title={t("COMMON.REGISTER")}
             errorMessage={errorMessage}
             formFields={

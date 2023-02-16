@@ -48,21 +48,15 @@ const AddBookModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
         register,
         handleSubmit: handleSubmitForm,
         formState: { errors: formErrors },
-        reset: resetForm,
         resetField,
     } = useForm<AddBookFormValues>({
         resolver: yupResolver(addBookFormSchema),
         defaultValues: defaultFormValues,
     });
 
-    const [fileUploadDataError, resetFileUploadDataError] = useServerError(
-        fileUploadDataRequestStatus
-    );
-    const [fileUploadAwsError, resetFileUploadAwsError] = useServerError(
-        uploadFileRequestStatus
-    );
-    const [addBookError, resetAddBookError] =
-        useServerError(addBookRequestStatus);
+    const [fileUploadDataError] = useServerError(fileUploadDataRequestStatus);
+    const [fileUploadAwsError] = useServerError(uploadFileRequestStatus);
+    const [addBookError] = useServerError(addBookRequestStatus);
     const getErrorMessage = () => {
         return (
             fileUploadDataError ||
@@ -119,42 +113,19 @@ const AddBookModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
         }
     });
 
-    const handleClose = useCallback(() => {
-        const handleResetErrors = () => {
-            resetFileUploadDataError();
-            resetFileUploadAwsError();
-            resetAddBookError();
-        };
-        handleResetErrors();
-        addBookRequestStatus.reset();
-        resetForm();
-        onClose();
-    }, [
-        addBookRequestStatus,
-        onClose,
-        resetAddBookError,
-        resetFileUploadAwsError,
-        resetFileUploadDataError,
-        resetForm,
-    ]);
-
     useEffect(() => {
         if (addBookRequestStatus.isSuccess && addBookRequestStatus.data) {
             setIsLoading(false);
-            handleClose();
+            onClose();
         }
-    }, [
-        addBookRequestStatus.isSuccess,
-        addBookRequestStatus.data,
-        handleClose,
-    ]);
+    }, [addBookRequestStatus.isSuccess, addBookRequestStatus.data, onClose]);
 
     return (
         <FormModal
             isOpen={isOpen}
             onSubmit={handleSubmit}
             submitLabel={t("COMMON.ADD_BOOK_ACTION")}
-            onClose={handleClose}
+            onClose={onClose}
             title={t("COMMON.ADD_NEW_BOOK_ACTION")}
             errorMessage={getErrorMessage()}
             isLoading={isLoading}
