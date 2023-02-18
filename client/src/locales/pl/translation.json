@@ -51,7 +51,7 @@
     },
     "PAGES": {
         "LIBRARY": {
-            "All_AVAILABLE_BOOKS": "Wszystkie dostępne książki ({{bookCount}})",
+            "All_BOOKS": "Wszystkie książki ({{bookCount}})",
             "All_USER_BOOKS": "Wszystkie twoje książki ({{bookCount}})",
             "SEARCH_RESULTS": "Wyniki wyszukiwania ({{bookCount}})"
         }

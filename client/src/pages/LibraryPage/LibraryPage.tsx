@@ -29,7 +29,7 @@ const LibraryPage = (): JSX.Element => {
         if (getBooksQuery.isSuccess && getBooksQuery.data) {
             setBooks(getBooksQuery.data.body);
             setTotalBooksCount(getBooksQuery.data.pageInfo.totalElements);
-            console.log(getBooksQuery.data.pageInfo)
+            console.log(getBooksQuery.data.pageInfo);
             setPageInfo(getBooksQuery.data.pageInfo);
         }
     }, [getBooksQuery]);
@@ -42,19 +42,19 @@ const LibraryPage = (): JSX.Element => {
         setFilters({});
     };
 
+    const pageTitle = t(
+        `PAGES.LIBRARY.${
+            filters.searchText ? "SEARCH_RESULTS" : "All_BOOKS"
+        }`,
+        {
+            bookCount: totalBooksCount,
+        }
+    );
+
     return (
         <>
             <PageTitleSection
-                startContent={t(
-                    `PAGES.LIBRARY.${
-                        filters.searchText
-                            ? "SEARCH_RESULTS"
-                            : "All_AVAILABLE_BOOKS"
-                    }`,
-                    {
-                        bookCount: totalBooksCount,
-                    }
-                )}
+                startContent={pageTitle}
                 endContent={
                     <SearchInput
                         onSearch={(searchText) =>
