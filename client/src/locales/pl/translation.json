@@ -34,9 +34,13 @@
         "ACCEPTED_FILE_FORMATS": "Akceptowane formaty plików: {{fileFormats}}",
         "MAX_FILE_SIZE_IN_MB": "Maksymalny rozmiar pliku: {{maxFileSizeInMb}} MB",
         "SEARCH_ACTION": "Szukaj",
-        "SEARCH_BOOKS_PLACEHOLDER": "Szukaj książki na wymianę...",
+        "SEARCH_BOOKS_PLACEHOLDER": "Szukaj po tytule, autorze...",
         "RESULTS_NUMBER": "Wyniki: {{number}}",
-        "SERVER_ERROR": "Wystąpił nieoczekiwany błąd."
+        "SERVER_ERROR": "Wystąpił nieoczekiwany błąd.",
+        "MORE_DOTS": "Więcej...",
+        "DELETE": "Usuń",
+        "AUTHOR": "Autor",
+        "EXCHANGE": "Wymień się"
     },
     "MENU": {
         "HOMEPAGE": "Strona główna",
@@ -47,13 +51,15 @@
     },
     "PAGES": {
         "LIBRARY": {
-            "TITLE": "Wszystkie dostępne książki ({{bookCount}})"
+            "All_AVAILABLE_BOOKS": "Wszystkie dostępne książki ({{bookCount}})",
+            "All_USER_BOOKS": "Wszystkie twoje książki ({{bookCount}})",
+            "SEARCH_RESULTS": "Wyniki wyszukiwania ({{bookCount}})"
         }
     },
     "SECTIONS": {
         "HERO": {
-            "TITLE": "Lorem ipsum consectetur",
-            "SUBTITLE": "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            "TITLE": "Podziel się przygodą czytania",
+            "SUBTITLE": "Odkryj nowe światy literatury - rozwijaj swoją bilbioteczkę i wymieniaj książki z innymi czytelnikami!"
         },
         "INSTRUCTIONS": {
             "STEP_1": "Znajdź książkę",
@@ -72,7 +78,7 @@
             "RECOMMEND_ON_FACEBOOK": "Poleć nas na Facebooku!"
         },
         "ABOUT_US": {
-            "BODY": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sincididunt ut labore et dolore magna alut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            "BODY": "Witaj na naszej stronie! Nasza platforma została stworzona z myślą o wszystkich miłośnikach książek, którzy chcą wymieniać się swoimi ulubionymi tytułami z innymi czytelnikami. Naszym celem jest umożliwienie łatwej i przyjemnej wymiany książek. Dołącz do nas i zacznij eksplorować świat literatury!"
         },
         "FOOTER": {
             "COPYRIGHTS": "{{currentYear}} Tomasz Wróbel. Wszelkie prawa zastrzeżone."

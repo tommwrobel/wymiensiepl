@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import AuthGuard from "../components/AuthGuard/AuthGuard";
 import BookPage from "../pages/BookPage/BookPage";
-import BooksPage from "../pages/BooksPage/BooksPage";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import LibraryPage from "../pages/LibraryPage/LibraryPage";
@@ -43,10 +42,10 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "/books",
+        path: "/test",
         element: (
             <AuthGuard>
-                <BooksPage />
+                <TestPage />
             </AuthGuard>
         ),
     },

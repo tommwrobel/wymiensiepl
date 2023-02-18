@@ -1,0 +1,29 @@
+.bookItemContainer {
+}
+
+.bookWrapper {
+    border: solid 1px #e5e5e5;
+    border-radius: 12px;
+    gap: 24px;
+}
+
+.bookWrapper:hover {
+    border-color: #E16C39;
+}
+
+.coverPhoto {
+    width: 120px;
+    height: 160px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.author {
+    font-style: "italic";
+}
+
+.actionsWrapper {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}

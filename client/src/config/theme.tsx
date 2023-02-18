@@ -132,6 +132,7 @@ export const customColors = {
     lightGrey: theme.palette.grey[100].toString(),
     darkGrey: theme.palette.grey[800].toString(),
     mediumGrey: theme.palette.grey[400].toString(),
+    mediumDarkGrey: theme.palette.grey[500].toString(),
 
     white: "white",
     black: "black",

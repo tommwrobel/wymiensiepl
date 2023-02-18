@@ -11,7 +11,6 @@ import pl.wymiensie.server.model.BookStatus;
 import pl.wymiensie.server.service.BookService;
 import pl.wymiensie.server.service.UserService;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +42,7 @@ public class UserController {
     @GetMapping("/{id}/books")
     public Page<Book> getUserBooks(
             @PathVariable("id") UUID id,
-            @RequestParam(required = false) String searchTxt,
+            @RequestParam(required = false) String searchText,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size
     ) {

@@ -53,7 +53,7 @@ const HeroSection = (): JSX.Element => {
                 {isImageVisible && (
                     <Grid2 md={6} xs={12} className="item">
                         <Box className={commonClasses.gridImgContainer}>
-                            <img src="hero-img.png" alt="" />
+                            <img src="/hero-img.png" alt="" />
                         </Box>
                     </Grid2>
                 )}

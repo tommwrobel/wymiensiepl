@@ -14,7 +14,7 @@ const AboutUsSection = (): JSX.Element => {
             <Grid2 container alignItems="center" spacing={12}>
                 <Grid2 md={6} xs={12}>
                     <Box className={commonClasses.gridImgContainer}>
-                        <img src="about-us-img.png" alt="" />
+                        <img src="/about-us-img.png" alt="" />
                     </Box>
                 </Grid2>
                 <Grid2 md={6} xs={12}>

@@ -20,8 +20,10 @@ export interface Book {
     coverPhoto?: string;
 }
 
-export interface BooksFilter {
-    text?: string;
+export interface BooksFilters {
+    searchText?: string;
+    page?: number;
+    size?: number;
 }
 
 export interface Token {

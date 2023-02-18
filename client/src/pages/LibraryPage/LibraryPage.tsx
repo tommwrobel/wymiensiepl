@@ -1,68 +1,89 @@
-import { Box, Button, Pagination } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
 import { useContext, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useLazyGetBooksQuery } from "../../api/booksApi";
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import BookList from "../../components/BookList/BookList";
-import Footer from "../../components/Footer/Footer";
-import SearchBarSection from "../../components/SearchBarSection/SearchBarSection";
+import PageSection from "../../components/PageSection/PageSection";
+import PageTitleSection from "../../components/PageTitleSection/PageTitleSection";
+import SearchInput from "../../components/SearchInput/SearchInput";
 import { AuthContext } from "../../context/AuthContext";
-import { Book, BooksFilter, Maybe, PageInfo } from "../../models/app.models";
+import { Book, BooksFilters, Maybe, PageInfo } from "../../models/app.models";
 
 const LibraryPage = (): JSX.Element => {
     const { user } = useContext(AuthContext);
+    const { t } = useTranslation();
 
     const [books, setBooks] = useState<Book[]>([]);
     const [pageInfo, setPageInfo] = useState<Maybe<PageInfo>>();
-    const [searchTxt, setSearchTxt] = useState<Maybe<string>>();
-    const [filters, setFilters] = useState<Maybe<BooksFilter>>();
+    const [filters, setFilters] = useState<BooksFilters>({});
+    const [totalBooksCount, setTotalBooksCount] = useState(0);
 
     const [getBooksTrigger, getBooksQuery] = useLazyGetBooksQuery();
 
     useEffect(() => {
-        getBooksTrigger({});
-    }, [getBooksTrigger]);
+        getBooksTrigger(filters);
+    }, [getBooksTrigger, filters]);
 
     useEffect(() => {
         if (getBooksQuery.isSuccess && getBooksQuery.data) {
             setBooks(getBooksQuery.data.body);
+            setTotalBooksCount(getBooksQuery.data.pageInfo.totalElements);
+            console.log(getBooksQuery.data.pageInfo)
             setPageInfo(getBooksQuery.data.pageInfo);
         }
     }, [getBooksQuery]);
 
-    const handleApplyFilters = () => {
-        setFilters({ text: searchTxt });
-        getBooksTrigger({ searchTxt: searchTxt });
+    const handleApplyFilters = (newFilters: Partial<BooksFilters>) => {
+        setFilters((filters) => ({ ...filters, ...newFilters }));
+    };
+
+    const handleClearFilters = () => {
+        setFilters({});
     };
 
     return (
         <>
-        <SearchBarSection />
-            Search:
-            <input
-                type="text"
-                value={searchTxt}
-                onChange={(e) => setSearchTxt(e.target.value)}
-            />
-            <Button onClick={handleApplyFilters}>Szukaj</Button>
-            {books && books.length === 0 && <h5>No books</h5>}
-            <Box padding={10}>
-                <BookList books={books} />
-            </Box>
-            {pageInfo && pageInfo.totalPages > 0 && (
-                <Pagination
-                    variant="text"
-                    disabled={pageInfo.totalPages === 1}
-                    count={pageInfo.totalPages}
-                    onChange={(event, page) =>
-                        getBooksTrigger({
-                            searchTxt: filters?.text,
-                            page: page - 1,
-                        })
+            <PageTitleSection
+                startContent={t(
+                    `PAGES.LIBRARY.${
+                        filters.searchText
+                            ? "SEARCH_RESULTS"
+                            : "All_AVAILABLE_BOOKS"
+                    }`,
+                    {
+                        bookCount: totalBooksCount,
                     }
-                />
-            )}
+                )}
+                endContent={
+                    <SearchInput
+                        onSearch={(searchText) =>
+                            handleApplyFilters({ searchText, page: 0 })
+                        }
+                        onClear={handleClearFilters}
+                    />
+                }
+            />
+
+            <PageSection padding="25px 15px">
+                {books && books.length === 0 && <h5>No books</h5>}
+                <BookList books={books} />
+
+                <Box display="flex" justifyContent="center" margin={4}>
+                    {pageInfo && pageInfo.totalPages > 0 && (
+                        <Pagination
+                            variant="text"
+                            color="primary"
+                            disabled={pageInfo.totalPages === 1}
+                            count={pageInfo.totalPages}
+                            onChange={(_event, page) =>
+                                handleApplyFilters({ page: page - 1 })
+                            }
+                        />
+                    )}
+                </Box>
+            </PageSection>
             <AboutUsSection />
-            <Footer />
         </>
     );
 };

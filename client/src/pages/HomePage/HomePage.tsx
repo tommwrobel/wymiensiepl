@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
-import Footer from "../../components/Footer/Footer";
 import HelloSection from "../../components/HelloSection/HelloSection";
 import HeroSection from "../../components/HeroSection/HeroSection";
 import InstructionsSection from "../../components/InstructionSection/InstructionsSection";
@@ -15,7 +14,6 @@ const HomePage = (): JSX.Element => {const { isLoggedUser } = useContext(AuthCon
             <InstructionsSection />
             <StatisticsSection />
             <AboutUsSection />
-            <Footer />
         </>
     );
 };

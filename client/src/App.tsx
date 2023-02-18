@@ -11,6 +11,7 @@ import ModalContextProvider from "./context/ModalContext";
 import ApplicationBar from "./components/ApplicationBar/ApplicationBar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./components/Footer/Footer";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                         <ModalContextProvider>
                             <ApplicationBar />
                             <RouterProvider router={router} />
+                            <Footer />
                             <ToastContainer
                                 theme="light"
                                 position="bottom-center"

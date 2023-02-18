@@ -15,15 +15,13 @@ import pl.wymiensie.server.model.PagedResponse;
 import pl.wymiensie.server.service.BookService;
 import pl.wymiensie.server.service.UserService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
-    private final int DEFAULT_RECORDS_PER_PAGE = 5;
+    private final int DEFAULT_RECORDS_PER_PAGE = 8;
     BookService bookService;
     UserService userService;
 
@@ -34,13 +32,13 @@ public class BookController {
 
     @GetMapping
     public PagedResponse<Book> getAllBooks(
-            @RequestParam(required = false) String searchTxt,
+            @RequestParam(required = false) String searchText,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size
     ) {
         int pageNumber = (page != null && page >= 0) ? page.intValue() : 0;
         int recordsPerPage = (size != null && size > 0) ? size.intValue() : DEFAULT_RECORDS_PER_PAGE;
-        Page<Book> response = bookService.findAllByText(searchTxt, pageNumber, recordsPerPage);
+        Page<Book> response = bookService.findAllByText(searchText, pageNumber, recordsPerPage);
 
         return transformResponse(response);
     }

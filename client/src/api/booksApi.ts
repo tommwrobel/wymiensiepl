@@ -2,7 +2,7 @@ import { Book, PagedResponse, PageInfo } from "../models/app.models";
 import { appApi } from "./appApi";
 
 export interface BooksRequestParams {
-    searchTxt?: string;
+    searchText?: string;
     page?: number;
     size?: number;
 }
@@ -14,12 +14,12 @@ export interface SearchBooksRequest {
 export const booksApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
         getBooks: builder.query<PagedResponse<Book>, BooksRequestParams>({
-            query: ({ searchTxt, page, size }) => ({
+            query: ({ searchText, page, size }) => ({
                 url: `/books`,
                 params: {
-                    searchTxt: searchTxt,
-                    page: page,
-                    size: size,
+                    searchText,
+                    page,
+                    size,
                 },
             }),
             transformResponse: (response) => {

@@ -1,26 +1,34 @@
 import { createContext, ReactNode, useState } from "react";
 import AddBookModal from "../components/AddBookModal/AddBookModal";
+import ExchangeBookModal, {
+    ExchangeBookModalProps,
+} from "../components/ExchangeBookModal/ExchangeBookModal";
 import LoginModal from "../components/LoginModal/LoginModal";
 import RegisterModal from "../components/RegisterModal/RegisterModal";
 import { ModalProps } from "../models/app.models";
 
-type AppModalKey = "LOGIN_MODAL" | "REGISTER_MODAL" | "ADD_BOOK_MODAL";
+type AppModalKey =
+    | "LOGIN_MODAL"
+    | "REGISTER_MODAL"
+    | "ADD_BOOK_MODAL"
+    | "EXCHANGE_BOOK_MODAL";
 
 interface ModalItem {
-    Component: (props: ModalProps) => JSX.Element;
+    Component: <T extends ModalProps>(props: T) => JSX.Element;
     key: AppModalKey;
     isOpen: boolean;
+    props?: any;
 }
 
 export interface ModalContextProps {
     modals: ModalItem[];
-    openModal: (key: string) => void;
+    openModal: (key: string, props?: any) => void;
     closeModal: (key: string) => void;
 }
 
 export const ModalContext = createContext<ModalContextProps>({
     modals: [],
-    openModal: (key: string) => {},
+    openModal: (key: string, props?: any) => {},
     closeModal: (key: string) => {},
 });
 
@@ -28,7 +36,7 @@ interface ModalContextProviderProps {
     children?: ReactNode;
 }
 
-const appModals: ModalItem[]  = [
+const appModals: ModalItem[] = [
     {
         Component: LoginModal,
         key: "LOGIN_MODAL",
@@ -44,6 +52,11 @@ const appModals: ModalItem[]  = [
         key: "ADD_BOOK_MODAL",
         isOpen: false,
     },
+    {
+        Component: ExchangeBookModal,
+        key: "EXCHANGE_BOOK_MODAL",
+        isOpen: false,
+    },
 ];
 
 export const ModalContextProvider = ({
@@ -51,10 +64,18 @@ export const ModalContextProvider = ({
 }: ModalContextProviderProps): JSX.Element => {
     const [modals, setModals] = useState<ModalItem[]>(appModals);
 
-    const handleOpenModal = (key: string) => {
+    const handleOpenModal = (key: string, customProps?: any) => {
         setModals((modals) =>
             modals.map((modal) =>
-                modal.key === key ? { ...modal, isOpen: true } : modal
+                modal.key === key
+                    ? {
+                          ...modal,
+                          isOpen: true,
+                          props: customProps
+                              ? (customProps as typeof modal.Component)
+                              : undefined,
+                      }
+                    : modal
             )
         );
     };
@@ -82,6 +103,7 @@ export const ModalContextProvider = ({
                         key={modal.key}
                         isOpen={modal.isOpen}
                         onClose={() => handleCloseModal(modal.key)}
+                        {...modal.props}
                     />
                 ) : null
             )}

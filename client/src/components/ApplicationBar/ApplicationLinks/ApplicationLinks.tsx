@@ -26,9 +26,6 @@ const ApplicationLinks = ({
             <Link underline="none" href="/home">
                 <Button>{t("MENU.HOMEPAGE")}</Button>
             </Link>
-            <Link underline="none" href="/home#aboutUs">
-                <Button>{t("MENU.ABOUT_US")}</Button>
-            </Link>
             {isLoggedUser && (
                 <>
                     <Link underline="none" href="/library">

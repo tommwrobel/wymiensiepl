@@ -20,7 +20,7 @@ export const registerFormSchema = Yup.object({
     repeatedPassword: Yup.string()
         .oneOf(
             [Yup.ref("password")],
-            t("VALIDATION.FIELD_IS_REQUIRED").toString()
+            t("VALIDATION.PASSWORDS_NOT_MATCH").toString()
         )
         .required(t("VALIDATION.FIELD_IS_REQUIRED").toString()),
 });

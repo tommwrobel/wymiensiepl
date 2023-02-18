@@ -36,7 +36,7 @@ const ApplicationBar = (): JSX.Element => {
                 <Toolbar className={classes.contentContainer}>
                     <Link href="/home">
                         <img
-                            src="logo.svg"
+                            src="/logo.svg"
                             alt="Wymiensie.pl"
                             className={classes.logo}
                         />
