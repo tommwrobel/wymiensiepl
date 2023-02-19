@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+    createContext,
+    ReactNode,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import { Maybe, Token } from "../models/app.models";
 import { User } from "../models/app.models";
 import { ModalContext } from "./ModalContext";
@@ -6,13 +12,13 @@ import { ModalContext } from "./ModalContext";
 export interface AuthContextProps {
     user?: User;
     token?: Token;
-    isLoggedUser: () => boolean;
+    isLoggedUser: boolean;
     login: (auth: AuthLocalStorage) => void;
     logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
-    isLoggedUser: () => false,
+    isLoggedUser: false,
     login: (auth: AuthLocalStorage) => undefined,
     logout: () => undefined,
 });
@@ -31,6 +37,7 @@ export const AuthContextProvider = ({
 
     const [user, setUser] = useState<Maybe<User>>();
     const [token, setToken] = useState<Maybe<Token>>();
+    const [isLoggedUser, setIsLoggedUser] = useState(false);
 
     let authLocalStorage = localStorage.getItem("authentication");
     if (authLocalStorage) {
@@ -43,7 +50,7 @@ export const AuthContextProvider = ({
 
     useEffect(() => {
         if (token && isTokenExpired(token)) {
-            handleLogout();
+            logout();
         }
     });
 
@@ -55,9 +62,10 @@ export const AuthContextProvider = ({
         }
     }, [authLocalStorage, token, user]);
 
-    const handleLogin = ({user, token}: AuthLocalStorage) => {
+    const login = ({ user, token }: AuthLocalStorage) => {
         setUser(user);
         setToken(token);
+        setIsLoggedUser(true);
         localStorage.setItem(
             "authentication",
             JSON.stringify({
@@ -67,20 +75,21 @@ export const AuthContextProvider = ({
         );
     };
 
-    const handleLogout = () => {
+    const logout = () => {
         localStorage.removeItem("authentication");
         setUser(undefined);
         setToken(undefined);
+        setIsLoggedUser(false);
     };
 
     return (
         <AuthContext.Provider
             value={{
-                user: user,
-                token: token,
-                isLoggedUser: () => Boolean(user && token),
-                login: handleLogin,
-                logout: handleLogout,
+                user,
+                token,
+                isLoggedUser,
+                login,
+                logout,
             }}
         >
             {children}

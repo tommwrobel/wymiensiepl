@@ -6,11 +6,12 @@ import InstructionsSection from "../../components/InstructionSection/Instruction
 import StatisticsSection from "../../components/StatisticsSection/StatisticsSection";
 import { AuthContext } from "../../context/AuthContext";
 
-const HomePage = (): JSX.Element => {const { isLoggedUser } = useContext(AuthContext);
+const HomePage = (): JSX.Element => {
+    const { isLoggedUser } = useContext(AuthContext);
 
     return (
         <>
-            {isLoggedUser() ? <HelloSection /> : <HeroSection />}
+            {isLoggedUser ? <HelloSection /> : <HeroSection />}
             <InstructionsSection />
             <StatisticsSection />
             <AboutUsSection />

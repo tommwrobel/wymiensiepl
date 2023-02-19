@@ -2,7 +2,8 @@ import { Box, Pagination } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { useLazyGetBooksQuery } from "../../api/booksApi";
+import { useGetBooksQuery } from "../../api/booksApi";
+import { useGetUserQuery } from "../../api/usersApi";
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import BookList from "../../components/BookList/BookList";
 import PageSection from "../../components/PageSection/PageSection";
@@ -14,6 +15,7 @@ import {
     FilterName,
     Maybe,
     PageInfo,
+    User,
 } from "../../models/app.models";
 
 const UserLibraryPage = (): JSX.Element => {
@@ -22,27 +24,30 @@ const UserLibraryPage = (): JSX.Element => {
     const { userId } = useParams();
 
     const [books, setBooks] = useState<Book[]>([]);
+    const [user, setUser] = useState<Maybe<User>>();
     const [pageInfo, setPageInfo] = useState<Maybe<PageInfo>>();
     const [filters, setFilters] = useState<BooksFilters>({ userId });
     const [bookCount, setBooksCount] = useState<Maybe<number>>(0);
 
-    const [getBooksTrigger, getBooksQuery] = useLazyGetBooksQuery();
+    const booksQuery = useGetBooksQuery(filters);
+    const userQuery = useGetUserQuery(
+        { userId: userId as string },
+        { skip: userId === undefined }
+    );
 
     useEffect(() => {
-        getBooksTrigger(filters);
-    }, [getBooksTrigger, filters]);
-
-    useEffect(() => {
-        if (
-            getBooksQuery.isSuccess &&
-            getBooksQuery.data &&
-            !getBooksQuery.isFetching
-        ) {
-            setBooks(getBooksQuery.data.body);
-            setBooksCount(getBooksQuery.data.pageInfo.totalElements);
-            setPageInfo(getBooksQuery.data.pageInfo);
+        if (booksQuery.isSuccess && booksQuery.data) {
+            setBooks(booksQuery.data.body);
+            setBooksCount(booksQuery.data.pageInfo.totalElements);
+            setPageInfo(booksQuery.data.pageInfo);
         }
-    }, [getBooksQuery.isSuccess, getBooksQuery.data, getBooksQuery.isFetching]);
+    }, [booksQuery.isSuccess, booksQuery.data]);
+
+    useEffect(() => {
+        if (userQuery.isSuccess && userQuery.data) {
+            setUser(userQuery.data);
+        }
+    }, [userQuery.isSuccess, userQuery.data]);
 
     const handleApplyFilters = (newFilters: Partial<BooksFilters>) => {
         setFilters((filters) => ({ ...filters, ...newFilters }));
@@ -57,15 +62,13 @@ const UserLibraryPage = (): JSX.Element => {
         } else setFilters({});
     };
 
-    const pageTitle = t(
-        `PAGES.LIBRARY.${filters.searchText ? "SEARCH_RESULTS" : "All_BOOKS"}`,
-        { bookCount }
-    );
-
     return (
         <>
             <PageTitleSection
-                startContent={pageTitle}
+                startContent={t("PAGES.LIBRARY.USER_BOOKS", {
+                    userName: user?.name,
+                    bookCount,
+                })}
                 endContent={
                     <SearchInput
                         onSearch={(searchText) =>
@@ -78,10 +81,7 @@ const UserLibraryPage = (): JSX.Element => {
                     />
                 }
             />
-            <PageSection
-                isLoading={getBooksQuery.isLoading || getBooksQuery.isFetching}
-                padding="25px 15px"
-            >
+            <PageSection padding="25px 15px">
                 {books && books.length === 0 && <h5>No books</h5>}
                 <BookList books={books} />
 

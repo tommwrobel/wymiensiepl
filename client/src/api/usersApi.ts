@@ -5,6 +5,11 @@ interface GetUsersResponse {
     users: User[];
 }
 
+interface GetUserResponse extends User {}
+interface GetUserRequestParams {
+    userId: string;
+}
+
 export interface GetUserBooksRequest {
     userId: string;
 }
@@ -39,12 +44,12 @@ export const userApi = appApi.injectEndpoints({
             }),
         }),
 
-        // getUserBooks: builder.query<BookResponse[], GetUserBooksRequest>({
-        //     query: ({ userId }) => ({
-        //         url: `/users/${userId}/books`,
-        //     }),
-        //     providesTags: ["Books"],
-        // }),
+        getUser: builder.query<GetUserResponse, GetUserRequestParams>({
+            query: ({ userId }) => ({
+                url: `/users/${userId}`,
+                method: "GET",
+            }),
+        }),
 
         addBook: builder.mutation<AddBookResponse, AddBookRequest>({
             query: ({ userId, ...body }) => ({
@@ -57,5 +62,5 @@ export const userApi = appApi.injectEndpoints({
     }),
 });
 
-export const { useGetUsersQuery, useLazyGetUsersQuery, useAddBookMutation } =
+export const { useGetUsersQuery, useLazyGetUsersQuery, useGetUserQuery, useAddBookMutation } =
     userApi;

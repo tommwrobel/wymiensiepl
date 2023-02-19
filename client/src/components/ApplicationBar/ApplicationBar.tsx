@@ -24,7 +24,7 @@ const ApplicationBar = (): JSX.Element => {
     const getApplicationLinks = () => {
         return (
             <ApplicationLinks
-                isLoggedUser={isLoggedUser()}
+                isLoggedUser={isLoggedUser}
                 numberOfUnreadMessages={0}
             />
         );

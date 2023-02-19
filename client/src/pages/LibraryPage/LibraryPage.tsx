@@ -1,3 +1,4 @@
+import { Box, Pagination } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLazyGetBooksQuery } from "../../api/booksApi";
@@ -53,15 +54,10 @@ const LibraryPage = (): JSX.Element => {
         } else setFilters({});
     };
 
-    const pageTitle = t(
-        `PAGES.LIBRARY.${filters.searchText ? "SEARCH_RESULTS" : "All_BOOKS"}`,
-        { bookCount }
-    );
-
     return (
         <>
             <PageTitleSection
-                startContent={pageTitle}
+                startContent={t("PAGES.LIBRARY.TITLE", { bookCount })}
                 endContent={
                     <SearchInput
                         onSearch={(searchText) =>
@@ -73,7 +69,6 @@ const LibraryPage = (): JSX.Element => {
                 }
             />
             <PageSection
-                isLoading={getBooksQuery.isLoading || getBooksQuery.isFetching}
                 padding="25px 15px"
             >
                 {books && books.length === 0 && <h5>No books</h5>}

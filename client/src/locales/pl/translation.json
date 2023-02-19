@@ -51,9 +51,9 @@
     },
     "PAGES": {
         "LIBRARY": {
-            "All_BOOKS": "Wszystkie książki ({{bookCount}})",
-            "YOUR_BOOKS": "Twoje książki ({{bookCount}})",
-            "SEARCH_RESULTS": "Wyniki wyszukiwania ({{bookCount}})"
+            "TITLE": "Biblioteczka ({{bookCount}})",
+            "USER_BOOKS": "Książki użytkownika {{userName}} ({{bookCount}})",
+            "YOUR_BOOKS": "Twoja biblioteczka ({{bookCount}})"
         }
     },
     "SECTIONS": {

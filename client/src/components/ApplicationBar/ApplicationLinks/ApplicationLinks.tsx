@@ -1,8 +1,10 @@
-import { Button, Link } from "@mui/material";
+import { Button } from "@mui/material";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { ModalContext } from "../../../context/ModalContext";
+import classes from "./ApplicationLinks.module.css";
 
 interface ApplicationLinksProps {
     isLoggedUser?: boolean;
@@ -17,21 +19,17 @@ const ApplicationLinks = ({
     const { logout } = useContext(AuthContext);
     const { openModal } = useContext(ModalContext);
 
-    const handleLogout = () => {
-        logout();
-    };
-
     return (
         <>
-            <Link underline="none" href="/home">
+            <Link to="/home" className={classes.routerLink}>
                 <Button>{t("MENU.HOMEPAGE")}</Button>
             </Link>
             {isLoggedUser && (
                 <>
-                    <Link underline="none" href="/library">
+                    <Link to="/library" className={classes.routerLink}>
                         <Button>{t("MENU.LIBRARY")}</Button>
                     </Link>
-                    <Link underline="none" href="/messages">
+                    <Link to="/messages" className={classes.routerLink}>
                         <Button>
                             {t("MENU.MESSAGES", {
                                 count: numberOfUnreadMessages,
@@ -56,7 +54,7 @@ const ApplicationLinks = ({
                     <Button variant="contained" onClick={() => openModal("ADD_BOOK_MODAL")}>
                         {t("COMMON.ADD_BOOK_ACTION")}
                     </Button>
-                    <Button variant="outlined" onClick={handleLogout}>
+                    <Button variant="outlined" onClick={logout}>
                         {t("COMMON.LOGOUT_ACTION")}
                     </Button>
                 </>

@@ -1,9 +1,19 @@
-const ErrorPage = (): JSX.Element => {
+import { Typography } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import PageSection from "../../components/PageSection/PageSection";
 
+const ErrorPage = (): JSX.Element => {
     return (
-        <>
-            404
-        </>
+        <PageSection>
+            <Grid container alignContent="center" flexDirection="column">
+                <Grid>
+                    <Typography variant="h2" textAlign="center">Error!</Typography>
+                </Grid>
+                <Grid>
+                    <img src="/error-image.svg" alt="error" />
+                </Grid>
+            </Grid>
+        </PageSection>
     );
 };
 

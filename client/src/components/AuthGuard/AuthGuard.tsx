@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from "react";
+import { Navigate } from "react-router";
 import { AuthContext } from "../../context/AuthContext";
-import HomePage from "../../pages/HomePage/HomePage";
 
 interface AuthGuardProps {
     children: ReactNode;
@@ -9,7 +9,7 @@ interface AuthGuardProps {
 const AuthGuard = ({ children }: AuthGuardProps): JSX.Element => {
     const { isLoggedUser } = useContext(AuthContext);
 
-    return <>{isLoggedUser() ? children : <HomePage />}</>;
+    return <>{isLoggedUser ? children : <Navigate to="/" />}</>;
 };
 
 export default AuthGuard;
