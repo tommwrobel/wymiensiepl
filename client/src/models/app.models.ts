@@ -22,9 +22,12 @@ export interface Book {
 
 export interface BooksFilters {
     searchText?: string;
+    userId?: string;
     page?: number;
-    size?: number;
+    size?: number
 }
+
+export type FilterName = keyof BooksFilters;
 
 export interface Token {
     body: string,

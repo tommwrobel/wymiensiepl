@@ -29,11 +29,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<Book> findAllByText(String text, int page, int size) {
-        if (text == null || text.length() == 0)
-            return bookRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
+    public Page<Book> findByText(String text, UUID userId, int page, int size) {
+        String searchText = text == null ? "" : text;
+        if (userId != null)
+            return bookRepository.findByUserIdAndText(userId, searchText, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
         return bookRepository
-                .findAllByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(text, text, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
+                .findByText(searchText, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
     };
 
     @Override

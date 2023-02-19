@@ -4,8 +4,8 @@ import BookPage from "../pages/BookPage/BookPage";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import LibraryPage from "../pages/LibraryPage/LibraryPage";
-import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import TestPage from "../pages/TestPage/TestPage";
+import UserLibraryPage from "../pages/UserLibraryPage/UserLibraryPage";
 
 export const router = createBrowserRouter([
     {
@@ -26,10 +26,10 @@ export const router = createBrowserRouter([
         element: <ErrorPage />,
     },
     {
-        path: "/profile",
+        path: "/library/:userId",
         element: (
             <AuthGuard>
-                <ProfilePage />
+                <UserLibraryPage />
             </AuthGuard>
         ),
     },

@@ -14,7 +14,7 @@ public interface BookService {
 
     Page<Book> findByUserId(UUID userId, int page, int size);
 
-    Page<Book> findAllByText(String text, int page, int size);
+    Page<Book> findByText(String text, UUID userId, int page, int size);
 
     Optional<Book> findById(UUID id);
 

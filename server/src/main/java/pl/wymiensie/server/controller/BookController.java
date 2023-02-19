@@ -16,6 +16,9 @@ import pl.wymiensie.server.service.BookService;
 import pl.wymiensie.server.service.UserService;
 
 import java.util.List;
+import java.util.UUID;
+
+import static pl.wymiensie.server.model.PagedResponse.transformResponse;
 
 @RestController
 @RequestMapping("/books")
@@ -33,19 +36,14 @@ public class BookController {
     @GetMapping
     public PagedResponse<Book> getAllBooks(
             @RequestParam(required = false) String searchText,
+            @RequestParam(required = false) UUID userId,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size
     ) {
         int pageNumber = (page != null && page >= 0) ? page.intValue() : 0;
         int recordsPerPage = (size != null && size > 0) ? size.intValue() : DEFAULT_RECORDS_PER_PAGE;
-        Page<Book> response = bookService.findAllByText(searchText, pageNumber, recordsPerPage);
+        Page<Book> response = bookService.findByText(searchText, userId, pageNumber, recordsPerPage);
 
         return transformResponse(response);
-    }
-
-    private <T> PagedResponse<T> transformResponse(Page<T> page) {
-        PageInfo pageInfo = new PageInfo(page.getTotalPages(), page.getNumberOfElements(), page.getNumber(), page.getTotalElements());
-        List<T> pageContent = page.getContent();
-        return new PagedResponse(pageContent, pageInfo, HttpStatus.OK);
     }
 }

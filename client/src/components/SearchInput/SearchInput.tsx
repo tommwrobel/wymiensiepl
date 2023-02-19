@@ -12,10 +12,15 @@ import classes from "./SearchInput.module.css";
 
 interface Props {
     onSearch: (value: string) => void;
-    onClear: () => void;
+    onClear?: () => void;
+    isClearAvailable?: boolean;
 }
 
-const SearchInput = ({ onSearch, onClear }: Props): JSX.Element => {
+const SearchInput = ({
+    onSearch,
+    onClear,
+    isClearAvailable,
+}: Props): JSX.Element => {
     const { t } = useTranslation();
     const [searchText, setSearchTxt] = useState("");
 
@@ -26,15 +31,20 @@ const SearchInput = ({ onSearch, onClear }: Props): JSX.Element => {
     const handleOnSearch = () => {
         if (searchText.length > 0) onSearch(searchText);
     };
+
     const handleOnClear = () => {
         setSearchTxt("");
-        onClear();
+        if (onClear) onClear();
     };
 
     const ClearSearchInputButton = () => {
         return (
             <InputAdornment position="end">
-                <IconButton onClick={handleOnClear} color="error" size="small" disabled={searchText.length === 0}>
+                <IconButton
+                    onClick={handleOnClear}
+                    color="error"
+                    size="small"
+                >
                     <ClearOutlined />
                 </IconButton>
             </InputAdornment>
@@ -44,7 +54,7 @@ const SearchInput = ({ onSearch, onClear }: Props): JSX.Element => {
     return (
         <Box className={classes.searchContainer}>
             <TextField
-                sx={{width: 280}}
+                sx={{ width: 280 }}
                 value={searchText}
                 size="small"
                 onChange={handleOnChange}
@@ -52,7 +62,7 @@ const SearchInput = ({ onSearch, onClear }: Props): JSX.Element => {
                 label={undefined}
                 placeholder={t("COMMON.SEARCH_BOOKS_PLACEHOLDER").toString()}
                 InputProps={{
-                    endAdornment: <ClearSearchInputButton />,
+                    endAdornment: isClearAvailable && <ClearSearchInputButton />,
                 }}
             />
             <Button onClick={handleOnSearch} variant="contained">

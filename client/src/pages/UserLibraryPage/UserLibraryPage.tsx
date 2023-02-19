@@ -1,5 +1,7 @@
+import { Box, Pagination } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { useLazyGetBooksQuery } from "../../api/booksApi";
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
 import BookList from "../../components/BookList/BookList";
@@ -14,12 +16,14 @@ import {
     PageInfo,
 } from "../../models/app.models";
 
-const LibraryPage = (): JSX.Element => {
+const UserLibraryPage = (): JSX.Element => {
     const { t } = useTranslation();
+
+    const { userId } = useParams();
 
     const [books, setBooks] = useState<Book[]>([]);
     const [pageInfo, setPageInfo] = useState<Maybe<PageInfo>>();
-    const [filters, setFilters] = useState<BooksFilters>({});
+    const [filters, setFilters] = useState<BooksFilters>({ userId });
     const [bookCount, setBooksCount] = useState<Maybe<number>>(0);
 
     const [getBooksTrigger, getBooksQuery] = useLazyGetBooksQuery();
@@ -68,7 +72,9 @@ const LibraryPage = (): JSX.Element => {
                             handleApplyFilters({ searchText, page: 0 })
                         }
                         isClearAvailable={Boolean(filters.searchText)}
-                        onClear={() => handleClearFilters()}
+                        onClear={() =>
+                            handleClearFilters(["searchText", "page"])
+                        }
                     />
                 }
             />
@@ -98,4 +104,4 @@ const LibraryPage = (): JSX.Element => {
     );
 };
 
-export default LibraryPage;
+export default UserLibraryPage;

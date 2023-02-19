@@ -8,11 +8,14 @@ import pl.wymiensie.server.entity.User;
 import pl.wymiensie.server.exception.ResourceNotFoundException;
 import pl.wymiensie.server.exception.UserNotPermittedException;
 import pl.wymiensie.server.model.BookStatus;
+import pl.wymiensie.server.model.PagedResponse;
 import pl.wymiensie.server.service.BookService;
 import pl.wymiensie.server.service.UserService;
 
 import java.util.List;
 import java.util.UUID;
+
+import static pl.wymiensie.server.model.PagedResponse.transformResponse;
 
 @RestController
 @RequestMapping("/users")
@@ -40,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/books")
-    public Page<Book> getUserBooks(
+    public PagedResponse<Book> getUserBooks(
             @PathVariable("id") UUID id,
             @RequestParam(required = false) String searchText,
             @RequestParam(required = false) Integer page,
@@ -48,8 +51,9 @@ public class UserController {
     ) {
         int pageNumber = (page != null && page >= 0) ? page.intValue() : 0;
         int recordsPerPage = (size != null && size > 0) ? size.intValue() : DEFAULT_RECORDS_PER_PAGE;
-        Page<Book> books = bookService.findByUserId(id, pageNumber, recordsPerPage);
-        return books;
+
+        Page<Book> response = bookService.findByText(searchText, id, pageNumber, recordsPerPage);
+        return transformResponse(response);
     }
 
     @PostMapping("/{id}/books")
