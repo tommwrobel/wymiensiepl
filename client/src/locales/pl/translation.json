@@ -6,6 +6,7 @@
         "REGISTER": "Rejestracja",
         "LOGIN_ACTION": "Zaloguj się",
         "LOGIN_SUCCESS": "Zostałeś poprawnie zalogowany!",
+        "LOGOUT_MESSAGE": "Zostałeś poprawnie wylogowany!",
         "REGISTER_ACTION": "Zarejestruj się",
         "LOGOUT_ACTION": "Wyloguj się",
         "CANCEL": "Anuluj",
@@ -40,20 +41,26 @@
         "MORE_DOTS": "Więcej...",
         "DELETE": "Usuń",
         "AUTHOR": "Autor",
-        "EXCHANGE": "Wymień się"
+        "EXCHANGE": "Wymień się!",
+        "SEE_USER_BOOKS": "Zobacz książki użytkownika",
+        "ONE_OF_USER_1": "Jest to jedna z książek użytkownika",
+        "ONE_OF_USER_2": "Zaproponuj wymianę tej książki lub zobacz inne pozycje tego użytkownika.",
+        "DELETE_BOOK_SUCCESS": "Usunięcie książki zakończone sukcesem!",
+        "DELETE_BOOK_ERROR": "Wystąpił błąd podczas usówania ksiazki."
     },
     "MENU": {
         "HOMEPAGE": "Strona główna",
         "ABOUT_US": "O nas",
         "PROFILE": "Profil",
         "MESSAGES": "Wiadomości ({{count}})",
-        "LIBRARY": "Bliblioteczka"
+        "LIBRARY": "Bliblioteczka",
+        "MY_BOOKS": "Moje książki"
     },
     "PAGES": {
         "LIBRARY": {
-            "TITLE": "Biblioteczka ({{bookCount}})",
-            "USER_BOOKS": "Książki użytkownika {{userName}} ({{bookCount}})",
-            "YOUR_BOOKS": "Twoja biblioteczka ({{bookCount}})"
+            "ALL_BOOKS_TITLE": "Wszystkie książki",
+            "USER_BOOKS_TITLE": "Książki użytkownika {{userName}}",
+            "MY_BOOKS_TITLE": "Moje książki"
         }
     },
     "SECTIONS": {

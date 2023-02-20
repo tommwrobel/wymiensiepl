@@ -62,5 +62,10 @@ export const userApi = appApi.injectEndpoints({
     }),
 });
 
-export const { useGetUsersQuery, useLazyGetUsersQuery, useGetUserQuery, useAddBookMutation } =
-    userApi;
+export const {
+    useGetUsersQuery,
+    useLazyGetUsersQuery,
+    useGetUserQuery,
+    useLazyGetUserQuery,
+    useAddBookMutation,
+} = userApi;

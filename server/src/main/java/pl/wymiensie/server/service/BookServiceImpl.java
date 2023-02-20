@@ -32,14 +32,14 @@ public class BookServiceImpl implements BookService {
     public Page<Book> findByText(String text, UUID userId, int page, int size) {
         String searchText = text == null ? "" : text;
         if (userId != null)
-            return bookRepository.findByUserIdAndText(userId, searchText, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
+            return bookRepository.findByUserIdAndText(userId, searchText, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "title")));
         return bookRepository
-                .findByText(searchText, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
+                .findByText(searchText, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "title")));
     };
 
     @Override
     public Page<Book> findByUserId(UUID userId, int page, int size) {
-        return bookRepository.findByUserId(userId, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "title")));
+        return bookRepository.findByUserId(userId, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "title")));
     }
 
     @Override

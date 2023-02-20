@@ -1,5 +1,8 @@
 import Grid from "@mui/material/Unstable_Grid2";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { useDeleteBookMutation } from "../../api/booksApi";
 import { AuthContext } from "../../context/AuthContext";
 import { ModalContext } from "../../context/ModalContext";
 import { Book } from "../../models/app.models";
@@ -10,8 +13,22 @@ interface BookListProps {
 }
 
 const BookList = ({ books }: BookListProps): JSX.Element => {
+    const { t } = useTranslation();
     const { user } = useContext(AuthContext);
     const { openModal } = useContext(ModalContext);
+    const [deleteBook, deleteBookMutation] = useDeleteBookMutation();
+
+    useEffect(() => {
+        if (deleteBookMutation.isSuccess) {
+            toast.success(t("COMMON.DELETE_BOOK_SUCCESS"));
+            deleteBookMutation.reset();
+        }
+
+        if (deleteBookMutation.isError) {
+            toast.error(t("COMMON.DELETE_BOOK_ERROR"));
+            deleteBookMutation.reset();
+        }
+    });
 
     return (
         <Grid container spacing={2}>
@@ -25,6 +42,7 @@ const BookList = ({ books }: BookListProps): JSX.Element => {
                             bookId: book.id,
                         })
                     }
+                    onBookDelete={() => deleteBook({ bookId: book.id })}
                 />
             ))}
         </Grid>

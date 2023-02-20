@@ -29,6 +29,9 @@ const ApplicationLinks = ({
                     <Link to="/library" className={classes.routerLink}>
                         <Button>{t("MENU.LIBRARY")}</Button>
                     </Link>
+                    <Link to="/mylibrary" className={classes.routerLink}>
+                        <Button>{t("MENU.MY_BOOKS")}</Button>
+                    </Link>
                     <Link to="/messages" className={classes.routerLink}>
                         <Button>
                             {t("MENU.MESSAGES", {

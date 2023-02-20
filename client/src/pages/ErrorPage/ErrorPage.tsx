@@ -7,9 +7,6 @@ const ErrorPage = (): JSX.Element => {
         <PageSection>
             <Grid container alignContent="center" flexDirection="column">
                 <Grid>
-                    <Typography variant="h2" textAlign="center">Error!</Typography>
-                </Grid>
-                <Grid>
                     <img src="/error-image.svg" alt="error" />
                 </Grid>
             </Grid>

@@ -1,7 +1,8 @@
 import { ClearOutlined } from "@mui/icons-material";
-import { Box, Button, Link, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { getAwsS3Url } from "../../../api/utils/getApiUrl";
 import { shortenText } from "../../../common/utils";
 import { customColors } from "../../../config/theme";
@@ -73,12 +74,15 @@ const BookListItem = ({
                             </Button>
                         ) : (
                             <>
-                                <Button variant="contained" onClick={onBookExchange}>
+                                <Button
+                                    variant="contained"
+                                    onClick={onBookExchange}
+                                >
                                     {t("COMMON.EXCHANGE")}
                                 </Button>
                                 <Link
-                                    underline="none"
-                                    href={`/books/${book.id}`}
+                                    style={{ textDecoration: "none" }}
+                                    to={`/books/${book.id}`}
                                 >
                                     <Button variant="outlined">
                                         {t("COMMON.MORE_DOTS")}

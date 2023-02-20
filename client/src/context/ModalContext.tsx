@@ -22,14 +22,14 @@ interface ModalItem {
 
 export interface ModalContextProps {
     modals: ModalItem[];
-    openModal: (key: string, props?: any) => void;
-    closeModal: (key: string) => void;
+    openModal: (key: AppModalKey, props?: any) => void;
+    closeModal: (key: AppModalKey) => void;
 }
 
 export const ModalContext = createContext<ModalContextProps>({
     modals: [],
-    openModal: (key: string, props?: any) => {},
-    closeModal: (key: string) => {},
+    openModal: (key: AppModalKey, props?: any) => {},
+    closeModal: (key: AppModalKey) => {},
 });
 
 interface ModalContextProviderProps {
@@ -64,7 +64,7 @@ export const ModalContextProvider = ({
 }: ModalContextProviderProps): JSX.Element => {
     const [modals, setModals] = useState<ModalItem[]>(appModals);
 
-    const handleOpenModal = (key: string, customProps?: any) => {
+    const handleOpenModal = (key: AppModalKey, customProps?: any) => {
         setModals((modals) =>
             modals.map((modal) =>
                 modal.key === key

@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import {
     createContext,
     ReactNode,
@@ -5,6 +6,7 @@ import {
     useEffect,
     useState,
 } from "react";
+import { toast } from "react-toastify";
 import { Maybe, Token } from "../models/app.models";
 import { User } from "../models/app.models";
 import { ModalContext } from "./ModalContext";
@@ -33,7 +35,6 @@ interface AuthContextProviderProps {
 export const AuthContextProvider = ({
     children,
 }: AuthContextProviderProps): JSX.Element => {
-    const { openModal } = useContext(ModalContext);
 
     const [user, setUser] = useState<Maybe<User>>();
     const [token, setToken] = useState<Maybe<Token>>();
@@ -80,6 +81,7 @@ export const AuthContextProvider = ({
         setUser(undefined);
         setToken(undefined);
         setIsLoggedUser(false);
+        toast.warning(t("COMMON.LOGOUT_MESSAGE"));
     };
 
     return (

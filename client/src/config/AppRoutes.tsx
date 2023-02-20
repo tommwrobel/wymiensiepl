@@ -5,6 +5,7 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import HomePage from "../pages/HomePage/HomePage";
 import LibraryPage from "../pages/LibraryPage/LibraryPage";
 import UserLibraryPage from "../pages/UserLibraryPage/UserLibraryPage";
+import MyLibraryPage from "../pages/MyLibraryPage/MyLibraryPage";
 
 const AppRoutes = (): JSX.Element => {
     return (
@@ -20,14 +21,6 @@ const AppRoutes = (): JSX.Element => {
                 }
             />
             <Route
-                path="/library/:userId"
-                element={
-                    <AuthGuard>
-                        <UserLibraryPage />
-                    </AuthGuard>
-                }
-            />
-            <Route
                 path="/books/:bookId"
                 element={
                     <AuthGuard>
@@ -35,7 +28,23 @@ const AppRoutes = (): JSX.Element => {
                     </AuthGuard>
                 }
             />
-            <Route path="/error" element={<ErrorPage />} />
+            <Route
+                path="/:userId/books"
+                element={
+                    <AuthGuard>
+                        <UserLibraryPage />
+                    </AuthGuard>
+                }
+            />
+            <Route
+                path="/mylibrary"
+                element={
+                    <AuthGuard>
+                        <MyLibraryPage />
+                    </AuthGuard>
+                }
+            />
+            <Route path="*" element={<ErrorPage />} />
         </Routes>
     );
 };

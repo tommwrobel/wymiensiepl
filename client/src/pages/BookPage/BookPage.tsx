@@ -1,17 +1,15 @@
 import AboutUsSection from "../../components/AboutUsSection/AboutUsSection";
+import BookSection from "../../components/BookSection/BookSection";
 import InstructionsSection from "../../components/InstructionSection/InstructionsSection";
-import PageSection from "../../components/PageSection/PageSection";
 
 const BookPage = (): JSX.Element => {
     return (
         <>
-            <PageSection>
-                Book page
-            </PageSection>
+            <BookSection />
             <InstructionsSection />
             <AboutUsSection />
         </>
     );
-}
+};
 
 export default BookPage;
