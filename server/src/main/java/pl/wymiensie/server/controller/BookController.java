@@ -7,7 +7,6 @@ import pl.wymiensie.server.entity.Book;
 import pl.wymiensie.server.entity.User;
 import pl.wymiensie.server.exception.ResourceNotFoundException;
 import pl.wymiensie.server.exception.UserNotPermittedException;
-import pl.wymiensie.server.model.BookStatus;
 import pl.wymiensie.server.model.PagedResponse;
 import pl.wymiensie.server.service.BookService;
 import pl.wymiensie.server.service.UserService;
@@ -29,11 +28,6 @@ public class BookController {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
-    public Book getBook(@PathVariable("id") UUID id) {
-        return bookService.findById(id).orElseThrow(() -> new ResourceNotFoundException());
-    }
-
     @GetMapping
     public PagedResponse<Book> getAllBooks(
             @RequestParam(required = false) String searchText,
@@ -46,6 +40,11 @@ public class BookController {
         Page<Book> response = bookService.findByText(searchText, userId, pageNumber, recordsPerPage);
 
         return transformResponse(response);
+    }
+
+    @GetMapping("/{id}")
+    public Book getBook(@PathVariable("id") UUID id) {
+        return bookService.findById(id).orElseThrow(() -> new ResourceNotFoundException());
     }
 
     @DeleteMapping("/{id}")

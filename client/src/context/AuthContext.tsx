@@ -2,14 +2,12 @@ import { t } from "i18next";
 import {
     createContext,
     ReactNode,
-    useContext,
     useEffect,
     useState,
 } from "react";
 import { toast } from "react-toastify";
 import { Maybe, Token } from "../models/app.models";
 import { User } from "../models/app.models";
-import { ModalContext } from "./ModalContext";
 
 export interface AuthContextProps {
     user?: User;

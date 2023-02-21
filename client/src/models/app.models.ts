@@ -50,3 +50,14 @@ export interface PagedResponse<T> {
     body: T[];
     pageInfo: PageInfo;
 }
+
+export type TransactionStatus = "PENDING" | "ACCEPTED" | "REJECTED";
+
+export interface Transaction {
+    id: string;
+    proposalUserId: string;
+    proposalBookId: string;
+    acceptedUserId: string;
+    acceptedBookId?: string;
+    transactionStatus: TransactionStatus;
+}

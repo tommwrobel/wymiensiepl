@@ -20,8 +20,6 @@ import static pl.wymiensie.server.model.PagedResponse.transformResponse;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-    private final int DEFAULT_RECORDS_PER_PAGE = 5;
     private final UserService userService;
     private final BookService bookService;
 
@@ -42,20 +40,6 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/{id}/books")
-    public PagedResponse<Book> getUserBooks(
-            @PathVariable("id") UUID id,
-            @RequestParam(required = false) String searchText,
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size
-    ) {
-        int pageNumber = (page != null && page >= 0) ? page.intValue() : 0;
-        int recordsPerPage = (size != null && size > 0) ? size.intValue() : DEFAULT_RECORDS_PER_PAGE;
-
-        Page<Book> response = bookService.findByText(searchText, id, pageNumber, recordsPerPage);
-        return transformResponse(response);
-    }
-
     @PostMapping("/{id}/books")
     public Book addBookToUser(
             @PathVariable("id") UUID id,
@@ -73,11 +57,6 @@ public class UserController {
     @PostMapping
     public User saveUser(@RequestBody User user) {
         return userService.saveUser(user);
-    }
-
-    @PutMapping
-    public User updateUser(@RequestBody User user) {
-        return userService.updateUser(user);
     }
 
     @DeleteMapping("/{id}")

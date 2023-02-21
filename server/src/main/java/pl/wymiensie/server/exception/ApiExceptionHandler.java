@@ -39,4 +39,11 @@ public class ApiExceptionHandler {
         HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
         return new ResponseEntity<>(e.getMessage(), httpStatus);
     }
+
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        String message = "API.ILLEGAL_ARGUMENT";
+        return new ResponseEntity<>(message, httpStatus);
+    }
 }
