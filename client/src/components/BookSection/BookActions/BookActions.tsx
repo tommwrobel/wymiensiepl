@@ -6,6 +6,7 @@ import { userApi } from "../../../api/usersApi";
 import { customColors } from "../../../config/theme";
 import { ModalContext } from "../../../context/ModalContext";
 import { User } from "../../../models/app.models";
+import { ExchangeBookModalProps } from "../../ExchangeBookModal/ExchangeBookModal";
 import classes from "./BookActions.module.css";
 
 interface Props {
@@ -31,11 +32,19 @@ const BookActions = ({ user, bookId }: Props): JSX.Element => {
             <Box className={classes.buttonsWrapper}>
                 <Button
                     variant="contained"
-                    onClick={() => openModal("EXCHANGE_BOOK_MODAL", { bookId })}
+                    onClick={() =>
+                        openModal<ExchangeBookModalProps>(
+                            "EXCHANGE_BOOK_MODAL",
+                            { bookId }
+                        )
+                    }
                 >
                     {t("COMMON.EXCHANGE")}
                 </Button>
-                <Link to={`/${user.id}/books`}>
+                <Link
+                    to={`/${user.id}/books`}
+                    style={{ textDecoration: "none" }}
+                >
                     <Button variant="outlined">
                         {t("COMMON.SEE_USER_BOOKS")}
                     </Button>

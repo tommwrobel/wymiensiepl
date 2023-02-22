@@ -6,14 +6,14 @@ import {
     DialogTitle,
     Typography,
 } from "@mui/material";
+import { ModalProps } from "../../models/app.models";
 import classes from "./MessageModal.module.css";
+import { useTranslation } from "react-i18next";
 
-interface MessageModalProps {
-    isOpen: boolean;
-    closeLabel: string;
-    onClose: () => void;
-    title: string;
-    text: string;
+export interface MessageModalProps extends ModalProps{
+    closeLabel?: string;
+    title?: string;
+    text?: string;
     type?: "warning" | "info" | "error",
 }
 
@@ -25,6 +25,7 @@ const MessageModal = ({
     closeLabel,
     type = "info",
 }: MessageModalProps): JSX.Element => {
+    const { t } = useTranslation();
 
     return (
         <Dialog
@@ -39,7 +40,7 @@ const MessageModal = ({
                 <Typography variant="body1" textAlign="center">{text}</Typography>
                 <Box className={classes.formActions}>
                     <Button variant="contained" onClick={onClose}>
-                        {closeLabel}
+                        {closeLabel || t("COMMON.CLOSE")}
                     </Button>
                 </Box>
             </DialogContent>

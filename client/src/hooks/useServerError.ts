@@ -21,14 +21,15 @@ const useServerError = (requestStatus: RequestStatus): UseServerErrorHook => {
         if (
             requestStatus.isError &&
             requestStatus.error &&
-            "data" in requestStatus.error
+            "data" in requestStatus.error &&
+            requestStatus.error.data
         ) {
             const error = t(requestStatus.error.data as string).toString();
             setErrorMessage(error);
         } else if (requestStatus.isError) {
             setErrorMessage(t("COMMON.SERVER_ERROR").toString());
         } else setErrorMessage(undefined);
-    }, [requestStatus.isError, requestStatus.error, t]);
+    }, [requestStatus.isError, requestStatus.error, t, requestStatus]);
 
     return [errorMessage, handleResetErrorMessage];
 };

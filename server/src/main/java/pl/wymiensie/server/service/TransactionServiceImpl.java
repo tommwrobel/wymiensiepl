@@ -1,16 +1,15 @@
 package pl.wymiensie.server.service;
 
+import org.springframework.stereotype.Service;
 import pl.wymiensie.server.entity.Transaction;
-import pl.wymiensie.server.exception.ResourceNotFoundException;
-import pl.wymiensie.server.model.TransactionStatus;
 import pl.wymiensie.server.repository.BookRepository;
 import pl.wymiensie.server.repository.TransactionRepository;
-import pl.wymiensie.server.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
@@ -32,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Optional<Transaction> findByUserId(UUID id) {
+    public List<Transaction> findByUserId(UUID id) {
         return transactionRepository.findByProposalUserIdOrAcceptedUserId(id, id);
     }
 
@@ -44,11 +43,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Optional<Transaction> findByAcceptedUserId(UUID userId) {
         return transactionRepository.findByAcceptedUserId(userId);
-    }
-
-    @Override
-    public Optional<Transaction> findByBookId(UUID bookId) {
-        return transactionRepository.findByBookId(bookId);
     }
 
     @Override
@@ -68,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public long getNumberOfTransactions() {
-        return 0;
+    public long getNumberOfTransactions(UUID id) {
+        return transactionRepository.countByAcceptedUserId(id);
     }
 }

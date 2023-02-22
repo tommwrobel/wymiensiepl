@@ -52,7 +52,7 @@
         "HOMEPAGE": "Strona główna",
         "ABOUT_US": "O nas",
         "PROFILE": "Profil",
-        "MESSAGES": "Wiadomości ({{count}})",
+        "EXCHANGES": "Wymiany ({{count}})",
         "LIBRARY": "Bliblioteczka",
         "MY_BOOKS": "Moje książki"
     },
@@ -101,6 +101,14 @@
         "EMAIL_BAD_FORMAT": "Adres e-mail ma niepoprawny format.",
         "FILE_TOO_BIG": "Rozmiar pliku jest za duży, maksymalny rozmiar: {{maxFileSize}} MB.",
         "FILE_WRONG_FORMAT": "Zły format pliku, akceptowane formaty: {{allowedFormats}}."
+    },
+    "EXCHANGE": {
+        "MODAL_TITLE": "Prześlij propozycję wymiany",
+        "SUBMIT": "Zaproponuj wymianę",
+        "MODAL_TEXT_1": "Kliknij przycisk \"Zaproponuj wymianę\" aby wysłać prośbę do użytkownika.",
+        "MODAL_TEXT_2": "Użytkownik otrzyma wiadomość i jeśli wybierze książkę z Twojej biblioteki, będzie mógł zaakceptować wymianę oraz wymieć się z Tobą danymi kontaktowymi w celu finalizacji wymiany.",
+        "PROPOSAL_SUCCESS_MESSAGE": "Propozycja wymiany została wysłana do użytkownika.",
+        "PROPOSAL_ERROR_MESSAGE": "Wystąpił błąd podczas propozycji wymiany."
     },
     "API": {
         "BOOK_WITH_ID_NOT_FOUND": "Książka o padanym id nie istnieje.",

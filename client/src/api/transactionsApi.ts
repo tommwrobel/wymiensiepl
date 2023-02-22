@@ -14,13 +14,40 @@ interface AcceptTransactionsRequestParams {
 
 interface AcceptTransactionsResponse extends Transaction {}
 
+interface CreateTransactionsRequestParams {
+    bookId: string;
+}
+
+interface CreateTransactionsResponse extends Transaction {}
+
 export const transactionsApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
         getUserTransactions: builder.query<
-            UserTransactionsResponse,
+            UserTransactionsResponse[],
             UserTransactionsRequestParams
         >({
             query: ({ userId }) => `/transactions/${userId}`,
+            providesTags: ['Transactions']
+        }),
+
+        getNumberOfTransactions: builder.query<
+            number,
+            UserTransactionsRequestParams
+        >({
+            query: ({ userId }) => `/transactions/${userId}/count`,
+            providesTags: ['Transactions']
+        }),
+
+        createTransaction: builder.mutation<
+            CreateTransactionsResponse,
+            CreateTransactionsRequestParams
+        >({
+            query: ({ bookId }) => ({
+                url: `/transactions`,
+                method: "POST",
+                params: { bookId },
+            }),
+            invalidatesTags: ['Transactions']
         }),
 
         acceptTransaction: builder.mutation<
@@ -35,8 +62,10 @@ export const transactionsApi = appApi.injectEndpoints({
                     bookId,
                 },
             }),
+            invalidatesTags: ['Transactions']
         }),
     }),
 });
 
-export const { useGetUserTransactionsQuery } = transactionsApi;
+export const { useGetUserTransactionsQuery, useCreateTransactionMutation, useGetNumberOfTransactionsQuery } =
+    transactionsApi;

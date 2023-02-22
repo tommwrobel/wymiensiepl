@@ -9,9 +9,9 @@ import {
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import LoaderOverlay from "../LoaderOverlay/LoaderOverlay";
-import classes from "./FormModal.module.css";
+import classes from "./AppModal.module.css";
 
-interface FormModalProps {
+interface AppModalProps {
     isOpen: boolean;
     onSubmit: () => void;
     submitLabel: string;
@@ -20,22 +20,22 @@ interface FormModalProps {
     title: string;
     errorMessage?: string;
     successMessage?: string;
-    formFields: ReactNode;
+    content: ReactNode;
     footer?: ReactNode;
 }
 
-const FormModal = ({
+const AppModal = ({
     isOpen,
     onSubmit,
     onClose,
     title,
     errorMessage,
     successMessage,
-    formFields,
+    content,
     footer,
     submitLabel,
     isLoading = false,
-}: FormModalProps): JSX.Element => {
+}: AppModalProps): JSX.Element => {
     const { t } = useTranslation();
 
     return (
@@ -55,8 +55,8 @@ const FormModal = ({
                     {successMessage && (
                         <Alert severity="success">{successMessage}</Alert>
                     )}
-                    <form className={classes.formFields}>{formFields}</form>
-                    <Box className={classes.formActions}>
+                    <Box className={classes.contentWrapper}>{content}</Box>
+                    <Box className={classes.actionsWrapper}>
                         <Button variant="outlined" onClick={onClose}>
                             {t("COMMON.CANCEL")}
                         </Button>
@@ -71,4 +71,4 @@ const FormModal = ({
     );
 };
 
-export default FormModal;
+export default AppModal;

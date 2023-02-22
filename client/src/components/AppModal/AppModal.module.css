@@ -1,11 +1,11 @@
-.formFields {
+.contentWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 12px;
 }
 
-.formActions {
+.actionsWrapper {
   display: flex;
   justify-content: center;
   gap: 8px;

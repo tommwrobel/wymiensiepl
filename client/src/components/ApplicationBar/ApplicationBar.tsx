@@ -1,6 +1,5 @@
 import {
     AppBar,
-    Link,
     Toolbar,
     Container,
     Box,
@@ -9,23 +8,38 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import classes from "./ApplicationBar.module.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { theme } from "../../config/theme";
 import ApplicationLinks from "./ApplicationLinks/ApplicationLinks";
 import SideMenu from "./SideMenu/SideMenu";
 import { AuthContext } from "../../context/AuthContext";
+import { useGetNumberOfTransactionsQuery } from "../../api/transactionsApi";
+import { Link } from "react-router-dom";
 
 const ApplicationBar = (): JSX.Element => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("lg"));
     const [isSideMenuOpen, setIsSideMenuOpen] = useState<boolean>(false);
+    const [numberOfTransactions, setNumberOfTransactions] = useState(0);
 
-    const { isLoggedUser } = useContext(AuthContext);
+    const { user, isLoggedUser } = useContext(AuthContext);
+
+    const numberOfTransactionsQuery = useGetNumberOfTransactionsQuery(
+        { userId: user?.id as string },
+        { skip: !isLoggedUser }
+    );
+
+    useEffect(() => {
+      if (numberOfTransactionsQuery.isSuccess && numberOfTransactionsQuery.data) {
+        setNumberOfTransactions(numberOfTransactionsQuery.data);
+      }
+    }, [numberOfTransactionsQuery.data, numberOfTransactionsQuery.isSuccess])
+    
 
     const getApplicationLinks = () => {
         return (
             <ApplicationLinks
                 isLoggedUser={isLoggedUser}
-                numberOfUnreadMessages={0}
+                numberOfExchanges={numberOfTransactions}
             />
         );
     };
@@ -34,7 +48,7 @@ const ApplicationBar = (): JSX.Element => {
         <AppBar className={classes.mainContainer} position="static">
             <Container maxWidth="lg">
                 <Toolbar className={classes.contentContainer}>
-                    <Link href="/home">
+                    <Link to="/home">
                         <img
                             src="/logo.svg"
                             alt="Wymiensie.pl"

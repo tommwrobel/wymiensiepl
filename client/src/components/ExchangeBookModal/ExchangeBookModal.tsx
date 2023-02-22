@@ -1,7 +1,11 @@
-import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Typography } from "@mui/material";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { useCreateTransactionMutation } from "../../api/transactionsApi";
+import useServerError from "../../hooks/useServerError";
 import { ModalProps } from "../../models/app.models";
-import LoaderOverlay from "../LoaderOverlay/LoaderOverlay";
+import AppModal from "../AppModal/AppModal";
 
 export interface ExchangeBookModalProps extends ModalProps {
     bookId?: string;
@@ -10,24 +14,44 @@ export interface ExchangeBookModalProps extends ModalProps {
 const ExchangeBookModal = ({
     isOpen,
     onClose,
-    bookId
+    bookId,
 }: ExchangeBookModalProps): JSX.Element => {
     const { t } = useTranslation();
 
+    const [exchangeBook, exchangeBookStatus] = useCreateTransactionMutation();
+    const [errorMessage, ] = useServerError(exchangeBookStatus);
+
+    useEffect(() => {
+        if (exchangeBookStatus.isSuccess) {
+            toast.success(t("EXCHANGE.PROPOSAL_SUCCESS_MESSAGE"));
+            onClose();
+        }
+    }, [exchangeBookStatus.isSuccess, onClose, t]);
+
     return (
-        <Dialog
+        <AppModal
+            onSubmit={() => exchangeBook({ bookId: bookId as string })}
+            isOpen={isOpen}
+            errorMessage={
+                errorMessage
+                    ? t(errorMessage).toString()
+                    : undefined
+            }
+            isLoading={exchangeBookStatus.isLoading}
+            submitLabel={t("EXCHANGE.SUBMIT")}
             onClose={onClose}
-            aria-labelledby="customized-dialog-title"
-            open={isOpen}
-            maxWidth="sm"
-            fullWidth
-        >
-            <DialogTitle>Wymien sie</DialogTitle>
-            <LoaderOverlay isLoading={false}>
-                <DialogContent dividers>{bookId}</DialogContent>
-                <Button onClick={onClose}>{t("COMMON.CLOSE")}</Button>
-            </LoaderOverlay>
-        </Dialog>
+            title={t("EXCHANGE.MODAL_TITLE")}
+            content={
+                <>
+                    <Typography variant="body2" textAlign="center">
+                        {t("EXCHANGE.MODAL_TEXT_1")}
+                    </Typography>
+                    <Typography variant="body2" textAlign="center">
+                        {t("EXCHANGE.MODAL_TEXT_2")}
+                    </Typography>
+                </>
+            }
+        />
     );
 };
 

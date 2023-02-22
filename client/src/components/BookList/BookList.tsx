@@ -6,6 +6,7 @@ import { useDeleteBookMutation } from "../../api/booksApi";
 import { AuthContext } from "../../context/AuthContext";
 import { ModalContext } from "../../context/ModalContext";
 import { Book } from "../../models/app.models";
+import { ExchangeBookModalProps } from "../ExchangeBookModal/ExchangeBookModal";
 import BookListItem from "./BookListItem/BookListItem";
 
 interface BookListProps {
@@ -38,7 +39,7 @@ const BookList = ({ books }: BookListProps): JSX.Element => {
                     book={book}
                     isCurrentUserBook={book.userId === user?.id}
                     onBookExchange={() =>
-                        openModal("EXCHANGE_BOOK_MODAL", {
+                        openModal<ExchangeBookModalProps>("EXCHANGE_BOOK_MODAL", {
                             bookId: book.id,
                         })
                     }

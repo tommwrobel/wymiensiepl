@@ -8,12 +8,12 @@ import classes from "./ApplicationLinks.module.css";
 
 interface ApplicationLinksProps {
     isLoggedUser?: boolean;
-    numberOfUnreadMessages?: number;
+    numberOfExchanges?: number;
 }
 
 const ApplicationLinks = ({
     isLoggedUser,
-    numberOfUnreadMessages,
+    numberOfExchanges,
 }: ApplicationLinksProps): JSX.Element => {
     const { t } = useTranslation();
     const { logout } = useContext(AuthContext);
@@ -32,10 +32,10 @@ const ApplicationLinks = ({
                     <Link to="/mylibrary" className={classes.routerLink}>
                         <Button>{t("MENU.MY_BOOKS")}</Button>
                     </Link>
-                    <Link to="/messages" className={classes.routerLink}>
+                    <Link to="/exchanges" className={classes.routerLink}>
                         <Button>
-                            {t("MENU.MESSAGES", {
-                                count: numberOfUnreadMessages,
+                            {t("MENU.EXCHANGES", {
+                                count: numberOfExchanges,
                             })}
                         </Button>
                     </Link>

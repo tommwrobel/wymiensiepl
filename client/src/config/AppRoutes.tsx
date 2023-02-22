@@ -6,6 +6,7 @@ import HomePage from "../pages/HomePage/HomePage";
 import LibraryPage from "../pages/LibraryPage/LibraryPage";
 import UserLibraryPage from "../pages/UserLibraryPage/UserLibraryPage";
 import MyLibraryPage from "../pages/MyLibraryPage/MyLibraryPage";
+import ExchangesPage from "../pages/ExchangesPage/ExchangesPage";
 
 const AppRoutes = (): JSX.Element => {
     return (
@@ -41,6 +42,14 @@ const AppRoutes = (): JSX.Element => {
                 element={
                     <AuthGuard>
                         <MyLibraryPage />
+                    </AuthGuard>
+                }
+            />
+            <Route
+                path="/exchanges"
+                element={
+                    <AuthGuard>
+                        <ExchangesPage />
                     </AuthGuard>
                 }
             />

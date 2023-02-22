@@ -1,6 +1,6 @@
 import { Link, Typography } from "@mui/material";
 import { useRegisterMutation } from "../../api/authApi";
-import FormModal from "../FormModal/FormModal";
+import AppModal from "../AppModal/AppModal";
 import InputField from "../InputField/InputField";
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -59,7 +59,7 @@ const RegisterModal = ({
     }, [registerRequestStatus.isSuccess, registerRequestStatus.data, onClose, login]);
 
     return (
-        <FormModal
+        <AppModal
             isOpen={isOpen}
             onSubmit={handleRegister}
             submitLabel={t("COMMON.REGISTER_ACTION")}
@@ -67,7 +67,7 @@ const RegisterModal = ({
             onClose={onClose}
             title={t("COMMON.REGISTER")}
             errorMessage={errorMessage}
-            formFields={
+            content={
                 <>
                     <InputField
                         required={true}

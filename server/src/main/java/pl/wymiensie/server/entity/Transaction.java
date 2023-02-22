@@ -24,7 +24,7 @@ public class Transaction {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JoinColumn(name = "proposal_book_id", referencedColumnName = "id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonProperty("proposalBookId")
     @JsonIdentityReference(alwaysAsId = true)
@@ -32,14 +32,14 @@ public class Transaction {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "proposal_user_id", referencedColumnName = "id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonProperty("proposalUserId")
     @JsonIdentityReference(alwaysAsId = true)
     private User proposalUser;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JoinColumn(name = "accepted_book_id", referencedColumnName = "id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonProperty("acceptedBookId")
     @JsonIdentityReference(alwaysAsId = true)
@@ -47,7 +47,7 @@ public class Transaction {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "accepted_user_id", referencedColumnName = "id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonProperty("acceptedUserId")
     @JsonIdentityReference(alwaysAsId = true)

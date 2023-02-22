@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FileUploadField from "../FileUploadField/FileUploadField";
-import FormModal from "../FormModal/FormModal";
+import AppModal from "../AppModal/AppModal";
 import InputField from "../InputField/InputField";
 import TextareaField from "../TextareaField/TextareaField";
 import { useAddBookMutation } from "../../api/usersApi";
@@ -121,7 +121,7 @@ const AddBookModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     }, [addBookRequestStatus.isSuccess, addBookRequestStatus.data, onClose, t]);
 
     return (
-        <FormModal
+        <AppModal
             isOpen={isOpen}
             onSubmit={handleSubmit}
             submitLabel={t("COMMON.ADD_BOOK_ACTION")}
@@ -129,7 +129,7 @@ const AddBookModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
             title={t("COMMON.ADD_NEW_BOOK_ACTION")}
             errorMessage={getErrorMessage()}
             isLoading={isLoading}
-            formFields={
+            content={
                 <>
                     <InputField
                         label={t("COMMON.BOOK_TITLE")}

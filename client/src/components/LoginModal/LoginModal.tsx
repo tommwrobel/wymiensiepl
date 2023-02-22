@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useLoginMutation } from "../../api/authApi";
 import useServerError from "../../hooks/useServerError";
 import { AuthContext } from "../../context/AuthContext";
-import FormModal from "../FormModal/FormModal";
+import AppModal from "../AppModal/AppModal";
 import InputField from "../InputField/InputField";
 import { useForm } from "react-hook-form";
 import { loginFormSchema } from "./loginFormSchema";
@@ -55,7 +55,7 @@ const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
     }, [loginRequestStatus.isSuccess, loginRequestStatus.data, onClose, login, t]);
 
     return (
-        <FormModal
+        <AppModal
             isOpen={isOpen}
             onSubmit={handleLogin}
             submitLabel={t("COMMON.LOGIN_ACTION")}
@@ -63,7 +63,7 @@ const LoginModal = ({ isOpen, onClose }: ModalProps): JSX.Element => {
             onClose={onClose}
             title={t("COMMON.LOGIN")}
             errorMessage={errorMessage}
-            formFields={
+            content={
                 <>
                     <InputField
                         label={t("COMMON.EMAIL")}

@@ -1,9 +1,8 @@
 import { createContext, ReactNode, useState } from "react";
 import AddBookModal from "../components/AddBookModal/AddBookModal";
-import ExchangeBookModal, {
-    ExchangeBookModalProps,
-} from "../components/ExchangeBookModal/ExchangeBookModal";
+import ExchangeBookModal from "../components/ExchangeBookModal/ExchangeBookModal";
 import LoginModal from "../components/LoginModal/LoginModal";
+import MessageModal from "../components/MessageModal/MessageModal";
 import RegisterModal from "../components/RegisterModal/RegisterModal";
 import { ModalProps } from "../models/app.models";
 
@@ -11,7 +10,8 @@ type AppModalKey =
     | "LOGIN_MODAL"
     | "REGISTER_MODAL"
     | "ADD_BOOK_MODAL"
-    | "EXCHANGE_BOOK_MODAL";
+    | "EXCHANGE_BOOK_MODAL"
+    | "MESSAGE_MODAL";
 
 interface ModalItem {
     Component: <T extends ModalProps>(props: T) => JSX.Element;
@@ -22,7 +22,7 @@ interface ModalItem {
 
 export interface ModalContextProps {
     modals: ModalItem[];
-    openModal: (key: AppModalKey, props?: any) => void;
+    openModal: <T extends ModalProps = ModalProps>(key: AppModalKey, props?: Partial<T>) => void;
     closeModal: (key: AppModalKey) => void;
 }
 
@@ -57,6 +57,11 @@ const appModals: ModalItem[] = [
         key: "EXCHANGE_BOOK_MODAL",
         isOpen: false,
     },
+    {
+        Component: MessageModal,
+        key: "MESSAGE_MODAL",
+        isOpen: false,
+    },
 ];
 
 export const ModalContextProvider = ({
@@ -64,16 +69,17 @@ export const ModalContextProvider = ({
 }: ModalContextProviderProps): JSX.Element => {
     const [modals, setModals] = useState<ModalItem[]>(appModals);
 
-    const handleOpenModal = (key: AppModalKey, customProps?: any) => {
+    const handleOpenModal = <T extends ModalProps = ModalProps>(
+        key: AppModalKey,
+        customProps?: Partial<T>
+    ) => {
         setModals((modals) =>
             modals.map((modal) =>
                 modal.key === key
                     ? {
                           ...modal,
                           isOpen: true,
-                          props: customProps
-                              ? (customProps as typeof modal.Component)
-                              : undefined,
+                          props: customProps,
                       }
                     : modal
             )
